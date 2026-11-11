@@ -644,7 +644,7 @@ class Component extends DCLogic {
   getData() {
     return (/*@@DATA_BEGIN@@*/{
 "meta": {
-"updated_at": "2026-11-11T01:54:33Z",
+"updated_at": "2026-11-11T14:31:39Z",
 "schedule": "每周一、三、五 06:46（北京时间）自动巡检",
 "coverage": "CTFtime 国际赛 · 国内重点赛事 · AI 红队 / 智能体赛",
 "cron": "46 6 * * 1,3,5",
@@ -1492,8 +1492,89 @@ class Component extends DCLogic {
 "url": "https://shuzhengcup.gass.cn/",
 "src": "CTF 赛事日历",
 "src_url": "https://ctf.manic.com.cn/",
+"conf": "confirmed",
+"note": "第三方日历显示比赛时段约 10:28–20:28、允许使用 AI，具体以官网为准。 公众号〈取证与溯源〉11/2 报名通知同样写明：报名 11 月 2–15 日、初赛 11 月 21 日线上，另设决赛。"
+},
+{
+"id": "hectf-2026",
+"name": "2026 HECTF 信息安全挑战赛",
+"short": "HECTF 2026",
+"region": "cn",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"三赛道"
+],
+"tags": [
+"Web",
+"Pwn",
+"Reverse",
+"Crypto",
+"Misc"
+],
+"loc": "线上",
+"start": "2026-11-21T00:00:00+08:00",
+"end": "2026-11-22T23:59:00+08:00",
+"prec": "day",
+"reg_end": "2026-11-18T21:00:00+08:00",
+"reg_conf": "single",
+"access": "unknown",
+"access_note": "本届为三赛道机制；上届（2025）设面向全国全日制高校学生的公开赛道 + 两个校内赛道，本届是否沿用待核实",
+"team": "上届为个人赛，本届待核实",
+"prize": null,
+"weight": null,
+"org": "SourceCode 战队（河北师范大学）发起，主办单位以本届通知为准",
+"url": "https://weixin.sogou.com/weixin?type=2&ie=utf8&query=2026HECTF%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B",
+"links": [
+{
+"t": "上届（2025）报名通知转载",
+"u": "https://security.zone.ci/secarticles/wx/476049.html"
+}
+],
+"src": "公众号〈SourceCode战队〉",
+"src_url": "https://weixin.sogou.com/weixin?type=2&ie=utf8&query=2026HECTF%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B",
 "conf": "single",
-"note": "第三方日历显示比赛时段约 10:28–20:28、允许使用 AI，具体以官网为准。"
+"note": "来源：公众号〈SourceCode战队〉，待官网核实。推文摘要：定档 11 月 21–22 日，报名截止 11 月 18 日 21:00；报名入口（二维码 / QQ 群）见公众号原文。"
+},
+{
+"id": "edu-ops-2026",
+"name": "2026 年高校网络安全管理运维赛",
+"short": "高校管理运维赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"线上考核",
+"团队赛"
+],
+"tags": [
+"安全运维",
+"开源安全"
+],
+"loc": "线上",
+"start": "2026-11-11T00:00:00+08:00",
+"end": "2026-11-30T23:59:00+08:00",
+"prec": "window",
+"window": "11 月中下旬（具体日期待通知）",
+"window_short": "中下旬",
+"reg_end": null,
+"reg_conf": null,
+"access": "qualified",
+"access_note": "全国本科、高职高专院校在校师生及教育系统网信在职人员；每单位限报 1 支队伍，需以学校名义报名",
+"team": "≤3 人，设队长 1 名",
+"prize": null,
+"weight": null,
+"org": "上海交通大学承办（赛事主站 contest.sjtu.edu.cn）",
+"url": "https://contest.sjtu.edu.cn/",
+"links": [
+{
+"t": "报名入口",
+"u": "https://wj.sjtu.edu.cn/q/umRqY2ef"
+}
+],
+"src": "公众号〈赛查查〉+ 赛事官网",
+"src_url": "https://contest.sjtu.edu.cn/",
+"conf": "confirmed",
+"note": "官网写明：报名 10 月下旬至 11 月中旬，11 月中上旬赛前培训，11 月中下旬线上正式考核，之后排名靠前队伍线上答辩。报名截止的具体日期官网未给出，名额每校一队，尽快问学校网信部门。"
 },
 {
 "id": "meiya-12",

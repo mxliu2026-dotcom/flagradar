@@ -1,0 +1,2393 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>FLAGRADAR 赛事雷达</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&amp;family=JetBrains+Mono:wght@400;500;700;800&amp;family=Noto+Sans+SC:wght@400;500;700;900&amp;display=swap">
+<style>
+body{margin:0;background:#0b0d13}
+a{color:#7aa2f7;text-decoration:none}
+a:hover{color:#e6ebff}
+.fx{position:relative;min-height:100vh;font-family:'JetBrains Mono','Noto Sans SC',ui-monospace,Menlo,Consolas,'PingFang SC','Microsoft YaHei',monospace;font-size:13px;line-height:1.6;color:var(--fg);-webkit-font-smoothing:antialiased;outline:none}
+.fx *{box-sizing:border-box}
+.fx button,.fx input{font:inherit;color:inherit}
+.fx button{cursor:pointer;border:0;background:none;padding:0;text-align:left}
+.fx a:focus-visible,.fx button:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.fx input{outline:0}
+.fx .b{font-weight:700}
+.fx .el{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.k-hi{color:var(--hi)}.k-dim{color:var(--dim)}.k-ok{color:var(--ok)}.k-warn{color:var(--warn)}.k-acc{color:var(--acc)}.k-acc2{color:var(--acc2)}.k-ai{color:var(--ai)}
+.fx-cur{display:inline-block;width:.6em;height:1.1em;vertical-align:-.18em;background:currentColor;animation:fx-blink 1.1s steps(1) infinite}
+@keyframes fx-blink{0%,55%{opacity:1}56%,100%{opacity:0}}
+.fx-scroll{scrollbar-width:thin;scrollbar-color:rgba(128,140,170,.4) transparent}
+.fx-scroll::-webkit-scrollbar{width:8px;height:8px}
+.fx-scroll::-webkit-scrollbar-thumb{background:rgba(128,140,170,.35);border-radius:8px}
+.fx-modal{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.fx-scrim{position:absolute;inset:0;width:100%;height:100%;background:rgba(2,4,8,.74)!important}
+.fx-sheet{position:relative;display:flex;flex-direction:column;gap:14px;width:min(640px,100%);max-height:100%;overflow-y:auto;padding:20px 22px 22px;background:var(--pane);border:1px solid var(--acc);box-shadow:0 30px 90px rgba(0,0,0,.6);animation:fx-up .22s ease both}
+@keyframes fx-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ui-rice .fx-sheet{border-radius:14px}
+.fx-sheet h2{margin:0;font-size:21px;line-height:1.35;color:var(--hi)}
+.fx-dkv{display:grid;grid-template-columns:44px minmax(0,1fr);gap:5px 12px}
+.fx-links{display:flex;flex-wrap:wrap;gap:8px}
+.fx-lb{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--acc);color:var(--acc)}
+.fx-lb:hover{background:var(--acc);color:var(--ink)}
+.fx-lb.is-pri{background:var(--acc);color:var(--ink);font-weight:700}
+.fx-x{min-width:44px;min-height:40px;text-align:center!important;border:1px solid var(--dim)!important}
+
+.ui-rice{--bg:#13141c;--pane:#171823;--fg:#c0caf5;--hi:#e6ebff;--dim:#8089b3;--ok:#9ece6a;--warn:#e0af68;--acc:#7aa2f7;--acc2:#bb9af7;--cn:#e0af68;--intl:#7aa2f7;--ai:#bb9af7;--ink:#1a1b26;background:radial-gradient(760px 520px at 84% 8%,rgba(122,162,247,.5) 0%,rgba(122,162,247,0) 62%),radial-gradient(680px 520px at 8% 96%,rgba(187,154,247,.4) 0%,rgba(187,154,247,0) 62%),radial-gradient(520px 380px at 46% 40%,rgba(42,195,222,.14) 0%,rgba(42,195,222,0) 70%),#13141c}
+.rc{display:flex;flex-direction:column;gap:10px;height:100vh;min-height:700px;padding:10px}
+.rc-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px}
+.rc-grp{display:flex;flex-wrap:wrap;gap:8px}
+.rc-pill{display:inline-flex;align-items:center;gap:9px;min-height:34px;padding:0 13px;border-radius:12px;background:rgba(26,27,38,.86);border:1px solid rgba(65,72,104,.7);color:var(--fg);white-space:nowrap}
+a.rc-pill:hover{border-color:var(--acc);color:var(--hi)}
+.rc-sw{gap:3px;padding:0 5px}
+.rc-w{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:28px;height:26px;padding:0 9px!important;border-radius:8px;color:var(--dim)!important}
+.rc-w:hover{color:var(--hi)!important;background:rgba(122,162,247,.16)!important}
+.rc-w.is-on{background:var(--acc)!important;color:var(--ink)!important;font-weight:700}
+.rc-desk{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,600px) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:10px}
+.rc-win{position:relative;min-width:0;min-height:0;border-radius:12px;background:rgba(22,23,33,.86);border:1.5px solid rgba(65,72,104,.85);box-shadow:0 24px 60px rgba(0,0,0,.4);padding:16px 18px;overflow:hidden;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.rc-act{background:linear-gradient(rgba(22,23,33,.93),rgba(22,23,33,.93)) padding-box,linear-gradient(135deg,#7aa2f7,#bb9af7 55%,#f7768e) border-box;border:1.5px solid transparent}
+.rc-term{grid-row:1 / 3;overflow-y:auto;line-height:1.5}
+.rc-ps{display:flex;align-items:center;gap:8px;margin-top:11px;white-space:nowrap}
+.rc-psin{cursor:text;border-radius:6px}
+.rc-psin:focus-within{box-shadow:0 2px 0 -1px var(--acc)}
+.rc-cmd{flex:1 1 auto;min-width:0;height:24px;border:0;background:transparent;color:var(--hi)!important;caret-color:var(--ok)}
+.rc-cmd::placeholder{color:var(--dim);opacity:.8}
+.rc-ps.first{margin-top:0}
+.rc-seg{padding:0 9px;border-radius:6px;font-weight:700;color:var(--ink)}
+.rc-seg.s1{background:#7aa2f7}
+.rc-seg.s2{background:#bb9af7}
+.rc-fetch{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px 24px;margin:10px 0 0}
+.rc-logo{display:grid;grid-template-columns:repeat(22,8px);grid-auto-rows:8px;gap:1px}
+.rc-kv{display:grid;grid-template-columns:62px minmax(0,1fr);gap:0 12px}
+.rc-pal{display:flex;margin-top:10px}
+.rc-pal i{width:26px;height:13px}
+.rc-box{position:relative;display:block;width:100%;margin-top:14px;border:1px solid #414868!important;border-radius:9px;padding:15px 14px 11px!important}
+.rc-bt{position:absolute;top:-11px;left:12px;padding:0 6px;background:#171823;font-size:12px;white-space:nowrap}
+button.rc-box:hover{border-color:var(--acc)!important}
+.rc-next{display:flex!important;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 16px}
+.rc-cd{flex:none;display:flex;align-items:baseline;font-weight:800;font-size:36px;line-height:1;letter-spacing:-.02em;color:var(--hi);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rc-cd small{margin:0 8px 0 2px;font-size:13px;font-weight:500;color:var(--dim)}
+.rc-cd i{font-style:normal;color:var(--dim)}
+.rc-out{margin-top:6px}
+.rc-line{display:flex!important;align-items:baseline;gap:8px;width:100%;min-height:26px;white-space:nowrap}
+.rc-line:hover .k-hi{text-decoration:underline}
+.rc-dots{flex:1 1 20px;min-width:12px;border-bottom:1px dotted var(--dim);transform:translateY(-4px)}
+.rc-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.rc-note{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;margin-top:8px}
+.fx .rc-btn{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:8px;border:1px solid #414868;color:var(--fg);font-size:12.5px}
+.fx .rc-btn:hover{border-color:var(--acc);color:var(--hi)}
+.fx .rc-btn.is-pri{background:var(--acc);border-color:var(--acc);color:var(--ink);font-weight:700}
+.fx .rc-btn.is-pri:hover{color:var(--ink);filter:brightness(1.1)}
+.rc-meters{display:flex;flex-direction:column;gap:2px;max-height:192px;overflow-y:auto}
+.rc-m{display:grid!important;grid-template-columns:44px minmax(0,220px) minmax(60px,1fr) 44px 96px;gap:0 12px;align-items:center;width:100%;min-height:30px;padding:0 6px!important;border-radius:7px;white-space:nowrap}
+.rc-m:hover{background:rgba(122,162,247,.1)!important}
+.rc-tag{display:inline-block;padding:0 6px;border-radius:5px;font-size:11px;font-weight:700;text-align:center;color:var(--ink)}
+.rc-meter{height:10px;border-radius:5px;background:#24283b;overflow:hidden}
+.rc-meter i{display:block;height:100%;border-radius:5px;background-image:linear-gradient(90deg,#9ece6a,#e0af68 70%,#f7768e);background-repeat:no-repeat}
+.rc-pct{text-align:right}
+.rc-hist{display:flex;align-items:flex-end;gap:12px;margin-top:12px;font-size:12px;white-space:nowrap}
+.rc-bars{flex:1 1 auto;display:flex;align-items:flex-end;gap:2px;height:30px;min-width:0}
+.rc-bars i{flex:1 1 0;min-height:2px;border-radius:1px;background:var(--acc)}
+.rc-list{display:flex;flex-direction:column;gap:8px}
+.rc-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.rc-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.rc-tab{display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 12px!important;border-radius:8px;background:#24283b!important;font-size:12px}
+.rc-tab .rc-n{opacity:.7}
+.rc-tab:hover{color:var(--hi)!important}
+.rc-tab.is-on{background:var(--acc)!important;color:var(--ink)!important;font-weight:700}
+.rc-grep{display:flex;align-items:center;gap:8px;flex:1 1 160px;max-width:290px;min-height:32px;padding:0 12px;border-radius:9px;background:rgba(26,27,38,.9);border:1px solid rgba(65,72,104,.8)}
+.rc-grep:focus-within{border-color:var(--acc)}
+.rc-grep input{flex:1 1 auto;min-width:0;height:30px;border:0;outline:0;background:transparent;color:var(--hi)!important}
+.rc-grep input::placeholder{color:var(--dim)}
+.rc-row{display:grid!important;grid-template-columns:128px minmax(0,1fr) 40px 104px 50px 76px 104px;gap:0 12px;align-items:center;width:100%;min-height:30px;padding:0 10px!important;border-radius:7px;white-space:nowrap}
+.rc-head{min-height:24px;font-size:11.5px;color:var(--dim)}
+button.rc-row:hover{background:rgba(122,162,247,.1)!important}
+.rc-row.is-sel{background:#283457!important}
+.rc-rows{flex:1 1 auto;min-height:120px;overflow-y:auto}
+.rc-status{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;font-size:12px}
+.rc-nm-l{display:none}
+@media (min-width:1600px){.rc-nm-s{display:none}.rc-nm-l{display:inline}}
+@media (max-width:1400px){.rc-desk{grid-template-columns:minmax(0,560px) minmax(0,1fr)}.rc-cd{font-size:32px}}
+@media (max-width:1400px) and (min-width:1101px){.rc-row{grid-template-columns:128px minmax(0,1fr) 40px 50px 76px 104px}.rc-row>span:nth-child(4){display:none}}
+@media (max-width:1280px) and (min-width:1101px){.rc-row{grid-template-columns:128px minmax(0,1fr) 40px 76px 104px}.rc-row>span:nth-child(5){display:none}.rc-keys{display:none}}
+@media (max-width:1180px) and (min-width:1101px){.rc-row{grid-template-columns:128px minmax(0,1fr) 40px 76px}.rc-row>span:nth-child(7){display:none}}
+@media (max-width:1100px){.rc{height:auto;min-height:0}.rc-desk{grid-template-columns:minmax(0,1fr);grid-template-rows:none}.rc-term{grid-row:auto;overflow:visible}.rc-list{order:2}.rc-live{order:3}.rc-rows{overflow:visible;min-height:0}.rc-keys{display:none}}
+@media (max-width:760px){.rc-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'nm ct' 'st cd';min-height:0;padding:7px 10px!important}.rc-row>span:nth-child(1){grid-area:st;font-size:12px;color:var(--dim)}.rc-row>span:nth-child(2){grid-area:nm}.rc-row>span:nth-child(3){grid-area:ct;text-align:right}.rc-row>span:nth-child(6){grid-area:cd;text-align:right;font-size:12px}.rc-row>span:nth-child(4),.rc-row>span:nth-child(5),.rc-row>span:nth-child(7),.rc-head,.rc-wide{display:none!important}.rc-m{grid-template-columns:40px minmax(0,1fr) 44px}.rc-m>.rc-meter,.rc-m>.rc-eta{display:none}.rc-hist{flex-wrap:wrap}.rc-bars{order:3;flex-basis:100%}.rc-win{padding:14px}}
+@media (max-width:480px){.rc-fetch{grid-template-columns:minmax(0,1fr)}.rc-logo{grid-template-columns:repeat(22,6px);grid-auto-rows:6px}.rc-cd{font-size:32px}}
+
+.ui-tui{--bg:#0a0d12;--pane:#0d1118;--fg:#c5cdd9;--hi:#eef2f7;--dim:#7d8898;--ok:#7ee787;--warn:#f2cc60;--acc:#39c5cf;--acc2:#ff9e3b;--cn:#ff9e3b;--intl:#79c0ff;--ai:#d2a8ff;--ink:#06090d;background:#0a0d12}
+.tu{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:14px;height:100vh;min-height:680px;padding:12px 16px 10px}
+.tu-head{display:grid;grid-template-columns:330px 150px 190px 200px minmax(0,1fr);gap:0 22px;align-items:start}
+.tu-kv{display:grid;grid-template-columns:62px minmax(0,1fr);gap:0 10px}
+.tu-keys{display:flex;flex-direction:column;align-items:flex-start}
+.tu-key{white-space:nowrap;color:var(--dim)!important}
+.tu-key:hover{color:var(--hi)!important}
+.tu-key.is-on{color:var(--hi)!important;font-weight:700}
+.tu-logo{justify-self:end;text-align:right;font-size:12px;white-space:nowrap}
+.tu-px{display:grid;grid-template-columns:repeat(53,4px);grid-auto-rows:4px;gap:1px;width:max-content;margin:3px 0 7px auto}
+.tu-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,31%);gap:16px;min-height:0}
+.tu-pane{position:relative;min-width:0;min-height:0;border:1px solid var(--acc);padding:14px 10px 8px;display:flex;flex-direction:column}
+.tu-t{position:absolute;top:-11px;left:50%;transform:translateX(-50%);padding:0 10px;background:var(--bg);white-space:nowrap}
+.tu-row{display:grid!important;grid-template-columns:128px 70px minmax(0,1fr) 40px 128px 56px 44px 120px;gap:0 10px;width:100%;padding:1px 8px!important;white-space:nowrap}
+.tu-hrow{color:var(--hi);font-weight:700;padding-bottom:3px!important}
+button.tu-row:hover{background:rgba(57,197,207,.14)!important}
+.tu-row.is-sel{background:var(--acc)!important;color:var(--ink)!important;font-weight:700}
+.tu-row.is-sel span{color:inherit!important}
+.tu-body{flex:1 1 auto;min-height:0;overflow-y:auto}
+.tu-g{display:grid!important;grid-template-columns:190px minmax(0,1fr);gap:0 12px;align-items:center;width:100%;min-height:22px;padding:0 8px!important;white-space:nowrap}
+button.tu-g:hover{background:rgba(57,197,207,.14)!important}
+.tu-g.is-sel>span:first-child{color:var(--acc);font-weight:700}
+.tu-gtrack{position:relative;height:20px;border-left:1px solid #1c2733}
+.tu-gtrack i{position:absolute;top:0;bottom:0;padding-left:4px;border-left:1px solid #26323f;font-style:normal;font-size:11px;color:var(--dim)}
+.tu-gtrack i.now{border-left:1px solid var(--ok);padding:0}
+.tu-gtrack b{position:absolute;top:5px;height:10px;min-width:3px}
+.tu-side{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:18px;min-height:0}
+.tu-dkv{display:grid;grid-template-columns:44px minmax(0,1fr);gap:1px 10px}
+.tu-lrow{display:grid!important;grid-template-columns:minmax(0,1fr) 132px 74px;gap:0 12px;align-items:center;width:100%;min-height:24px;white-space:nowrap}
+button.tu-lrow:hover{background:rgba(57,197,207,.14)!important}
+.tu-bar{height:9px;background:repeating-linear-gradient(90deg,#1c2733 0,#1c2733 5px,rgba(0,0,0,0) 5px,rgba(0,0,0,0) 7px)}
+.tu-bar i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--ok) 0,var(--ok) 5px,rgba(0,0,0,0) 5px,rgba(0,0,0,0) 7px)}
+.tu-foot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}
+.tu-chip{padding:0 8px;font-weight:700;color:var(--ink);white-space:nowrap}
+.tu-cmdbox{flex:1 1 320px;display:flex;align-items:center;gap:6px;min-height:30px}
+.tu-cmdbox input{flex:1 1 auto;min-width:0;height:28px;border:0;outline:0;background:transparent;color:var(--hi)!important;caret-color:var(--hi)}
+.tu-cmdbox input::placeholder{color:var(--dim)}
+.tu-btn{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border:1px solid var(--acc);color:var(--acc)}
+.tu-btn:hover{background:var(--acc);color:var(--ink)}
+@media (max-width:1360px) and (min-width:1101px){.tu-row{grid-template-columns:128px 70px minmax(0,1fr) 40px 56px 44px 120px}.tu-row>span:nth-child(5){display:none}}
+@media (max-width:1240px) and (min-width:1101px){.tu-row{grid-template-columns:128px 70px minmax(0,1fr) 40px 120px}.tu-row>span:nth-child(6),.tu-row>span:nth-child(7){display:none}}
+@media (max-width:1100px){.tu{height:auto;min-height:0}.tu-head{grid-template-columns:minmax(0,1fr)}.tu-keys{flex-direction:row;flex-wrap:wrap;gap:2px 16px}.tu-logo{display:none}.tu-main{grid-template-columns:minmax(0,1fr)}.tu-body{max-height:62vh}}
+@media (max-width:900px) and (min-width:761px){.tu-row{grid-template-columns:128px 70px minmax(0,1fr) 40px 120px}.tu-row>span:nth-child(5),.tu-row>span:nth-child(6),.tu-row>span:nth-child(7){display:none}}
+@media (max-width:760px){.tu{padding:10px 10px 8px}.tu-body{max-height:none}.tu-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'nm ct' 'st ss';padding:5px 8px!important}.tu-row>span:nth-child(1){grid-area:st;font-size:12px}.tu-row>span:nth-child(3){grid-area:nm}.tu-row>span:nth-child(4){grid-area:ct;text-align:right}.tu-row>span:nth-child(8){grid-area:ss;text-align:right;font-size:12px}.tu-row>span:nth-child(2),.tu-row>span:nth-child(5),.tu-row>span:nth-child(6),.tu-row>span:nth-child(7),.tu-hrow{display:none!important}.tu-g{grid-template-columns:110px minmax(0,1fr)}}
+
+.ui-hud{--bg:#04070d;--pane:#07151f;--fg:#cfe9f5;--hi:#f2fbff;--dim:#7499ad;--ok:#22e6ff;--warn:#ffd166;--acc:#22e6ff;--acc2:#ff3fd0;--cn:#ffd166;--intl:#22e6ff;--ai:#ff3fd0;--ink:#03121a;background:linear-gradient(rgba(34,230,255,.045) 1px,rgba(0,0,0,0) 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(34,230,255,.045) 1px,rgba(0,0,0,0) 1px) 0 0/44px 44px,radial-gradient(900px 620px at 50% 46%,#0b2030 0%,#04070d 70%)}
+.hd{display:flex;flex-direction:column;gap:12px;height:100vh;min-height:740px;padding:16px 26px 18px;font-size:12.5px}
+.hd-f{font-family:'Chakra Petch','JetBrains Mono','Noto Sans SC',sans-serif}
+.hd-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px}
+.hd-logo{font-weight:700;font-size:30px;line-height:1;letter-spacing:.12em;color:var(--hi);text-shadow:-2px 0 #ff3fd0,2px 0 #22e6ff,0 0 24px rgba(34,230,255,.6)}
+.hd-tick{flex:1 1 300px;min-width:0;display:flex;align-items:center;gap:18px;height:30px;padding:0 14px;border:1px solid rgba(34,230,255,.3);background:rgba(8,26,38,.7);overflow:hidden;white-space:nowrap;font-size:12px}
+.hd-tick-w{flex:1 1 auto;min-width:0;overflow:hidden}
+.hd-tick-in{display:inline-flex;gap:22px;padding-right:22px;animation:hd-marq 36s linear infinite}
+@keyframes hd-marq{to{transform:translateX(-50%)}}
+.hd-clock{text-align:right;font-size:12px;white-space:nowrap}
+.hd-ctl{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 18px;font-size:12px}
+.hd-ctl>div{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.hd-seg{display:inline-flex;align-items:center;border:1px solid rgba(34,230,255,.35)}
+.hd-seg button{min-height:28px;padding:0 11px!important;color:var(--dim)!important}
+.hd-seg button:hover{color:var(--hi)!important}
+.hd-seg button.is-on{background:var(--acc)!important;color:var(--ink)!important;font-weight:700}
+.hd-main{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:360px minmax(0,1fr) 400px;gap:18px}
+.hd-col{display:flex;flex-direction:column;gap:14px;min-height:0}
+.hd-panel{position:relative;display:flex;flex-direction:column;min-height:0;padding:15px 18px;background:linear-gradient(180deg,rgba(8,26,38,.92),rgba(5,14,22,.92));clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
+.hd-panel::before{content:'';position:absolute;inset:0;padding:1px;background:linear-gradient(135deg,#22e6ff,rgba(34,230,255,.15) 40%,rgba(255,63,208,.5));clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.hd-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;letter-spacing:.18em;white-space:nowrap}
+.hd-h b{color:var(--acc)}
+.hd-li{display:flex!important;justify-content:space-between;align-items:baseline;gap:10px;width:100%;min-height:32px;padding:5px 6px!important;border-top:1px solid rgba(34,230,255,.14)!important;white-space:nowrap}
+button.hd-li:hover{background:rgba(34,230,255,.08)!important}
+.hd-li.is-sel{background:rgba(34,230,255,.14)!important}
+.hd-mt{height:4px;margin:0 6px 5px;background:rgba(34,230,255,.14)}
+.hd-mt i{display:block;height:100%;background:linear-gradient(90deg,#22e6ff,#ff3fd0);box-shadow:0 0 10px #22e6ff}
+.hd-scroll{flex:1 1 auto;min-height:0;overflow-y:auto}
+.hd-center{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0}
+.hd-lock{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px 10px 0;text-align:center}
+.hd-name{max-width:100%;font-size:21px;font-weight:700;color:var(--hi);text-shadow:0 0 18px rgba(34,230,255,.7)}
+.hd-cd{display:flex;align-items:baseline;justify-content:center;font-weight:700;font-size:clamp(36px,4.4vw,62px);line-height:1.05;color:var(--acc);text-shadow:0 0 24px rgba(34,230,255,.8);font-variant-numeric:tabular-nums}
+.hd-cd span{display:inline-block;min-width:1.28em;text-align:center}
+.hd-cd i{font-style:normal;margin:0 .02em;opacity:.55}
+.hd-cdl{font-size:11px;letter-spacing:.28em;color:var(--dim)}
+.hd-acts{display:flex;gap:10px;margin-top:8px}
+.hd-btn{display:inline-flex!important;align-items:center;min-height:34px;padding:0 16px!important;border:1px solid var(--acc)!important;color:var(--acc)!important;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.hd-btn:hover{background:rgba(34,230,255,.16)!important;color:var(--hi)!important}
+.hd-btn.is-pri{background:var(--acc)!important;color:var(--ink)!important;font-weight:700}
+.hd-run{position:relative;flex:1 1 auto;min-height:260px;margin-top:6px;perspective:520px;perspective-origin:50% 7%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,0) 0%,#000 7%,#000 93%,rgba(0,0,0,0) 100%);mask-image:linear-gradient(90deg,rgba(0,0,0,0) 0%,#000 7%,#000 93%,rgba(0,0,0,0) 100%)}
+.hd-sky{position:absolute;left:0;right:0;top:0;height:56%;background:radial-gradient(46% 100% at 50% 0%,rgba(255,63,208,.24) 0%,rgba(255,63,208,0) 72%),radial-gradient(70% 60% at 50% 0%,rgba(34,230,255,.16) 0%,rgba(34,230,255,0) 80%)}
+.hd-floor{position:absolute;left:-60%;right:-60%;bottom:0;height:270%;transform-origin:50% 100%;transform:rotateX(70deg);transform-style:preserve-3d}
+.hd-grid{position:absolute;inset:0;background:linear-gradient(rgba(34,230,255,.36) 2px,rgba(0,0,0,0) 2px) 0 0/100% 6.6667%,linear-gradient(90deg,rgba(34,230,255,.24) 2px,rgba(0,0,0,0) 2px) 0 0/4.5454% 100%;animation:hd-flow 5s linear infinite;-webkit-mask-image:linear-gradient(to top,#000 0%,#000 52%,rgba(0,0,0,0) 97%);mask-image:linear-gradient(to top,#000 0%,#000 52%,rgba(0,0,0,0) 97%)}
+@keyframes hd-flow{to{background-position:0 7.1429%,0 0}}
+.hd-gate{position:absolute;left:30%;right:30%;background:rgba(255,63,208,.8);box-shadow:0 0 18px rgba(255,63,208,.9)}
+.hd-gl{position:absolute;left:30%;padding-right:.6em;transform-origin:100% 100%;transform:translate(-100%,-100%) rotateX(-70deg);font-weight:700;letter-spacing:.06em;white-space:nowrap;color:#ff9be8;text-shadow:0 0 .8em rgba(255,63,208,.9)}
+.hd-pad{position:absolute;width:2.2em;height:2.2em;margin:-1.1em 0 0 -1.1em;border-radius:50%;border:.16em solid currentColor}
+.hd-pad.is-sel{width:3.6em;height:3.6em;margin:-1.8em 0 0 -1.8em;box-shadow:0 0 1.4em currentColor,inset 0 0 1em currentColor;animation:hd-ping 1.8s ease-in-out infinite}
+@keyframes hd-ping{50%{box-shadow:0 0 .4em currentColor,inset 0 0 .3em currentColor}}
+.hd-pil{position:absolute;display:flex!important;flex-direction:column;align-items:center;padding:.9em .9em 0!important;transform-origin:50% 100%;transform:translate(-50%,-100%) rotateX(-70deg);line-height:1.5}
+.hd-node{flex:none;position:relative;z-index:1;width:.8em;height:.8em;margin-bottom:-.3em;border-radius:50%;background:currentColor;box-shadow:0 0 .8em currentColor}
+.hd-beam{flex:none;width:.26em;background:linear-gradient(to top,currentColor 0%,currentColor 60%,rgba(0,0,0,0) 100%);box-shadow:0 0 .7em currentColor}
+.hd-pil:hover .hd-node,.hd-pil.is-sel .hd-node{background:#fff}
+.hd-pil.is-sel .hd-node{width:1.2em;height:1.2em;margin-bottom:-.5em}
+.hd-pil.is-sel .hd-beam{width:.42em}
+.hd-lab{flex:none;margin-bottom:.45em;padding:.02em .5em;border:.08em solid currentColor;background:rgba(4,10,16,.9);white-space:nowrap}
+.hd-lab em{font-style:normal;color:var(--hi)}
+.hd-sub{margin-left:.5em}
+.hd-pil:hover .hd-lab{background:rgba(10,40,56,.95)}
+.hd-pil.is-sel .hd-lab{background:currentColor;font-weight:700}
+.hd-pil.is-sel .hd-lab em,.hd-pil.is-sel .hd-sub{color:var(--ink)}
+.hd-lanes{position:absolute;left:0;right:0;bottom:5px;height:18px;font-size:12px;font-weight:700;letter-spacing:.16em}
+.hd-lanes>span{position:absolute;bottom:0;transform:translateX(-50%);padding:0 6px;white-space:nowrap;background:rgba(4,10,16,.7);text-shadow:0 0 10px currentColor}
+.hd-cap{position:absolute;left:7%;top:4px;font-size:11px;letter-spacing:.08em;color:var(--dim)}
+.hd-cap.r{left:auto;right:7%}
+.hd-when{flex:0 0 120px}
+.hd-nm{flex:1 1 auto}
+.hd-stats{display:flex;flex-wrap:wrap;gap:14px;padding:0 16px}
+.hd-stat{flex:1 1 150px;padding:9px 18px;transform:skewX(-14deg);border:1px solid rgba(34,230,255,.35);background:rgba(8,26,38,.8)}
+.hd-stat>div{transform:skewX(14deg);display:flex;align-items:baseline;justify-content:space-between;gap:12px;white-space:nowrap}
+.hd-stat b{font-size:38px;line-height:1.1}
+@media (max-width:1360px){.hd-main{grid-template-columns:300px minmax(0,1fr) 340px}.hd-when{flex-basis:112px}}
+@media (max-width:1100px){.hd{height:auto;min-height:0}.hd-main{grid-template-columns:minmax(0,1fr)}.hd-center{order:-1}.hd-run{flex:none;height:300px;min-height:0}.hd-scroll{max-height:50vh}}
+@media (max-width:640px){.hd{padding:12px 14px 14px}.hd-stats,.hd-cap.r{display:none}.hd-logo{font-size:24px}}
+@media (prefers-reduced-motion:reduce){.fx-cur,.hd-tick-in,.hd-grid,.hd-pad,.fx-sheet{animation:none!important}}
+</style>
+</helmet>
+<div class="fx {{rootCls}}" tabindex="0" onKeyDown="{{onKey}}">
+
+<sc-if value="{{isRice}}" hint-placeholder-val="{{ true }}">
+<div class="rc">
+<div class="rc-bar">
+<div class="rc-grp">
+<div class="rc-pill rc-sw" role="group" aria-label="切换界面">
+<span class="k-dim" style="padding: 0 4px 0 8px;">界面</span>
+<sc-for list="{{uiBtns}}" as="u" hint-placeholder-count="3">
+<button type="button" class="rc-w {{u.cls}}" aria-pressed="{{u.on}}" title="{{u.title}}" onClick="{{u.pick}}">{{u.label}}</button>
+</sc-for>
+</div>
+<div class="rc-pill rc-wide"><span class="k-acc2">◆</span><span class="k-hi b">flagradar</span><span class="k-dim">~/events</span></div>
+</div>
+<div class="rc-pill"><span class="k-hi b">{{clockDate}} {{clockTime}}</span><span class="k-dim">{{tzShort}}</span></div>
+<div class="rc-grp">
+<span class="rc-pill"><span class="k-ok">●</span>进行中 {{nLive}}</span>
+<span class="rc-pill"><span class="k-warn">▲</span>报名 {{nReg}}</span>
+<span class="rc-pill rc-wide"><span class="k-dim">同步</span>{{freshAgo}}</span>
+<div class="rc-pill rc-sw" role="group" aria-label="时区">
+<sc-for list="{{tzBtns}}" as="t" hint-placeholder-count="3">
+<button type="button" class="rc-w {{t.cls}}" aria-pressed="{{t.on}}" title="{{t.title}}" onClick="{{t.pick}}">{{t.label}}</button>
+</sc-for>
+</div>
+<a class="rc-pill fx-weekly" href="Weekly.dc.html">本周海报</a>
+</div>
+</div>
+
+<div class="rc-desk">
+<section class="rc-win rc-act rc-term fx-scroll" aria-label="终端">
+<div class="rc-ps first"><span class="rc-seg s1">ctf</span><span class="rc-seg s2">~/events</span><span class="k-ok b">❯</span><span class="k-hi">flagfetch</span></div>
+<div class="rc-fetch">
+<div class="rc-logo" role="img" aria-label="FLAGRADAR">
+<sc-for list="{{flagCells}}" as="c" hint-placeholder-count="22">
+<span style="background: {{c.c}};"></span>
+</sc-for>
+</div>
+<div style="min-width: 0;">
+<div><span class="k-acc b">ctf</span>@<span class="k-acc2 b">flagradar</span></div>
+<div class="k-dim" aria-hidden="true">-------------</div>
+<div class="rc-kv">
+<sc-for list="{{bFetch}}" as="f" hint-placeholder-count="8">
+<span class="k-acc">{{f.k}}</span><span class="el" style="color: {{f.c}};">{{f.v}}</span>
+</sc-for>
+</div>
+<div class="rc-pal" aria-hidden="true"><i style="background: #414868;"></i><i style="background: #f7768e;"></i><i style="background: #9ece6a;"></i><i style="background: #e0af68;"></i><i style="background: #7aa2f7;"></i><i style="background: #bb9af7;"></i><i style="background: #7dcfff;"></i><i style="background: #c0caf5;"></i></div>
+</div>
+</div>
+
+<div class="rc-ps"><span class="rc-seg s1">ctf</span><span class="rc-seg s2">~/events</span><span class="k-ok b">❯</span><span class="k-hi">radar next <span class="k-dim">--watch</span></span></div>
+<sc-if value="{{hasNext}}" hint-placeholder-val="{{ true }}">
+<button type="button" class="rc-box rc-next" onClick="{{next.pick}}">
+<span class="rc-bt k-acc">下一场 · next target</span>
+<span style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column;">
+<span class="k-hi b el" style="font-size: 19px;">{{next.name}}</span>
+<span>{{next.range}}</span>
+<span class="k-dim el">{{next.meta}}</span>
+</span>
+<span role="timer" aria-label="距开赛倒计时" class="rc-cd"><span>{{next.dd}}</span><small>d</small><span>{{next.hh}}</span><i>:</i><span>{{next.mm}}</span><i>:</i><span class="k-ok">{{next.ss}}</span></span>
+</button>
+</sc-if>
+<sc-if value="{{noNext}}" hint-placeholder-val="{{ false }}"><div class="rc-out k-dim">[-] 近期没有可公开报名的比赛</div></sc-if>
+
+<div class="rc-ps"><span class="rc-seg s1">ctf</span><span class="rc-seg s2">~/events</span><span class="k-ok b">❯</span><span class="k-hi">radar reg <span class="k-dim">--closing</span></span></div>
+<div class="rc-out">
+<sc-for list="{{regList}}" as="r" hint-placeholder-count="2">
+<button type="button" class="rc-line" onClick="{{r.pick}}"><span class="k-warn b">[!]</span><span class="k-hi el">{{r.name}}</span><span class="rc-dots" aria-hidden="true"></span><span>截止 {{r.when}}</span><span class="k-warn">({{r.rel}})</span></button>
+</sc-for>
+<sc-if value="{{noReg}}" hint-placeholder-val="{{ false }}"><div class="k-dim">[-] 暂无临近截止的报名</div></sc-if>
+</div>
+
+<div class="rc-ps rc-wide"><span class="rc-seg s1">ctf</span><span class="rc-seg s2">~/events</span><span class="k-ok b">❯</span><span class="k-hi el">radar show <span class="k-acc2">{{det.id}}</span></span></div>
+<sc-if value="{{hasDet}}" hint-placeholder-val="{{ true }}">
+<div class="rc-box rc-wide">
+<span class="rc-bt" style="color: {{det.catColor}};">{{det.badge}}</span>
+<div class="k-hi b" style="font-size: 15.5px; line-height: 1.45;">{{det.name}}</div>
+<div class="rc-kv" style="grid-template-columns: 34px minmax(0, 1fr); margin-top: 6px;">
+<sc-for list="{{det.kvShort}}" as="l" hint-placeholder-count="5">
+<span class="k-acc">{{l.k}}</span><span class="el" style="color: {{l.c}};">{{l.v}}</span>
+</sc-for>
+</div>
+<sc-if value="{{det.hasNote}}" hint-placeholder-val="{{ false }}"><div class="k-dim rc-note"># {{det.note}}</div></sc-if>
+<div class="rc-links">
+<sc-for list="{{det.linksShort}}" as="l" hint-placeholder-count="1">
+<a href="{{l.u}}" target="_blank" rel="noopener noreferrer" class="rc-btn {{l.cls}}">{{l.t}}</a>
+</sc-for>
+<button type="button" class="rc-btn" onClick="{{openModal}}">完整信息</button>
+</div>
+</div>
+</sc-if>
+<label class="rc-ps rc-psin rc-wide"><span class="rc-seg s1">ctf</span><span class="rc-seg s2">~/events</span><span class="k-ok b">❯</span><input class="fx-cmd rc-cmd" type="text" value="{{cmd}}" onChange="{{onCmd}}" onKeyDown="{{onCmdKey}}" placeholder="输入命令回车：help · filter ai · grep pwn · ui tui" aria-label="命令行" autocomplete="off" spellcheck="false"></label>
+<sc-if value="{{hasMsg}}" hint-placeholder-val="{{ false }}"><div class="k-warn" style="margin-top: 4px;">{{msg}}</div></sc-if>
+</section>
+
+<section class="rc-win rc-live" aria-label="正在进行">
+<div class="rc-box" style="margin-top: 2px;">
+<span class="rc-bt" style="background: #181924;"><span class="k-ok b">¹live</span> <span class="k-dim">{{nLive}} 场进行中 · 按结束时间排序</span></span>
+<div class="rc-meters">
+<sc-for list="{{liveList}}" as="c" hint-placeholder-count="4">
+<button type="button" class="rc-m" onClick="{{c.pick}}"><span class="rc-tag" style="background: {{c.catColor}};">{{c.cat}}</span><span class="k-hi el">{{c.name}}</span><span class="rc-meter"><i style="width: {{c.pct}}; background-size: {{c.bgsz}};"></i></span><span class="rc-pct">{{c.pctLabel}}</span><span class="rc-eta k-dim">{{c.eta}}</span></button>
+</sc-for>
+<sc-if value="{{noLive}}" hint-placeholder-val="{{ false }}"><div class="k-dim">此刻没有进行中的比赛。</div></sc-if>
+</div>
+<div class="rc-hist"><span class="k-dim">未来 60 天开赛分布</span><span class="rc-bars" aria-hidden="true"><sc-for list="{{hist}}" as="h" hint-placeholder-count="60"><i style="height: {{h.h}}; opacity: {{h.o}};"></i></sc-for></span><span class="k-dim el">最密集 <span class="k-hi">{{busiest}}</span></span></div>
+</div>
+</section>
+
+<section class="rc-win rc-list" aria-label="赛事列表">
+<div class="rc-tools">
+<div class="rc-tabs" role="group" aria-label="分类">
+<sc-for list="{{catBtns}}" as="c" hint-placeholder-count="5">
+<button type="button" class="rc-tab {{c.cls}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}">{{c.label}}<span class="rc-n">{{c.count}}</span></button>
+</sc-for>
+</div>
+<label class="rc-grep"><span class="k-dim" aria-hidden="true">/</span><input class="fx-q" type="search" value="{{q}}" onChange="{{onQuery}}" onKeyDown="{{onQKey}}" placeholder="搜索：pwn · 智能体 · 强网…" aria-label="搜索赛事" autocomplete="off"></label>
+</div>
+<div class="rc-row rc-head"><span>开始（{{tzShort}}）</span><span>名称</span><span>类别</span><span>赛制</span><span>权重</span><span>倒计时</span><span>状态</span></div>
+<div class="rc-rows fx-scroll">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+<button type="button" class="rc-row {{r.cls}}" title="{{r.name}}" onClick="{{r.pick}}"><span>{{r.start}}</span><span class="el k-hi"><span class="rc-nm-s">{{r.short}}</span><span class="rc-nm-l">{{r.full}}</span></span><span style="color: {{r.catColor}};">{{r.cat}}</span><span class="el">{{r.fmt}}</span><span>{{r.weight}}</span><span style="color: {{r.sc}};">{{r.tminus}}</span><span class="el" style="color: {{r.sc2}};">{{r.status}}</span></button>
+</sc-for>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}"><div class="k-dim" style="padding: 14px 10px;">grep: 没有匹配的赛事，换个关键词或分类。</div></sc-if>
+</div>
+<div class="rc-status"><span><span class="rc-seg" style="background: var(--ok);">NORMAL</span> events.db · {{nList}} 条 · {{selPos}} · 排序 {{sortLabel}}</span><span class="k-dim rc-keys"><span class="k-acc">j/k</span> 移动 · <span class="k-acc">o</span> 开官网 · <span class="k-acc">/</span> 搜索 · <span class="k-acc">s</span> 排序 · <span class="k-acc">t</span> 时区 · <span class="k-acc">u</span> 换界面</span></div>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isTui}}" hint-placeholder-val="{{ false }}">
+<div class="tu">
+<header class="tu-head">
+<div class="tu-kv"><span class="k-acc2">下一场:</span><span class="k-hi el">{{next.short}} <span class="k-ok">T-{{next.dd}}d {{next.hh}}:{{next.mm}}:{{next.ss}}</span></span><span class="k-acc2">报名:</span><span class="k-warn el">{{regLine}}</span><span class="k-acc2">收录:</span><span class="k-hi el">{{nTotal}} 场 <span class="k-dim">· 30 天内 {{nMonth}} 场</span></span><span class="k-acc2">同步:</span><span class="k-hi el">{{freshLabel}} <span class="k-dim">({{freshAgo}})</span></span><span class="k-acc2">时区:</span><span class="k-hi el">{{tzIana}} <span class="k-dim">{{tzShort}}</span></span></div>
+<div class="tu-keys">
+<sc-for list="{{aKeys1}}" as="k" hint-placeholder-count="5">
+<button type="button" class="tu-key {{k.cls}}" onClick="{{k.pick}}"><span class="k-acc">{{k.k}}</span> {{k.d}}</button>
+</sc-for>
+</div>
+<div class="tu-keys">
+<sc-for list="{{aKeys2}}" as="k" hint-placeholder-count="5">
+<button type="button" class="tu-key {{k.cls}}" onClick="{{k.pick}}"><span class="k-acc">{{k.k}}</span> {{k.d}}</button>
+</sc-for>
+</div>
+<div class="tu-keys">
+<sc-for list="{{aKeys3}}" as="k" hint-placeholder-count="4">
+<button type="button" class="tu-key {{k.cls}}" onClick="{{k.pick}}"><span class="k-acc">{{k.k}}</span> {{k.d}}</button>
+</sc-for>
+<a class="tu-key fx-weekly" href="Weekly.dc.html"><span class="k-acc">&lt;w&gt;</span> 本周海报</a>
+</div>
+<div class="tu-logo" aria-hidden="true">
+<div class="tu-px">
+<sc-for list="{{tuLogo}}" as="c" hint-placeholder-count="53">
+<span style="background: {{c.c}};"></span>
+</sc-for>
+</div>
+<div class="k-dim">ctf &amp; ai-sec 赛事情报 · v3</div>
+</div>
+</header>
+
+<main class="tu-main">
+<section class="tu-pane" aria-label="赛事">
+<div class="tu-t"><span class="k-acc">{{aTitle}}</span>(<span class="k-ai">{{catName}}</span>)[<span class="k-hi">{{nList}}</span>]</div>
+<sc-if value="{{aEvents}}" hint-placeholder-val="{{ true }}">
+<div class="tu-row tu-hrow"><span>开始<span class="k-acc2">{{sortMark}}</span></span><span>倒计时</span><span>名称</span><span>类别</span><span>赛制</span><span>权重<span class="k-acc2">{{sortMarkW}}</span></span><span>资格</span><span>状态</span></div>
+<div class="tu-body fx-scroll">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="14">
+<button type="button" class="tu-row {{r.cls}}" onClick="{{r.pick}}" style="color: {{r.sc}};"><span>{{r.start}}</span><span>{{r.tminus}}</span><span class="el">{{r.name}}</span><span style="color: {{r.catColor}};">{{r.cat}}</span><span class="el">{{r.fmt}}</span><span>{{r.weight}}</span><span>{{r.acc}}</span><span class="el">{{r.status}}</span></button>
+</sc-for>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}"><div class="k-dim" style="padding: 10px 8px;">No resources found — 没有匹配的赛事。</div></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{aGantt}}" hint-placeholder-val="{{ false }}">
+<div class="tu-g tu-hrow"><span>名称</span><span class="tu-gtrack" style="border-left: 0;"><sc-for list="{{gTicks}}" as="t" hint-placeholder-count="8"><i style="left: {{t.left}};">{{t.label}}</i></sc-for></span></div>
+<div class="tu-body fx-scroll">
+<sc-for list="{{gantt}}" as="g" hint-placeholder-count="14">
+<button type="button" class="tu-g {{g.cls}}" title="{{g.start}}" onClick="{{g.pick}}"><span class="el">{{g.name}}</span><span class="tu-gtrack"><i class="now" style="left: {{gNow}};"></i><b style="left: {{g.left}}; width: {{g.width}}; background: {{g.color}}; opacity: {{g.op}};"></b></span></button>
+</sc-for>
+</div>
+</sc-if>
+</section>
+
+<div class="tu-side">
+<section class="tu-pane" aria-label="详情">
+<div class="tu-t"><span class="k-acc">{{aSideTitle}}</span>(<span class="k-ai">{{aSideSub}}</span>)</div>
+<sc-if value="{{aDesc}}" hint-placeholder-val="{{ true }}">
+<div class="tu-body fx-scroll">
+<div class="k-hi b" style="margin-bottom: 4px;">{{det.name}}</div>
+<div class="tu-dkv">
+<span class="k-acc2">状态:</span><span style="color: {{det.sc}};">{{det.status}}</span>
+<sc-for list="{{det.kv}}" as="l" hint-placeholder-count="8">
+<span class="k-acc2">{{l.k}}:</span><span style="color: {{l.c}};">{{l.v}}</span>
+</sc-for>
+</div>
+<sc-if value="{{det.hasNote}}" hint-placeholder-val="{{ false }}"><div class="k-dim" style="margin-top: 8px;"># {{det.note}}</div></sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+<sc-for list="{{det.links}}" as="l" hint-placeholder-count="2">
+<a href="{{l.u}}" target="_blank" rel="noopener noreferrer" class="tu-btn">{{l.t}}</a>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{aHelp}}" hint-placeholder-val="{{ false }}">
+<div class="tu-body fx-scroll">
+<div class="tu-dkv" style="grid-template-columns: 128px minmax(0, 1fr);">
+<sc-for list="{{helpLines}}" as="h" hint-placeholder-count="10">
+<span class="k-acc">{{h.k}}</span><span>{{h.d}}</span>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</section>
+<section class="tu-pane" aria-label="正在进行">
+<div class="tu-t"><span class="k-acc">live</span>[<span class="k-hi">{{nLive}}</span>]</div>
+<sc-for list="{{liveList}}" as="c" hint-placeholder-count="4">
+<button type="button" class="tu-lrow" onClick="{{c.pick}}"><span class="k-ok el">{{c.name}}</span><span class="tu-bar"><i style="width: {{c.pct}};"></i></span><span class="el">{{c.eta}}</span></button>
+</sc-for>
+<sc-if value="{{noLive}}" hint-placeholder-val="{{ false }}"><div class="k-dim">此刻没有进行中的比赛。</div></sc-if>
+<div class="el" style="display: flex; gap: 10px; margin-top: 8px;"><span class="k-dim">60 天开赛密度</span><span class="k-acc" aria-hidden="true">{{spark}}</span></div>
+</section>
+</div>
+</main>
+
+<footer class="tu-foot">
+<sc-for list="{{aCrumbs}}" as="c" hint-placeholder-count="2">
+<span class="tu-chip" style="background: {{c.bg}};">{{c.t}}</span>
+</sc-for>
+<label class="tu-cmdbox"><span class="k-hi b" aria-hidden="true">:</span><input class="fx-cmd" type="text" value="{{cmd}}" onChange="{{onCmd}}" onKeyDown="{{onCmdKey}}" placeholder="输入命令后回车：filter ai · grep pwn · tz utc · ui hud · help" aria-label="命令行" autocomplete="off" spellcheck="false"></label>
+<span class="k-warn el">{{msg}}</span>
+<span class="k-dim" style="white-space: nowrap;">{{selPos}} · 排序 {{sortLabel}} · {{tzShort}}</span>
+</footer>
+</div>
+</sc-if>
+
+<sc-if value="{{isHud}}" hint-placeholder-val="{{ false }}">
+<div class="hd">
+<header class="hd-top">
+<div class="hd-logo hd-f">FLAGRADAR<span class="k-acc">//</span></div>
+<div class="hd-tick"><span class="k-acc2 b hd-f">INCOMING</span>
+<div class="hd-tick-w"><div class="hd-tick-in">
+<sc-for list="{{cTicker}}" as="t" hint-placeholder-count="4">
+<span><span class="k-hi">{{t.a}}</span> <span style="color: {{t.c}};">{{t.b}}</span></span><span class="k-dim" aria-hidden="true">///</span>
+</sc-for>
+<sc-for list="{{cTicker}}" as="t" hint-placeholder-count="4">
+<span aria-hidden="true"><span class="k-hi">{{t.a}}</span> <span style="color: {{t.c}};">{{t.b}}</span></span><span class="k-dim" aria-hidden="true">///</span>
+</sc-for>
+</div></div>
+</div>
+<div class="hd-clock"><div class="hd-f b k-hi" style="font-size: 17px; letter-spacing: 0.1em;">{{clockTime}} <span class="k-acc">{{tzShort}}</span></div><div class="k-dim">SYNC {{freshLabel}} · {{nTotal}} TARGETS</div></div>
+</header>
+<div class="hd-ctl">
+<div>
+<span class="k-dim">界面</span>
+<div class="hd-seg" role="group" aria-label="切换界面">
+<sc-for list="{{uiBtns}}" as="u" hint-placeholder-count="3">
+<button type="button" class="{{u.cls}}" aria-pressed="{{u.on}}" title="{{u.title}}" onClick="{{u.pick}}">{{u.label}}</button>
+</sc-for>
+</div>
+</div>
+<div>
+<span class="k-dim">筛选</span>
+<div class="hd-seg" role="group" aria-label="分类">
+<sc-for list="{{catBtns}}" as="c" hint-placeholder-count="5">
+<button type="button" class="{{c.cls}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+<div>
+<span class="k-dim">时区</span>
+<div class="hd-seg" role="group" aria-label="时区">
+<sc-for list="{{tzBtns}}" as="t" hint-placeholder-count="3">
+<button type="button" class="{{t.cls}}" aria-pressed="{{t.on}}" title="{{t.title}}" onClick="{{t.pick}}">{{t.label}}</button>
+</sc-for>
+</div>
+<a class="hd-btn fx-weekly" href="Weekly.dc.html" style="min-height: 30px;">本周海报</a>
+</div>
+</div>
+
+<main class="hd-main">
+<div class="hd-col">
+<section class="hd-panel" aria-label="正在进行">
+<div class="hd-h hd-f"><b>LIVE OPS · 进行中</b><span class="k-acc2">{{nLive2}} ACTIVE</span></div>
+<div class="hd-scroll fx-scroll">
+<sc-for list="{{liveList}}" as="c" hint-placeholder-count="4">
+<button type="button" class="hd-li {{c.cls}}" style="border-top: 0;" onClick="{{c.pick}}"><span class="k-hi el">{{c.name}}</span><span class="k-acc">{{c.eta}}</span></button>
+<div class="hd-mt"><i style="width: {{c.pct}};"></i></div>
+</sc-for>
+<sc-if value="{{noLive}}" hint-placeholder-val="{{ false }}"><div class="k-dim">此刻没有进行中的比赛。</div></sc-if>
+</div>
+</section>
+<section class="hd-panel" aria-label="报名与 AI 赛道">
+<div class="hd-h hd-f"><b>REG DEADLINE · 报名截止</b><span class="k-warn">{{nReg2}} CLOSING</span></div>
+<sc-for list="{{regList}}" as="r" hint-placeholder-count="2">
+<button type="button" class="hd-li" onClick="{{r.pick}}"><span class="k-hi el">{{r.name}}</span><span class="k-warn">{{r.when}}</span></button>
+</sc-for>
+<sc-if value="{{noReg}}" hint-placeholder-val="{{ false }}"><div class="k-dim">暂无临近截止的报名。</div></sc-if>
+<div class="hd-h hd-f" style="margin-top: 16px;"><b>AI-SEC · AI 安全赛道</b><span class="k-acc2">{{nAi2}}</span></div>
+<div class="hd-scroll fx-scroll">
+<sc-for list="{{aiList}}" as="a" hint-placeholder-count="3">
+<button type="button" class="hd-li {{a.cls}}" onClick="{{a.pick}}"><span class="k-hi el">{{a.name}}</span><span style="color: {{a.sc}};">{{a.status}}</span></button>
+</sc-for>
+</div>
+</section>
+</div>
+
+<section class="hd-center" aria-label="锁定目标">
+<sc-if value="{{hasDet}}" hint-placeholder-val="{{ true }}">
+<div class="hd-lock">
+<div class="hd-f" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; font-size: 11.5px; letter-spacing: 0.24em;"><span class="k-dim">LOCKED TARGET</span><span style="color: {{det.catColor}};">[{{det.cat}}]</span><span style="color: {{det.sc}};">{{det.status}}</span></div>
+<div class="hd-name el">{{det.name}}</div>
+<sc-if value="{{det.hasCd}}" hint-placeholder-val="{{ true }}">
+<div role="timer" class="hd-cd hd-f"><span>{{det.dd}}</span><i>:</i><span>{{det.hh}}</span><i>:</i><span>{{det.mm}}</span><i>:</i><span>{{det.ss}}</span></div>
+<div class="hd-cdl hd-f">{{det.cdLabel}} · 天 : 时 : 分 : 秒</div>
+</sc-if>
+<div class="el" style="max-width: 100%; margin-top: 4px;">{{det.range}}</div>
+<div class="hd-acts">
+<sc-if value="{{det.hasUrl}}" hint-placeholder-val="{{ true }}"><a class="hd-btn is-pri" href="{{det.url}}" target="_blank" rel="noopener noreferrer">官网 ↗</a></sc-if>
+<button type="button" class="hd-btn" onClick="{{openModal}}">完整信息</button>
+</div>
+</div>
+</sc-if>
+<div class="hd-run" role="group" aria-label="未来 60 天赛程跑道，越靠近越早开赛" style="perspective: {{cPersp}};">
+<div class="hd-sky" aria-hidden="true"></div>
+<div class="hd-floor">
+<div class="hd-grid" aria-hidden="true"></div>
+<sc-for list="{{cGates}}" as="g" hint-placeholder-count="4">
+<div class="hd-gate" aria-hidden="true" style="top: {{g.top}}; height: {{g.th}};"></div>
+</sc-for>
+<sc-for list="{{cGates}}" as="g" hint-placeholder-count="4">
+<span class="hd-gl hd-f" aria-hidden="true" style="top: {{g.top}}; font-size: {{g.fs}};">{{g.label}}</span>
+</sc-for>
+<sc-for list="{{cPillars}}" as="p" hint-placeholder-count="12">
+<span class="hd-pad {{p.cls}}" aria-hidden="true" style="left: {{p.left}}; top: {{p.top}}; font-size: {{p.pfs}}; color: {{p.color}}; opacity: {{p.op}};"></span>
+</sc-for>
+<sc-for list="{{cPillars}}" as="p" hint-placeholder-count="12">
+<button type="button" class="hd-pil {{p.cls}}" title="{{p.title}}" aria-label="{{p.title}}" onClick="{{p.pick}}" style="left: {{p.left}}; top: {{p.top}}; font-size: {{p.fs}}; color: {{p.color}}; opacity: {{p.op}};"><sc-if value="{{p.hasLabel}}" hint-placeholder-val="{{ false }}"><span class="hd-lab"><em>{{p.label}}</em><span class="hd-sub">{{p.sub}}</span></span></sc-if><i class="hd-node"></i><i class="hd-beam" style="height: {{p.h}};"></i></button>
+</sc-for>
+</div>
+<div class="hd-lanes hd-f" aria-hidden="true">
+<sc-for list="{{cLanes}}" as="l" hint-placeholder-count="3">
+<span style="left: {{l.left}}; color: {{l.color}};">{{l.label}}</span>
+</sc-for>
+</div>
+<div class="hd-cap" aria-hidden="true">赛程跑道 · 越近越快开赛</div>
+<div class="hd-cap r" aria-hidden="true">点击光柱锁定目标</div>
+</div>
+</section>
+
+<div class="hd-col">
+<section class="hd-panel" style="flex: 1 1 auto;" aria-label="即将开赛">
+<div class="hd-h hd-f"><b>INCOMING · 7 天内</b><span class="k-acc">{{nWeek2}} TARGETS</span></div>
+<div class="hd-scroll fx-scroll">
+<sc-for list="{{cWeek}}" as="r" hint-placeholder-count="6">
+<button type="button" class="hd-li {{r.cls}}" onClick="{{r.pick}}"><span class="k-dim hd-when">{{r.when}}</span><span class="k-hi el hd-nm">{{r.name}}</span><span style="color: {{r.color}};">{{r.tag}}</span></button>
+</sc-for>
+<sc-if value="{{noWeek}}" hint-placeholder-val="{{ false }}"><div class="k-dim" style="padding: 6px;">7 天内没有符合条件的比赛。</div></sc-if>
+<div class="hd-h hd-f" style="margin-top: 16px;"><b>HORIZON · 之后</b><span class="k-acc">{{nMonth2}} / 30D</span></div>
+<sc-for list="{{cLater}}" as="r" hint-placeholder-count="6">
+<button type="button" class="hd-li {{r.cls}}" onClick="{{r.pick}}"><span class="k-dim hd-when">{{r.when}}</span><span class="k-hi el hd-nm">{{r.name}}</span><span style="color: {{r.color}};">{{r.tag}}</span></button>
+</sc-for>
+</div>
+</section>
+</div>
+</main>
+
+<footer class="hd-stats">
+<sc-for list="{{cStats}}" as="s" hint-placeholder-count="5">
+<div class="hd-stat"><div><span><span class="k-dim hd-f" style="display: block; font-size: 11px; letter-spacing: 0.2em;">{{s.en}}</span><span>{{s.cn}}</span></span><b class="hd-f" style="color: {{s.c}};">{{s.v}}</b></div></div>
+</sc-for>
+</footer>
+</div>
+</sc-if>
+
+<sc-if value="{{modalOpen}}" hint-placeholder-val="{{ false }}">
+<div class="fx-modal">
+<button type="button" class="fx-scrim" aria-label="关闭详情" onClick="{{closeModal}}"></button>
+<aside class="fx-sheet fx-scroll" role="dialog" aria-modal="true" aria-label="赛事详情">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span class="b" style="color: {{det.catColor}};">[{{det.cat}}] <span style="color: {{det.sc}};">{{det.status}}</span></span><button type="button" class="fx-x" aria-label="关闭" onClick="{{closeModal}}">[x]</button></div>
+<h2>{{det.name}}</h2>
+<sc-if value="{{det.hasCd}}" hint-placeholder-val="{{ false }}"><div role="timer" style="display: flex; gap: 10px; font-size: 15px;"><span class="k-dim">{{det.cdLabel}}</span><span class="k-hi b" style="font-variant-numeric: tabular-nums;">{{det.dd}} 天 {{det.hh}}:{{det.mm}}:{{det.ss}}</span></div></sc-if>
+<div class="fx-dkv">
+<sc-for list="{{det.kv}}" as="l" hint-placeholder-count="8">
+<span class="k-dim">{{l.k}}</span><span style="color: {{l.c}};">{{l.v}}</span>
+</sc-for>
+</div>
+<sc-if value="{{det.hasNote}}" hint-placeholder-val="{{ false }}"><div class="k-dim"># {{det.note}}</div></sc-if>
+<div class="fx-links">
+<sc-for list="{{det.links}}" as="l" hint-placeholder-count="2">
+<a href="{{l.u}}" target="_blank" rel="noopener noreferrer" class="fx-lb {{l.cls}}">{{l.t}}</a>
+</sc-for>
+</div>
+</aside>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ui":{"editor":"enum","options":["rice","tui","hud"],"default":"rice","section":"界面"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  getData() {
+    return (/*@@DATA_BEGIN@@*/{
+"meta": {
+"updated_at": "2026-11-11T01:54:33Z",
+"schedule": "每周一、三、五 06:46（北京时间）自动巡检",
+"coverage": "CTFtime 国际赛 · 国内重点赛事 · AI 红队 / 智能体赛",
+"cron": "46 6 * * 1,3,5",
+"cron_tz": "Asia/Shanghai"
+},
+"sources": [
+{
+"n": "CTFtime",
+"u": "https://ctftime.org/event/list/?year=2026",
+"d": "国际赛主数据源：时间、赛制、权重"
+},
+{
+"n": "Bugku 赛事中心",
+"u": "https://ctf.bugku.com/game/index.html",
+"d": "国际赛补充与交叉核对"
+},
+{
+"n": "CTF 赛事日历",
+"u": "https://ctf.manic.com.cn/",
+"d": "国内赛报名窗口"
+},
+{
+"n": "DigiForensics 比赛日历",
+"u": "https://www.digiforensics.cn/calendar",
+"d": "取证类与警校赛事"
+},
+{
+"n": "强网杯官网",
+"u": "https://qiangwangbei.com/",
+"d": "强网杯赛程、名额与奖金"
+},
+{
+"n": "Gray Swan Arena",
+"u": "https://app.grayswan.ai/arena",
+"d": "AI 红队 / 提示注入赛"
+},
+{
+"n": "HKCERT CTF",
+"u": "https://ctf.hkcert.org/zh",
+"d": "香港赛初赛与决赛"
+},
+{
+"n": "官方公告与报道",
+"u": "https://www.cac.gov.cn/2026-10/10/c_1793384901156532.htm",
+"d": "网信办通知、赛事报道等"
+}
+],
+"events": [
+{
+"id": "tpctf-2026",
+"name": "首届 CCF 网络安全智能挑战赛暨「京华杯」TPCTF 2026",
+"short": "TPCTF 2026",
+"region": "cn",
+"ai": true,
+"feat": true,
+"fmt": [
+"Jeopardy",
+"智能体赛道",
+"人机协同赛道"
+],
+"tags": [
+"Web",
+"Pwn",
+"Reverse",
+"Crypto",
+"Misc",
+"AI 安全"
+],
+"loc": "线上",
+"start": "2026-11-15T10:00:00+08:00",
+"end": "2026-11-22T20:00:00+08:00",
+"prec": "time",
+"reg_end": "2026-11-13T23:18:00+08:00",
+"reg_conf": "single",
+"access": "open",
+"access_note": "高校全日制在校生（含高职、本科、研究生）及网安企业从业人员；同一单位组队",
+"team": "≤4 人",
+"prize": "智能体赛道冠军 2 万元 + 10th Finals 直通券；人机协同赛道冠军 5000 元；获奖颁发 CCF 认证证书",
+"weight": null,
+"org": "中国计算机学会（CCF）主办；清华大学、北京大学承办",
+"url": "https://tpctf2026.xctf.org.cn",
+"links": [
+{
+"t": "CTFy 平台",
+"u": "https://ctfy.tsinghua.edu.cn/competitions"
+}
+],
+"src": "赛事介绍文章 + CTF 赛事日历",
+"src_url": "https://www.shuwu5.cn/article/4582.html",
+"conf": "confirmed",
+"note": "智能体赛道：提交智能体程序，由 AI 独立完成攻防，运行期间无人工介入；人机协同赛道：选手与 AI 工具协作解题，不限模型。第三方日历记为 22:00 结束、报名截止 11/13，均以官网为准。"
+},
+{
+"id": "csaw-final-2026",
+"name": "CSAW CTF Final Round 2026",
+"short": "CSAW Finals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"决赛"
+],
+"loc": "线上",
+"start": "2026-11-12T17:00:00Z",
+"end": "2026-11-14T05:00:00Z",
+"prec": "time",
+"access": "qualified",
+"access_note": "决赛轮，仅限资格赛晋级队伍",
+"weight": 1.0,
+"url": "https://ctftime.org/event/3410",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf.csaw.io/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3410",
+"conf": "confirmed"
+},
+{
+"id": "tvx-2026",
+"name": "TVX CTF 2026",
+"short": "TVX CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-13T10:00:00Z",
+"end": "2026-11-13T20:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3486",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf-techvisions.com/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3486",
+"conf": "confirmed"
+},
+{
+"id": "platypwn-2026",
+"name": "Platypwn 2026",
+"short": "Platypwn",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-13T17:00:00Z",
+"end": "2026-11-14T11:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 37.0,
+"org": "Platypwnies",
+"url": "https://ctftime.org/event/3082",
+"links": [
+{
+"t": "官网",
+"u": "https://platypwnies.de/events/platypwn/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3082",
+"conf": "confirmed",
+"note": "题目从入门到困难都有。部分聚合站仍显示旧时间（11/14–11/15），以 CTFtime 当前时间为准；37.00 为当前评分权重。"
+},
+{
+"id": "battle-of-hackers-2026",
+"name": "International Battle of Hackers 2026",
+"short": "Battle of Hackers",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": "2026-11-14T00:30:00Z",
+"end": "2026-11-14T10:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://battleofhackers.com/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/930.html",
+"conf": "single"
+},
+{
+"id": "h4ckc0n-2026",
+"name": "h4ckc0n 2026",
+"short": "h4ckc0n",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-14T15:30:00Z",
+"end": "2026-11-15T15:30:00Z",
+"prec": "time",
+"access": "open",
+"weight": 24.23,
+"url": "https://ctftime.org/event/3464",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3464",
+"conf": "confirmed"
+},
+{
+"id": "init-ctf-2026",
+"name": "InIt CTF",
+"short": "InIt CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-14T15:30:00Z",
+"end": "2026-11-14T23:30:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3467",
+"links": [
+{
+"t": "官网",
+"u": "https://hackersinindia.com/init-ctf"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3467",
+"conf": "confirmed"
+},
+{
+"id": "eyesopen-7",
+"name": "EyesOpenCTF 7th edition",
+"short": "EyesOpenCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T10:00:00Z",
+"end": "2026-11-22T10:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3419",
+"links": [
+{
+"t": "官网",
+"u": "https://eyesopensecurity.com/ctf-briefing.html"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3419",
+"conf": "confirmed"
+},
+{
+"id": "glacier-2026",
+"name": "GlacierCTF 2026",
+"short": "GlacierCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T18:00:00Z",
+"end": "2026-11-21T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 73.17,
+"org": "LosFuzzys",
+"url": "https://ctftime.org/event/3337",
+"links": [
+{
+"t": "官网",
+"u": "https://glacierctf.com/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3337",
+"conf": "confirmed",
+"note": "第五届，24 小时 Jeopardy；奖品待公布。"
+},
+{
+"id": "wolvctf-2026",
+"name": "WolvCTF 2026",
+"short": "WolvCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T23:00:00Z",
+"end": "2026-11-22T23:00:00Z",
+"prec": "time",
+"access": "open",
+"team": "不限人数",
+"weight": null,
+"org": "w01verines（密歇根大学）",
+"url": "https://ctftime.org/event/3049",
+"links": [
+{
+"t": "官网",
+"u": "https://wolvctf.io/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3049",
+"conf": "confirmed",
+"note": "已延期：原定 11/13，改为美东 11/20 18:00 – 11/22 18:00。分 Open 组与密歇根大学学生组，题目从入门到困难。"
+},
+{
+"id": "outback-overflow-2026",
+"name": "Outback Overflow",
+"short": "Outback Overflow",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T23:00:00Z",
+"end": "2026-11-21T23:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3425",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3425",
+"conf": "confirmed"
+},
+{
+"id": "cyber-ninja-2026",
+"name": "Cyber Ninja CTF 2026 – BLACKOUT",
+"short": "Cyber Ninja",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": "2026-11-21T09:00:00Z",
+"end": "2026-11-22T09:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://www.cyber-ninja-ctf.fr/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/961.html",
+"conf": "single"
+},
+{
+"id": "crate-2026",
+"name": "Crate-CTF 2026",
+"short": "Crate-CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-21T13:00:00Z",
+"end": "2026-11-21T21:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 37.0,
+"url": "https://ctftime.org/event/3336",
+"links": [
+{
+"t": "官网",
+"u": "https://foi.se/cratectf"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3336",
+"conf": "confirmed"
+},
+{
+"id": "lakectf-quals-2627",
+"name": "LakeCTF Quals 26-27",
+"short": "LakeCTF Quals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"资格赛"
+],
+"loc": "线上",
+"start": "2026-11-27T18:00:00Z",
+"end": "2026-11-28T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 45.76,
+"url": "https://ctftime.org/event/3474",
+"links": [
+{
+"t": "官网",
+"u": "https://lakectf.epfl.ch/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3474",
+"conf": "confirmed"
+},
+{
+"id": "l3m0n-quals-2026",
+"name": "L3m0n CTF 2026 (Quals)",
+"short": "L3m0n Quals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"资格赛"
+],
+"loc": "线上",
+"start": "2026-11-28T04:30:00Z",
+"end": "2026-11-28T16:30:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3485",
+"links": [
+{
+"t": "官网",
+"u": "https://l3m0nctf.xyz/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3485",
+"conf": "confirmed"
+},
+{
+"id": "cybernsk-2027-q",
+"name": "CyberNSK 2027 Qualifier",
+"short": "CyberNSK Quals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"资格赛"
+],
+"loc": "线上",
+"start": "2026-11-28T09:00:00Z",
+"end": "2026-11-28T21:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3489",
+"links": [
+{
+"t": "官网",
+"u": "https://quals.sslctf.ru/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3489",
+"conf": "confirmed"
+},
+{
+"id": "bhmea-final-2026",
+"name": "Black Hat MEA CTF Final 2026",
+"short": "BHMEA Final",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"决赛"
+],
+"loc": "沙特 利雅得（线下）",
+"start": "2026-12-01T00:00:00+03:00",
+"end": "2026-12-03T23:59:00+03:00",
+"prec": "day",
+"access": "qualified",
+"access_note": "仅限 8/29 线上资格赛前 150 名",
+"weight": null,
+"org": "SAFCSP × Black Hat MEA",
+"url": "https://ctftime.org/event/3386",
+"links": [
+{
+"t": "官网",
+"u": "https://blackhatmea.com/capture-the-flag"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3386",
+"conf": "confirmed",
+"note": "三天线下决赛；CTFtime 上的具体时刻是占位值，以官网为准。"
+},
+{
+"id": "x3ctf-2026",
+"name": "x3CTF 2026",
+"short": "x3CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-04T18:00:00Z",
+"end": "2026-12-06T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3450",
+"links": [
+{
+"t": "官网",
+"u": "https://x3c.tf/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3450",
+"conf": "confirmed"
+},
+{
+"id": "bi0s-2026",
+"name": "bi0sCTF 2026",
+"short": "bi0sCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-05T05:00:00Z",
+"end": "2026-12-06T17:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 79.51,
+"org": "bi0s",
+"url": "https://ctftime.org/event/3480",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf.bi0s.in/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3480",
+"conf": "confirmed",
+"note": "36 小时；奖品待公布。"
+},
+{
+"id": "nite-2026",
+"name": "niteCTF 2026",
+"short": "niteCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-11T12:00:00Z",
+"end": "2026-12-13T12:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 59.0,
+"url": "https://ctftime.org/event/3367",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3367",
+"conf": "confirmed"
+},
+{
+"id": "bsides-algiers-2026",
+"name": "BSides Algiers 2026",
+"short": "BSides Algiers",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-17T19:00:00Z",
+"end": "2026-12-19T07:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 22.9,
+"url": "https://ctftime.org/event/3475",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3475",
+"conf": "confirmed"
+},
+{
+"id": "backdoor-2026",
+"name": "BackdoorCTF 2026",
+"short": "BackdoorCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-19T12:00:00Z",
+"end": "2026-12-20T12:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 77.38,
+"url": "https://ctftime.org/event/3472",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3472",
+"conf": "confirmed"
+},
+{
+"id": "asis-final-2026",
+"name": "ASIS CTF Finals 2026",
+"short": "ASIS Finals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-27T14:00:00Z",
+"end": "2026-12-28T14:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 99.38,
+"org": "ASIS",
+"url": "https://ctftime.org/event/3062",
+"links": [
+{
+"t": "官网",
+"u": "https://asisctf.com/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3062",
+"conf": "confirmed",
+"note": "本时段 CTFtime 权重最高的线上赛；CTFtime 未标注参赛资格限制，奖品待公布。"
+},
+{
+"id": "gaianspace-2027",
+"name": "GaianSpace Perihelion CTF 2027",
+"short": "Perihelion CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2027-01-02T18:00:00Z",
+"end": "2027-01-03T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 25.0,
+"url": "https://ctftime.org/event/3492",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3492",
+"conf": "confirmed"
+},
+{
+"id": "hkcert-final-2026",
+"name": "HKCERT CTF 2026 · 决赛",
+"short": "HKCERT 决赛",
+"region": "intl",
+"ai": false,
+"fmt": [
+"线下决赛"
+],
+"loc": "香港会议展览中心（待定）",
+"start": "2027-01-07T10:00:00+08:00",
+"end": "2027-01-07T17:00:00+08:00",
+"prec": "time",
+"access": "qualified",
+"access_note": "中学 / 大专 / 公开组各取初赛前 10 名，国际组前 5 名，经大会审查后晋级",
+"weight": null,
+"org": "HKCERT",
+"url": "https://ctf.hkcert.org/zh",
+"src": "HKCERT 官网",
+"src_url": "https://ctf.hkcert.org/zh",
+"conf": "confirmed",
+"note": "国际组晋级队伍由主办方提供指定酒店住宿及往返香港交通补贴；12 月中有线上决赛工作坊。"
+},
+{
+"id": "jerseyctf-7",
+"name": "JerseyCTF VII",
+"short": "JerseyCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2027-03-13T17:00:00Z",
+"end": "2027-03-14T16:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 47.14,
+"url": "https://ctftime.org/event/3458",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3458",
+"conf": "confirmed"
+},
+{
+"id": "undutmaning-2027",
+"name": "Undutmaning 2027",
+"short": "Undutmaning",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2027-03-20T11:00:00Z",
+"end": "2027-03-20T19:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 44.75,
+"url": "https://ctftime.org/event/3481",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3481",
+"conf": "confirmed"
+},
+{
+"id": "pointer-overflow-2026",
+"name": "Pointer Overflow CTF 2026",
+"short": "Pointer Overflow",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF",
+"长周期"
+],
+"loc": "线上",
+"start": "2026-09-27T14:00:00Z",
+"end": "2026-12-06T14:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://pointeroverflowctf.com/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/760.html",
+"conf": "single",
+"note": "约 10 周的长周期赛。"
+},
+{
+"id": "cyberzerk-2026",
+"name": "CyberZerk CTF 2026",
+"short": "CyberZerk",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": "2026-11-09T13:00:00Z",
+"end": "2026-11-22T17:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctf.cyberzerk.fr/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/966.html",
+"conf": "single"
+},
+{
+"id": "qwb10-final",
+"name": "第十届「强网杯」全国网络安全挑战赛 · 线下赛",
+"short": "强网杯线下赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"线下赛",
+"实战攻防"
+],
+"tags": [
+"二进制",
+"Web 漏洞",
+"设备固件",
+"大模型安全",
+"物联网现场破解",
+"AI 赋能应用"
+],
+"loc": "线下（组委会在郑州，场地以通知为准）",
+"start": "2026-11-28T00:00:00+08:00",
+"end": "2026-11-29T23:59:00+08:00",
+"prec": "day",
+"access": "qualified",
+"access_note": "线上赛前 32 支队伍晋级；每队 ≤4 名队员 + 1 名指导教师",
+"team": "≤4 人 + 1 名指导教师",
+"prize": "冠军 15 万元/队，亚军 10 万元，季军 8 万元",
+"weight": null,
+"org": "中央网信办、河南省政府指导；河南省委网信办、河南省教育厅、郑州市政府、信息工程大学、郑州大学主办",
+"url": "https://qiangwangbei.com/",
+"src": "强网杯官网",
+"src_url": "https://www.cac.gov.cn/2026-10/10/c_1793384901156532.htm",
+"conf": "confirmed"
+},
+{
+"id": "qwb10-academy",
+"name": "第十届「强网杯」· 网络安全学院邀请赛",
+"short": "强网杯学院邀请赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"基础知识与技能"
+],
+"loc": "待公布",
+"start": "2026-11-21T00:00:00+08:00",
+"end": "2026-11-30T23:59:00+08:00",
+"prec": "window",
+"window": "11 月下旬（暂定）",
+"window_short": "下旬",
+"access": "restricted",
+"access_note": "面向全国高校网络空间安全学院，每校推荐 1 支队伍，每队 ≤4 人",
+"team": "≤4 人",
+"weight": null,
+"url": "https://qiangwangbei.com/",
+"src": "强网杯官网",
+"src_url": "https://qiangwangbei.com/",
+"conf": "tentative",
+"note": "能否参赛取决于学院推荐，可以向学院或导师打听名额。"
+},
+{
+"id": "shuzheng-3",
+"name": "第三届「数证杯」电子数据取证分析大赛",
+"short": "数证杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"电子取证",
+"团队赛"
+],
+"loc": "线上",
+"start": "2026-11-21T00:00:00+08:00",
+"end": "2026-11-21T23:59:00+08:00",
+"prec": "day",
+"reg_end": "2026-11-15T12:00:00+08:00",
+"reg_conf": "single",
+"access": "open",
+"weight": null,
+"org": "公安部第三研究所",
+"url": "https://shuzhengcup.gass.cn/",
+"src": "CTF 赛事日历",
+"src_url": "https://ctf.manic.com.cn/",
+"conf": "single",
+"note": "第三方日历显示比赛时段约 10:28–20:28、允许使用 AI，具体以官网为准。"
+},
+{
+"id": "meiya-12",
+"name": "2026「美亚杯」第十二届中国电子数据取证大赛",
+"short": "美亚杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"电子取证"
+],
+"loc": "线上 + 线下（厦门）",
+"start": "2026-11-13T00:00:00+08:00",
+"end": "2026-11-16T23:59:00+08:00",
+"prec": "day",
+"reg_end": "2026-10-31T23:59:00+08:00",
+"access": "open",
+"weight": null,
+"org": "中国刑事科学技术协会；教育部网络安全与执法专业虚拟教研室",
+"url": "https://www.digiforensics.cn/calendar/forensics-event-20261113",
+"src": "DigiForensics 比赛日历",
+"src_url": "https://www.digiforensics.cn/calendar",
+"conf": "single",
+"note": "报名已于 10/31 截止。"
+},
+{
+"id": "pctf-2026",
+"name": "第三届 PCTF2026 警校联合新生赛",
+"short": "PCTF 新生赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"新生赛"
+],
+"loc": "线上",
+"start": "2026-11-01T00:00:00+08:00",
+"end": "2026-12-01T00:00:00+08:00",
+"prec": "time",
+"reg_end": "2026-10-31T09:04:00+08:00",
+"access": "restricted",
+"access_note": "面向 2026 级新生及入门者；凭各校负责人发放的邀请码或教育邮箱注册",
+"weight": null,
+"org": "十七所警校网安组织联合举办",
+"url": "https://www.digiforensics.cn/calendar/2026-3rd-pctf",
+"src": "DigiForensics 比赛日历",
+"src_url": "https://www.digiforensics.cn/calendar/2026-3rd-pctf",
+"conf": "single",
+"note": "分批放题、持续开放；报名已截止。"
+},
+{
+"id": "ciscn-ccb-2027",
+"name": "全国大学生信息安全竞赛（创新实践能力赛）暨「长城杯」防护赛 · 新一届（国赛「三合一」）",
+"short": "国赛·长城杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"初赛线上",
+"半决赛/决赛线下"
+],
+"loc": "初赛线上",
+"start": null,
+"end": null,
+"prec": "tba",
+"window": "本届未官宣 · 往届初赛在 12 月中下旬",
+"window_short": "未官宣",
+"access": "unknown",
+"access_note": "往届：全日制高校在校生，以学校为单位组队报名（每队 ≤4 人）；本届以官方通知为准",
+"team": "往届 ≤4 人",
+"weight": null,
+"org": "往届：中国信息安全测评中心等",
+"url": "http://www.ciscn.cn/",
+"links": [
+{
+"t": "长城杯官网",
+"u": "https://ccb.itsec.gov.cn/"
+}
+],
+"src": "往届官方通知与报道（本届通知未查到）",
+"src_url": "http://www.ciscn.cn/competition/securityCompetition?compet_id=44",
+"conf": "tentative",
+"note": "截至 11/11 未查到本届（第二十届国赛）的官方通知，官网本次无法抓取，请直接看 ciscn.cn 通知栏。往届节奏：第十八届初赛 2024/12/15；第十九届半决赛 2026 年 3 月。通常 11 月底–12 月初发通知，报名由学校指导老师统一提交。"
+},
+{
+"id": "isctf-2026",
+"name": "ISCTF 2026",
+"short": "ISCTF",
+"region": "cn",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": null,
+"end": null,
+"prec": "tba",
+"window": "赛程待公布",
+"access": "unknown",
+"weight": null,
+"url": "https://2026.isc.tf/",
+"src": "ISCTF 官网",
+"src_url": "https://2026.isc.tf/",
+"conf": "tentative",
+"note": "官网已上线（同题竞技、分轨排名），赛程与报名入口待公布。"
+},
+{
+"id": "grayswan-ipi-black",
+"name": "Gray Swan Arena · Indirect Prompt Injection: Black",
+"short": "IPI: Black",
+"region": "intl",
+"ai": true,
+"fmt": [
+"间接提示注入",
+"Agent 劫持"
+],
+"tags": [
+"10 个场景",
+"42 个模型"
+],
+"loc": "线上",
+"start": "2026-10-20T00:00:00Z",
+"end": "2026-11-13T03:00:00Z",
+"prec": "approx",
+"access": "open",
+"access_note": "在沙箱中测试智能体，须由真人操作驱动",
+"prize": "$300,000 奖池",
+"weight": null,
+"org": "Gray Swan AI；Anthropic、Meta、Google DeepMind、Reflection AI 赞助",
+"url": "https://app.grayswan.ai/arena",
+"src": "Fortune 报道 + Arena 页面",
+"src_url": "https://fortune.com/2026/10/20/exclusive-ai-security-company-gray-swan-red-team-arena-contest-to-jailbreak-ai-agents/",
+"conf": "approx",
+"note": "在网页、论坛帖等智能体会读到的内容里埋入指令，劫持智能体行为。结束时间由 11/10 页面倒计时（剩 2 天 13 小时）推算。"
+},
+{
+"id": "grayswan-lucky-break",
+"name": "Gray Swan Arena · Lucky Break: Payday",
+"short": "Lucky Break",
+"region": "intl",
+"ai": true,
+"fmt": [
+"AI 红队"
+],
+"tags": [
+"5 个场景",
+"4 个模型"
+],
+"loc": "线上",
+"start": "2026-11-10T00:00:00Z",
+"start_known": false,
+"end": "2026-11-17T03:00:00Z",
+"prec": "approx",
+"access": "open",
+"prize": "$10,000 奖池",
+"weight": null,
+"org": "Gray Swan AI",
+"url": "https://app.grayswan.ai/arena",
+"src": "Arena 页面",
+"src_url": "https://app.grayswan.ai/arena",
+"conf": "approx",
+"note": "结束时间由 11/10 页面倒计时（剩 6 天 13 小时）推算；页面未写明赛题类型。"
+},
+{
+"id": "crucible",
+"name": "Dreadnode Crucible",
+"short": "Crucible",
+"region": "intl",
+"ai": true,
+"fmt": [
+"AI 红队靶场"
+],
+"loc": "线上",
+"start": null,
+"end": null,
+"prec": "always",
+"access": "open",
+"weight": null,
+"org": "Dreadnode",
+"url": "https://docs.dreadnode.io/crucible",
+"src": "官方文档",
+"src_url": "https://docs.dreadnode.io/crucible",
+"conf": "confirmed",
+"note": "常驻的 AI/ML 安全挑战平台，适合赛前练手。"
+},
+{
+"id": "owasp-finbot",
+"name": "OWASP FinBot Agentic AI CTF",
+"short": "FinBot CTF",
+"region": "intl",
+"ai": true,
+"fmt": [
+"Agent 目标劫持"
+],
+"loc": "线上",
+"start": null,
+"end": null,
+"prec": "always",
+"access": "open",
+"weight": null,
+"org": "OWASP GenAI Security Project",
+"url": "https://genai.owasp.org/resource/finbot-agentic-ai-capture-the-flag-ctf-application/",
+"src": "Snyk 汇总",
+"src_url": "https://snyk.io/articles/usd800k-up-for-grabs-12-ai-hacking-competitions-that-could-launch-your",
+"conf": "single",
+"note": "金融场景下的智能体目标操纵练习，常驻开放。"
+},
+{
+"id": "qwb10-online",
+"name": "第十届「强网杯」全国网络安全挑战赛 · 线上赛",
+"short": "强网杯线上赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"线上赛"
+],
+"tags": [
+"二进制逆向",
+"密码分析",
+"智能终端",
+"信息隐藏",
+"人工智能"
+],
+"loc": "线上",
+"start": "2026-10-31T00:00:00+08:00",
+"end": "2026-11-01T23:59:00+08:00",
+"prec": "day",
+"access": "open",
+"access_note": "国内高校、企业、机构；须中国国籍（不含港澳台）；每队 ≤10 人 + 1 名指导教师",
+"team": "≤10 人",
+"prize": "一等奖（前 3 名）3 万元/队",
+"weight": null,
+"url": "https://qiangwangbei.com/",
+"src": "强网杯官网",
+"src_url": "https://qiangwangbei.com/",
+"conf": "confirmed"
+},
+{
+"id": "yangcheng-2026-final",
+"name": "2026「羊城杯」网络安全大赛 · 决赛",
+"short": "羊城杯决赛",
+"region": "cn",
+"ai": true,
+"fmt": [
+"CTF",
+"Agent 协同"
+],
+"tags": [
+"AI 提示词攻击",
+"模型数据泄露"
+],
+"loc": "广州职业技术大学（线下）",
+"start": "2026-11-07T00:00:00+08:00",
+"end": "2026-11-07T23:59:00+08:00",
+"prec": "day",
+"access": "qualified",
+"access_note": "全国 2250 支队伍参赛，58 支晋级决赛",
+"weight": null,
+"org": "安恒信息承办",
+"url": "https://news.dayoo.com/guangzhou/202611/08/139995_55021512.htm",
+"src": "大洋网报道",
+"src_url": "https://news.dayoo.com/guangzhou/202611/08/139995_55021512.htm",
+"conf": "confirmed",
+"note": "首次允许选手本地部署 Agent 协同作战，赛题纳入 AI 提示词攻击、模型数据泄露，可作为 AI 赛制的复盘参考。"
+},
+{
+"id": "hkcert-q-2026",
+"name": "HKCERT CTF 2026 · 初赛",
+"short": "HKCERT 初赛",
+"region": "intl",
+"ai": false,
+"fmt": [
+"解题"
+],
+"loc": "线上",
+"start": "2026-11-06T18:00:00+08:00",
+"end": "2026-11-07T18:00:00+08:00",
+"prec": "time",
+"access": "open",
+"weight": null,
+"org": "HKCERT",
+"url": "https://ctf.hkcert.org/zh",
+"src": "HKCERT 官网",
+"src_url": "https://ctf.hkcert.org/zh",
+"conf": "confirmed",
+"note": "24 小时线上赛，题目提供繁中、简中与英文；11/21 有赛后工作坊（暂定）。"
+},
+{
+"id": "kunpeng-2026",
+"name": "2026 鲲鹏杯 CTF 网络安全竞赛",
+"short": "鲲鹏杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"团队赛"
+],
+"loc": "线上",
+"start": "2026-11-07T09:00:00+08:00",
+"end": "2026-11-07T17:00:00+08:00",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://www.ctfplus.cn/competition/hall",
+"src": "CTF 赛事日历",
+"src_url": "https://ctf.manic.com.cn/",
+"conf": "single",
+"note": "禁用 AI。"
+}
+]
+}/*@@DATA_END@@*/);
+  }
+
+  componentDidMount() {
+    this._timer = setInterval(() => { this.setState({ tick: Date.now() }); }, 1000);
+  }
+
+  componentWillUnmount() {
+    if (this._timer) { clearInterval(this._timer); this._timer = null; }
+  }
+
+  prep() {
+    if (this._prep) return this._prep;
+    let raw = {};
+    try { raw = this.getData() || {}; } catch (err) { raw = {}; }
+    const offOf = (iso) => {
+      if (!iso || /Z$/i.test(iso)) return 0;
+      const m = /([+-])(\d{2}):?(\d{2})$/.exec(iso);
+      if (!m) return 0;
+      return (m[1] === '-' ? -1 : 1) * (parseInt(m[2], 10) * 60 + parseInt(m[3], 10));
+    };
+    const num = (iso) => {
+      if (!iso) return null;
+      const t = Date.parse(iso);
+      return isNaN(t) ? null : t;
+    };
+    const evs = (raw.events || []).filter((e) => e && e.id && e.name).map((e) => Object.assign({}, e, {
+      _s: num(e.start),
+      _e: num(e.end),
+      _r: num(e.reg_end),
+      _off: offOf(e.start),
+      _hay: [e.name, e.short, e.org, e.loc, (e.fmt || []).join(' '), (e.tags || []).join(' ')].join(' ').toLowerCase(),
+    }));
+    this._prep = { meta: raw.meta || {}, sources: raw.sources || [], evs: evs };
+    return this._prep;
+  }
+
+  art() {
+    if (this._art) return this._art;
+    const G = {
+      F: ['#####', '#....', '#....', '####.', '#....', '#....', '#....'],
+      L: ['#....', '#....', '#....', '#....', '#....', '#....', '#####'],
+      A: ['.###.', '#...#', '#...#', '#####', '#...#', '#...#', '#...#'],
+      G: ['.###.', '#...#', '#....', '#.###', '#...#', '#...#', '.###.'],
+      R: ['####.', '#...#', '#...#', '####.', '#.#..', '#..#.', '#...#'],
+      D: ['####.', '#...#', '#...#', '#...#', '#...#', '#...#', '####.'],
+    };
+    const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+    const rgb = (c, k) => 'rgb(' + c.map((v) => Math.max(0, Math.min(255, Math.round(v * k)))).join(',') + ')';
+    const word = 'FLAGRADAR', WW = word.length * 6 - 1;
+    const tu = [];
+    for (let r = 0; r < 7; r++) {
+      for (let x = 0; x < WW; x++) {
+        const i = Math.floor(x / 6), c = x % 6;
+        const on = c < 5 && G[word[i]][r][c] === '#';
+        tu.push({ c: on ? rgb(mix([255, 158, 59], [242, 204, 96], x / (WW - 1)), 1) : 'transparent' });
+      }
+    }
+    const FW = 22, FH = 20, C1 = [125, 207, 255], C2 = [122, 162, 247], C3 = [187, 154, 247];
+    const cut = {};
+    [[5, 6], [5, 7], [6, 7], [6, 8], [7, 8], [7, 9], [8, 7], [8, 8], [9, 6], [9, 7], [9, 12], [9, 13], [9, 14], [9, 15], [9, 16]].forEach((q) => { cut[q[0] + ',' + q[1]] = 1; });
+    const flag = [];
+    for (let y = 0; y < FH; y++) {
+      for (let x = 0; x < FW; x++) {
+        let col = 'transparent';
+        if (x === 1 || x === 2) col = y === 0 ? '#c0caf5' : (x === 1 ? '#7f88b0' : '#565f89');
+        else if (y === FH - 1 && x <= 3) col = '#565f89';
+        else if (x >= 3 && x <= 20) {
+          const bx = x - 3, ph = bx * 0.5 + 0.3;
+          const top = 1 + Math.round(1.5 * Math.sin(ph) + 1.5);
+          const by = y - top;
+          if (by >= 0 && by < 11 && !cut[y + ',' + x]) {
+            const t = bx / 17;
+            col = rgb(t < 0.5 ? mix(C1, C2, t * 2) : mix(C2, C3, (t - 0.5) * 2), 0.9 + 0.1 * Math.cos(ph - 4.2));
+          }
+        }
+        flag.push({ c: col });
+      }
+    }
+    this._art = { tu: tu, flag: flag };
+    return this._art;
+  }
+
+  renderVals() {
+    const P = this.prep();
+    const st = this.state || {};
+    const now = Date.now();
+    const MIN = 60000, HOUR = 3600000, DAY = 86400000;
+    const refocus = (el) => { try { if (el && el.focus) el.focus({ preventScroll: true }); } catch (err) {} };
+    const keep = () => setTimeout(() => { try { const r = document.querySelector('.fx'); if (r && !r.contains(document.activeElement)) refocus(r); } catch (err) {} }, 90);
+    const put = (patch) => { this.setState(patch); keep(); };
+
+    const UIS = ['rice', 'tui', 'hud'];
+    const UI_NAME = { rice: '极客桌面', tui: '终端 TUI', hud: '赛博大屏' };
+    const UI_SHORT = { rice: '桌面', tui: 'TUI', hud: '大屏' };
+    const ui = UIS.indexOf(st.ui) >= 0 ? st.ui : (UIS.indexOf(this.props.ui) >= 0 ? this.props.ui : 'rice');
+
+    const TZ = {
+      bj: { off: 480, label: '北京时间', short: 'UTC+8', btn: '北京', iana: 'Asia/Shanghai' },
+      tk: { off: 540, label: '东京时间', short: 'UTC+9', btn: '东京', iana: 'Asia/Tokyo' },
+      utc: { off: 0, label: 'UTC', short: 'UTC+0', btn: 'UTC', iana: 'UTC' },
+    };
+    const TZS = ['bj', 'tk', 'utc'];
+    const tzKey = TZ[st.tz] ? st.tz : 'bj';
+    const off = TZ[tzKey].off;
+
+    const pad = (n) => (n < 10 ? '0' : '') + n;
+    const WD = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const at = (ms, o) => {
+      const d = new Date(ms + o * MIN);
+      return { y: d.getUTCFullYear(), mo: d.getUTCMonth(), d: d.getUTCDate(), wd: d.getUTCDay(), h: d.getUTCHours(), mi: d.getUTCMinutes(), s: d.getUTCSeconds() };
+    };
+    const md = (p) => pad(p.mo + 1) + '/' + pad(p.d);
+    const hm = (p) => pad(p.h) + ':' + pad(p.mi);
+    const tm = (ms) => {
+      const m = Math.max(0, Math.floor(ms / MIN));
+      const d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60);
+      return d >= 1 ? d + 'd' + pad(h) + 'h' : h + 'h' + pad(m % 60) + 'm';
+    };
+    const rel = (ms) => {
+      const m = Math.max(0, Math.floor(ms / MIN));
+      if (m < 60) return m + ' 分钟';
+      const h = Math.floor(m / 60);
+      if (h < 24) return h + ' 小时 ' + (m % 60) + ' 分';
+      if (h < 72) return Math.floor(h / 24) + ' 天 ' + (h % 24) + ' 小时';
+      return Math.floor(h / 24) + ' 天';
+    };
+    const dur = (ms) => {
+      const h = Math.round(ms / HOUR);
+      if (h < 48) return h + ' 小时';
+      const dd = Math.floor(h / 24), r = h % 24;
+      return dd + ' 天' + (r ? ' ' + r + ' 小时' : '');
+    };
+    const cdParts = (ms) => {
+      const t = Math.max(0, Math.floor(ms / 1000));
+      return { dd: pad(Math.floor(t / 86400)), hh: pad(Math.floor((t % 86400) / 3600)), mm: pad(Math.floor((t % 3600) / 60)), ss: pad(t % 60) };
+    };
+    const hash = (s) => {
+      let h = 2166136261;
+      for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+      return ((h >>> 0) % 10000) / 10000;
+    };
+
+    const CAT = {
+      cn: { label: '国内', color: 'var(--cn)' },
+      intl: { label: '国际', color: 'var(--intl)' },
+      ai: { label: 'AI', color: 'var(--ai)' },
+    };
+    const ACC = { open: '公开', qualified: '晋级', restricted: '定向', unknown: '待定' };
+    const ACC_LONG = { open: '公开报名', qualified: '仅限晋级队伍', restricted: '定向 / 限定参赛', unknown: '资格待公布' };
+    const CONF = { single: '单一来源', approx: '时间为估算', tentative: '官方暂定' };
+    const FG = 'var(--fg)', HI = 'var(--hi)', DIM = 'var(--dim)', OK = 'var(--ok)', WARN = 'var(--warn)';
+    const KC = { live: OK, reg: WARN, lock: DIM, closed: DIM, wait: FG, tba: DIM, always: DIM };
+
+    const nowP = at(now, off);
+    const midnight = Date.UTC(nowP.y, nowP.mo, nowP.d) - off * MIN;
+
+    const evs = P.evs.map((e) => {
+      const ck = e.ai ? 'ai' : (e.region === 'cn' ? 'cn' : 'intl');
+      let status;
+      if (e.prec === 'always') status = 'always';
+      else if (e._s == null) status = 'tba';
+      else if (now < e._s) status = 'upcoming';
+      else if (e._e == null || now < e._e) status = 'live';
+      else status = 'ended';
+
+      const dayMode = e.prec === 'day' || e.prec === 'window';
+      const o = dayMode ? e._off : off;
+      let startTxt = '', range = '';
+      if (status === 'always') { startTxt = '常驻'; range = '常驻开放，随时可练'; }
+      else if (status === 'tba') { startTxt = '待定'; range = e.window || '赛程待公布'; }
+      else {
+        const a = at(e._s, o);
+        const b = e._e != null ? at(e._e, o) : null;
+        if (e.prec === 'window') { startTxt = pad(a.mo + 1) + '/' + (e.window_short || '待定'); range = e.window || '日期暂定'; }
+        else if (e.prec === 'approx' && b) {
+          startTxt = e.start_known === false ? '已开赛' : md(a) + ' ' + WD[a.wd];
+          range = (e.start_known === false ? '已开赛' : md(a) + ' 开赛') + ' · 约 ' + md(b) + ' ' + hm(b) + ' 截止';
+        }
+        else if (dayMode) { startTxt = md(a) + ' ' + WD[a.wd]; range = md(a) + ' ' + WD[a.wd] + (b && md(b) !== md(a) ? ' → ' + md(b) + ' ' + WD[b.wd] : '') + ' · 时刻待公布'; }
+        else { startTxt = md(a) + ' ' + WD[a.wd] + ' ' + hm(a); range = md(a) + ' ' + WD[a.wd] + ' ' + hm(a) + ' → ' + (b ? (md(b) === md(a) ? '' : md(b) + ' ' + WD[b.wd] + ' ') + hm(b) : '待定'); }
+      }
+
+      const restricted = e.access === 'qualified' || e.access === 'restricted';
+      const regOpen = e._r != null && now < e._r && status !== 'ended';
+      const noProg = e.prec === 'window' || e.start_known === false;
+      let pct = 0;
+      if (status === 'live' && e._e != null && e._e > e._s) pct = Math.min(100, Math.max(0, (now - e._s) / (e._e - e._s) * 100));
+
+      let kind = 'wait', statusText = '待开赛', tminus = '—';
+      if (status === 'live') {
+        kind = 'live';
+        statusText = e.prec === 'window' ? '窗口期' : '进行中' + (noProg ? '' : ' ' + (e.prec === 'approx' ? '~' : '') + Math.round(pct) + '%');
+        tminus = e._e != null ? '剩 ' + tm(e._e - now) : '进行中';
+      } else if (status === 'upcoming') {
+        tminus = tm(e._s - now);
+        if (restricted) { kind = 'lock'; statusText = e.access === 'qualified' ? '仅限晋级' : '定向参赛'; }
+        else if (regOpen) { kind = 'reg'; statusText = '报名剩 ' + tm(e._r - now); }
+        else if (e._r != null) { kind = 'closed'; statusText = '报名已截止'; }
+      } else if (status === 'tba') { kind = 'tba'; statusText = '日期待定'; }
+      else if (status === 'always') { kind = 'always'; statusText = '常驻开放'; tminus = '常驻'; }
+      else { kind = 'closed'; statusText = '已结束'; }
+
+      const hasW = typeof e.weight === 'number' && e.weight > 0;
+      return Object.assign({}, e, {
+        ck: ck, cat: CAT[ck].label, catColor: CAT[ck].color, status: status, startTxt: startTxt, range: range,
+        restricted: restricted, regOpen: regOpen, noProg: noProg, pct: pct, kind: kind, statusText: statusText, tminus: tminus,
+        hasW: hasW, weightTxt: hasW ? e.weight.toFixed(2) : '—', fmtTxt: (e.fmt || []).slice(0, 2).join(' / ') || '—',
+      });
+    });
+
+    const active = evs.filter((e) => e.status !== 'ended');
+    const live = active.filter((e) => e.status === 'live').sort((a, b) => (a._e || 0) - (b._e || 0));
+    const upcoming = active.filter((e) => e.status === 'upcoming').sort((a, b) => a._s - b._s);
+    const within = (n) => upcoming.filter((e) => e._s - now <= n * DAY);
+    const regs = active.filter((e) => e.regOpen).sort((a, b) => a._r - b._r);
+    const aiAll = active.filter((e) => e.ai);
+    const nm = (e) => e.short || e.name;
+    const notable = (e) => !!(e.feat || e.ai || e.region === 'cn' || (e.weight || 0) >= 20);
+    const isOpen = (e) => !e.restricted;
+    const nextEv = upcoming.find((e) => isOpen(e) && e.prec === 'time' && notable(e)) || upcoming.find(isOpen) || upcoming[0] || null;
+
+    // ---- filters
+    const CATS = ['all', 'cn', 'intl', 'ai', 'live'];
+    const CAT_NAME = { all: '全部', cn: '国内', intl: '国际', ai: 'AI 安全', live: '进行中' };
+    const catKey = CATS.indexOf(st.cat) >= 0 ? st.cat : 'all';
+    const q = String(st.q || '').trim().toLowerCase();
+    const sortKey = st.sort === 'weight' ? 'weight' : 'time';
+    const inCat = (e, k) => k === 'all' || (k === 'ai' ? !!e.ai : (k === 'live' ? e.status === 'live' : e.region === k));
+    const passQ = (e) => !q || e._hay.indexOf(q) >= 0;
+    const RANK = { live: 0, upcoming: 1, tba: 2, always: 3 };
+    const list = active.filter((e) => inCat(e, catKey) && passQ(e));
+    list.sort((a, b) => {
+      if (sortKey === 'weight') { const dw = (b.weight || 0) - (a.weight || 0); if (dw) return dw; }
+      if (RANK[a.status] !== RANK[b.status]) return RANK[a.status] - RANK[b.status];
+      if (a.status === 'live') return (a._e || 0) - (b._e || 0);
+      return (a._s || 0) - (b._s || 0);
+    });
+
+    // ---- selection
+    let selEv = st.sel ? active.find((e) => e.id === st.sel) : null;
+    if (!selEv) selEv = (nextEv && list.indexOf(nextEv) >= 0 ? nextEv : null) || list[0] || nextEv || null;
+    const selIdx = selEv ? list.indexOf(selEv) : -1;
+    const narrow = () => { try { return window.innerWidth < 820; } catch (err) { return false; } };
+    const pick = (id) => () => put({ sel: id, modal: narrow() });
+    const openSel = () => { if (selEv && selEv.url) { try { window.open(selEv.url, '_blank', 'noopener'); } catch (err) {} } };
+    const g0 = midnight - 2 * DAY, gSpan = 62 * DAY;
+    const gEvs = list.filter((e) => e._s != null && e._e != null && e._e > g0 && e._s < g0 + gSpan);
+    const move = (d, root) => {
+      const nav = ui === 'tui' && view === 'gantt' ? gEvs : list;
+      if (!nav.length) return;
+      const cur = nav.indexOf(selEv);
+      const i = Math.max(0, Math.min(nav.length - 1, (cur < 0 ? (d > 0 ? -1 : nav.length) : cur) + d));
+      put({ sel: nav[i].id });
+      if (root) setTimeout(() => { const els = root.querySelectorAll('.fx-scroll .is-sel'); for (let j = 0; j < els.length; j++) { if (els[j].scrollIntoView) els[j].scrollIntoView({ block: 'nearest' }); } }, 80);
+    };
+    const cycleTz = () => put({ tz: TZS[(TZS.indexOf(tzKey) + 1) % TZS.length] });
+    const cycleUi = () => put({ ui: UIS[(UIS.indexOf(ui) + 1) % UIS.length] });
+    const toggleSort = () => put({ sort: sortKey === 'weight' ? 'time' : 'weight' });
+    const view = st.view === 'gantt' || st.view === 'help' ? st.view : 'events';
+    const toggleGantt = () => put({ view: view === 'gantt' ? 'events' : 'gantt' });
+    const toggleHelp = () => put({ view: view === 'help' ? 'events' : 'help' });
+    const focusIn = (root, sel) => { const el = root && root.querySelector(sel); if (el) el.focus(); return !!el; };
+
+    // ---- command line
+    const run = (raw) => {
+      let text = String(raw || '').trim();
+      if (text.charAt(0) === ':') text = text.slice(1).trim();
+      if (text.charAt(0) === '/') text = 'grep ' + text.slice(1);
+      const parts = text.split(/\s+/);
+      const c = (parts[0] || '').toLowerCase();
+      const arg = parts.slice(1).join(' ');
+      const a = arg.toLowerCase();
+      const set = (patch, msg) => put(Object.assign({ cmd: '', msg: msg || '' }, patch));
+      if (!c) return set({}, '');
+      if (c === 'radar' && parts.length > 1) return run(parts.slice(1).join(' '));
+      if (c === 'show' || c === 'describe') { const hit = a ? active.find((e) => e.id.indexOf(a) >= 0 || e._hay.indexOf(a) >= 0) : null; return hit ? set({ sel: hit.id, cat: 'all', q: '', view: 'events' }, 'show ' + hit.id) : set({}, a ? '没找到：' + arg : '用法：show 关键词'); }
+      if (c === 'next') return nextEv ? set({ sel: nextEv.id, cat: 'all', q: '' }, 'next → ' + nm(nextEv)) : set({}, '近期没有可报名的比赛');
+      if (c === 'reg') return set({}, regs.length ? '报名截止：' + regs.slice(0, 3).map((e) => nm(e) + ' 剩 ' + tm(e._r - now)).join(' · ') : '暂无临近截止的报名');
+      if (c === 'sudo') return set({}, 'ctf is not in the sudoers file. This incident will be reported.');
+      if (c === 'whoami') return set({}, 'ctf');
+      if (c === 'exit' || c === 'quit') return set({}, 'flag 还没拿到，先别走。');
+      const CA = { all: 'all', '全部': 'all', cn: 'cn', '国内': 'cn', intl: 'intl', '国际': 'intl', ai: 'ai', live: 'live', '进行中': 'live' };
+      if (c === 'filter' || c === 'cat') return CA[a] ? set({ cat: CA[a], sel: null, view: 'events' }, 'filter → ' + CAT_NAME[CA[a]]) : set({}, '用法：filter all | cn | intl | ai | live');
+      if (c === 'grep' || c === 'find') return set({ q: arg, sel: null, view: 'events' }, arg ? 'grep "' + arg + '"' : '已清除搜索');
+      if (c === 'tz') { const k = { bj: 'bj', cst: 'bj', '北京': 'bj', tk: 'tk', jst: 'tk', '东京': 'tk', utc: 'utc' }[a]; return k ? set({ tz: k }, 'tz → ' + TZ[k].label) : set({}, '用法：tz bj | tk | utc'); }
+      if (c === 'sort') return set({ sort: a === 'weight' ? 'weight' : 'time' }, 'sort → ' + (a === 'weight' ? '权重' : '时间'));
+      if (c === 'ui' || c === 'theme') { const k = { tui: 'tui', a: 'tui', rice: 'rice', desktop: 'rice', b: 'rice', hud: 'hud', c: 'hud' }[a]; return k ? set({ ui: k }, '') : set({}, '用法：ui rice | tui | hud'); }
+      if (c === 'gantt' || c === 'timeline') return set({ view: 'gantt', ui: 'tui' }, '时间轴视图，再输入 ls 返回列表');
+      if (c === 'ls' || c === 'events') return set({ view: 'events' }, '');
+      if (c === 'help' || c === '?') return ui === 'tui' ? set({ view: 'help' }, '') : set({}, 'filter all|cn|intl|ai|live · grep 关键词 · show 关键词 · next · sort time|weight · tz bj|tk|utc · ui rice|tui|hud · open · reset');
+      if (c === 'open') { openSel(); return set({}, selEv ? 'open ' + selEv.id : ''); }
+      if (c === 'clear' || c === 'reset') return set({ cat: 'all', q: '', sort: 'time', sel: null, view: 'events' }, '已重置筛选');
+      return set({}, '未知命令：' + c + '（输入 help 查看）');
+    };
+    const rootFrom = (e) => { const t = e && (e.currentTarget || e.target); return t && t.closest ? t.closest('.fx') : null; };
+    const onCmdKey = (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); run(st.cmd); }
+      else if (e.key === 'Escape') { put({ cmd: '', msg: '' }); refocus(rootFrom(e)); }
+      e.stopPropagation();
+    };
+    const onQKey = (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); put({ q: '', sel: null }); refocus(rootFrom(e)); }
+      else if (e.key === 'Enter') { e.preventDefault(); refocus(rootFrom(e)); }
+      e.stopPropagation();
+    };
+    const onKey = (e) => {
+      const t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.ctrlKey || e.metaKey || e.altKey) return;
+      const k = e.key, root = e.currentTarget;
+      const onControl = tag === 'BUTTON' || tag === 'A';
+      let hit = true;
+      if (k === 'j' || k === 'ArrowDown') { move(1, root); refocus(root); }
+      else if (k === 'k' || k === 'ArrowUp') { move(-1, root); refocus(root); }
+      else if (k === 'o' || (k === 'Enter' && !onControl)) openSel();
+      else if (k === '/') { if (!focusIn(root, '.fx-q')) { put({ cmd: 'grep ' }); focusIn(root, '.fx-cmd'); } }
+      else if (k === ':') focusIn(root, '.fx-cmd') || focusIn(root, '.fx-q');
+      else if (k >= '1' && k <= '5') put({ cat: CATS[Number(k) - 1], sel: null });
+      else if (k === 't') cycleTz();
+      else if (k === 's') toggleSort();
+      else if (k === 'g' && ui === 'tui') toggleGantt();
+      else if (k === '?' && ui === 'tui') toggleHelp();
+      else if (k === '?') run('help');
+      else if (k === 'w') { const a = root.querySelector('a.fx-weekly'); if (a) a.click(); }
+      else if (k === 'u') cycleUi();
+      else if (k === 'Escape') put({ modal: false, view: 'events' });
+      else hit = false;
+      if (hit && e.preventDefault) e.preventDefault();
+    };
+
+    // ---- shared view models
+    const rows = list.map((e) => ({
+      start: e.startTxt, tminus: e.tminus, name: e.name, short: (e.feat ? '★ ' : '') + nm(e), full: (e.feat ? '★ ' : '') + e.name, cat: e.cat, catColor: e.catColor, fmt: e.fmtTxt, weight: e.weightTxt,
+      acc: ACC[e.access] || ACC.unknown, status: e.statusText, sc: KC[e.kind], sc2: e.kind === 'wait' ? DIM : KC[e.kind], cls: e === selEv ? 'is-sel' : '', pick: pick(e.id),
+    }));
+
+    let next = { name: '—', short: '—', range: '', meta: '', dd: '00', hh: '00', mm: '00', ss: '00', pick: () => {} };
+    if (nextEv) {
+      const c = cdParts(nextEv._s - now);
+      next = {
+        name: nextEv.name, short: nm(nextEv), range: nextEv.range,
+        meta: [nextEv.cat, nextEv.fmtTxt, nextEv.loc, nextEv.hasW ? '权重 ' + nextEv.weightTxt : ''].filter(Boolean).join(' · '),
+        dd: c.dd, hh: c.hh, mm: c.mm, ss: c.ss, pick: pick(nextEv.id),
+      };
+    }
+
+    const liveList = live.filter((e) => e.prec !== 'window').map((e) => {
+      const p = e.noProg ? 0 : e.pct;
+      return {
+        name: nm(e), cat: e.cat, catColor: e.catColor, pct: p.toFixed(1) + '%', bgsz: (p > 0.5 ? Math.round(10000 / p) : 100) + '% 100%',
+        pctLabel: e.noProg ? '??' : (e.prec === 'approx' ? '~' : '') + Math.round(p) + '%',
+        eta: e._e != null ? '剩 ' + tm(e._e - now) : '进行中', cls: e === selEv ? 'is-sel' : '', pick: pick(e.id),
+      };
+    });
+    const regList = regs.slice(0, 4).map((e) => { const r = at(e._r, off); return { name: nm(e), when: md(r) + ' ' + hm(r), rel: tm(e._r - now), pick: pick(e.id) }; });
+    const aiList = aiAll.sort((a, b) => RANK[a.status] - RANK[b.status] || (a._s || 0) - (b._s || 0)).map((e) => ({
+      name: nm(e), status: e.status === 'upcoming' ? 'T-' + e.tminus : (e.status === 'live' ? 'LIVE' : e.statusText), sc: KC[e.kind], cls: e === selEv ? 'is-sel' : '', pick: pick(e.id),
+    }));
+
+    // ---- detail of the selected event
+    let det = { id: '—', name: '', cat: '', catColor: FG, badge: '', status: '', sc: FG, range: '', kv: [], kvShort: [], linksShort: [], note: '', hasNote: false, url: '#', hasUrl: false, links: [], hasCd: false, cdLabel: '', dd: '00', hh: '00', mm: '00', ss: '00' };
+    if (selEv) {
+      const e = selEv;
+      const kv = [{ k: '时间', v: e.range, c: HI }];
+      if (e._s != null && e._e != null && e.prec === 'time') kv.push({ k: '时长', v: dur(e._e - e._s), c: FG });
+      kv.push({ k: '赛制', v: (e.fmt || []).join(' · ') || '—', c: FG });
+      if (e.tags && e.tags.length) kv.push({ k: '方向', v: e.tags.join(' · '), c: FG });
+      if (e.loc) kv.push({ k: '地点', v: e.loc, c: FG });
+      if (e.team) kv.push({ k: '队伍', v: e.team, c: FG });
+      kv.push({ k: '资格', v: (ACC_LONG[e.access] || ACC_LONG.unknown) + (e.access_note ? ' · ' + e.access_note : ''), c: e.restricted ? DIM : FG });
+      if (e._r != null) {
+        const r = at(e._r, off);
+        kv.push({ k: '报名', v: e.regOpen ? '截止 ' + md(r) + ' ' + hm(r) + '（还剩 ' + rel(e._r - now) + '）' + (e.reg_conf ? ' · 待确认' : '') : '已截止', c: e.regOpen ? WARN : DIM });
+      }
+      if (e.prize) kv.push({ k: '奖励', v: e.prize, c: FG });
+      if (e.hasW) kv.push({ k: '权重', v: 'CTFtime ' + e.weightTxt, c: FG });
+      if (e.org) kv.push({ k: '主办', v: e.org, c: FG });
+      kv.push({ k: '来源', v: (e.src || '—') + (CONF[e.conf] ? '（' + CONF[e.conf] + '）' : ''), c: DIM });
+      const links = [];
+      if (e.url) links.push({ t: (e.url.indexOf('ctftime.org') >= 0 ? 'CTFtime 页面' : '官方页面') + ' ↗', u: e.url, cls: 'is-pri' });
+      (e.links || []).forEach((l) => { if (l && l.u) links.push({ t: (l.t || '链接') + ' ↗', u: l.u, cls: '' }); });
+      if (e.src_url && e.src_url !== e.url) links.push({ t: '信息来源 ↗', u: e.src_url, cls: '' });
+      const target = e.status === 'upcoming' && e.prec !== 'window' ? e._s : (e.status === 'live' && e._e != null ? e._e : null);
+      const c = cdParts((target || now) - now);
+      det = {
+        id: e.id, name: e.name, cat: e.cat, catColor: e.catColor, badge: (e.feat ? '★ 重点 · ' : '') + e.cat + ' · ' + e.statusText,
+        status: e.statusText, sc: KC[e.kind], range: e.range, kv: kv, note: e.note || '', hasNote: !!e.note,
+        kvShort: ['时间', '赛制', '资格', '报名', '奖励', '权重', '地点', '队伍'].map((k) => kv.find((x) => x.k === k)).filter(Boolean).slice(0, 5), linksShort: links.slice(0, 1),
+        url: e.url || '#', hasUrl: !!e.url, links: links,
+        hasCd: target != null, cdLabel: e.status === 'live' ? '距结束' : '距开赛', dd: c.dd, hh: c.hh, mm: c.mm, ss: c.ss,
+      };
+    }
+
+    // ---- 60-day start histogram
+    const counts = [];
+    for (let i = 0; i < 60; i++) counts.push(0);
+    upcoming.forEach((e) => { const i = Math.floor((e._s - midnight) / DAY); if (i >= 0 && i < 60) counts[i]++; });
+    const maxC = Math.max.apply(null, counts.concat([1]));
+    const hist = counts.map((n) => ({ h: Math.round(10 + (n / maxC) * 90) + '%', o: n ? '1' : '0.25' }));
+    const bi = counts.indexOf(maxC);
+    const bp = at(midnight + bi * DAY + 12 * HOUR, off);
+    const busiest = counts[bi] ? md(bp) + ' ' + WD[bp.wd] + ' · ' + counts[bi] + ' 场' : '—';
+    const pairs = [];
+    for (let i = 0; i < 60; i += 2) pairs.push(counts[i] + counts[i + 1]);
+    const maxP = Math.max.apply(null, pairs.concat([1]));
+    const spark = pairs.map((v) => (v ? '▂▃▄▅▆▇█'.charAt(Math.min(6, Math.round(v / maxP * 6))) : '▁')).join('');
+
+    // ---- freshness / clock
+    const upd = P.meta.updated_at ? Date.parse(P.meta.updated_at) : NaN;
+    const updP = isNaN(upd) ? null : at(upd, off);
+    const freshLabel = updP ? md(updP) + ' ' + hm(updP) : '未知';
+    const ageH = isNaN(upd) ? 999 : (now - upd) / HOUR;
+    const freshAgo = isNaN(upd) ? '—' : (ageH < 1 ? '刚刚' : (ageH < 48 ? Math.floor(ageH) + ' 小时前' : Math.floor(ageH / 24) + ' 天前'));
+
+    const w7 = within(7), w30 = within(30);
+    const catBtns = CATS.map((k) => ({
+      label: CAT_NAME[k], count: String(active.filter((e) => inCat(e, k) && passQ(e)).length),
+      cls: catKey === k ? 'is-on' : '', on: catKey === k, pick: () => put({ cat: k, sel: null }),
+    }));
+
+    // ---- TUI
+    const keyBtn = (k, d, fn, on) => ({ k: k, d: d, cls: on ? 'is-on' : '', pick: fn });
+    const rootOf = (e) => (e && e.currentTarget && e.currentTarget.closest ? e.currentTarget.closest('.fx') : null);
+    const aKeys1 = CATS.map((k, i) => keyBtn('<' + (i + 1) + '>', CAT_NAME[k], () => put({ cat: k, sel: null, view: 'events' }), catKey === k));
+    const aKeys2 = [
+      keyBtn('<' + '/>', '搜索 grep', (e) => { put({ cmd: 'grep ' }); focusIn(rootOf(e), '.fx-cmd'); }),
+      keyBtn('<j/k>', '上下移动', (e) => move(1, rootOf(e))),
+      keyBtn('<o>', '打开官网', openSel),
+      keyBtn('<g>', view === 'gantt' ? '返回列表' : '时间轴', toggleGantt, view === 'gantt'),
+      keyBtn('<s>', '排序：' + (sortKey === 'weight' ? '权重' : '时间'), toggleSort),
+    ];
+    const aKeys3 = [
+      keyBtn('<t>', '时区：' + TZ[tzKey].btn, cycleTz),
+      keyBtn('<u>', '换界面', cycleUi),
+      keyBtn('<:>', '命令行', (e) => focusIn(rootOf(e), '.fx-cmd')),
+      keyBtn('<?>', '帮助', toggleHelp, view === 'help'),
+    ];
+    const helpLines = [
+      { k: 'j / k / ↑ ↓', d: '上下移动光标' },
+      { k: 'o / enter', d: '打开选中比赛的官网' },
+      { k: '1 – 5', d: '全部 / 国内 / 国际 / AI 安全 / 进行中' },
+      { k: '/  或  grep 词', d: '搜索名称、主办、赛制' },
+      { k: 's', d: '排序在「时间」和「CTFtime 权重」间切换' },
+      { k: 'g', d: '时间轴视图' },
+      { k: 't  或  tz utc', d: '切换时区：北京 / 东京 / UTC' },
+      { k: 'u  或  ui hud', d: '换界面：rice / tui / hud' },
+      { k: 'filter ai', d: '按类别筛选：all cn intl ai live' },
+      { k: 'reset', d: '清除筛选和搜索' },
+      { k: 'esc', d: '关闭帮助 / 弹层' },
+    ];
+    const aCrumbs = [{ t: '<' + (view === 'gantt' ? 'timeline' : (view === 'help' ? 'help' : 'events')) + '>', bg: 'var(--acc2)' }, { t: '<' + CAT_NAME[catKey] + '>', bg: 'var(--acc)' }];
+    if (q) aCrumbs.push({ t: '<' + '/' + q + '>', bg: 'var(--warn)' });
+    const gp = (ms) => Math.max(0, Math.min(100, (ms - g0) / gSpan * 100));
+    const gantt = gEvs.map((e) => ({
+      name: nm(e), start: e.name + ' · ' + e.range, color: e.catColor, left: gp(e._s).toFixed(2) + '%', width: Math.max(0.5, gp(e._e) - gp(e._s)).toFixed(2) + '%',
+      op: e.restricted ? '0.4' : '1', cls: e === selEv ? 'is-sel' : '', pick: pick(e.id),
+    }));
+    const gTicks = [];
+    for (let i = 0; i < 62; i++) { const p = at(g0 + i * DAY, off); if (p.wd === 1) gTicks.push({ left: (i / 62 * 100).toFixed(2) + '%', label: md(p) }); }
+
+    // ---- rice
+    const bFetch = [
+      { k: '下一场', v: next.short + ' · T-' + next.dd + 'd ' + next.hh + ':' + next.mm + ':' + next.ss, c: OK },
+      { k: '进行中', v: live.length + ' 场', c: HI },
+      { k: '7 天内', v: w7.length + ' 场开赛', c: HI },
+      { k: '30 天内', v: (live.length + w30.length) + ' 场在射程内', c: HI },
+      { k: '报名', v: regs.length ? regs.length + ' 场即将截止' : '暂无截止提醒', c: regs.length ? WARN : DIM },
+      { k: 'AI 安全', v: aiAll.length + ' 场 / 靶场', c: 'var(--ai)' },
+      { k: '已收录', v: evs.length + ' 条 · ' + (P.sources || []).length + ' 个数据源', c: FG },
+      { k: '同步', v: freshLabel + ' · ' + freshAgo, c: FG },
+    ];
+
+    // ---- hud
+    const hudRow = (e) => ({ when: e.startTxt, name: nm(e), tag: e.hasW ? 'W ' + e.weightTxt : (e.restricted ? '限定' : e.cat), color: e.restricted ? DIM : e.catColor, cls: e === selEv ? 'is-sel' : '', pick: pick(e.id) });
+    const pool = upcoming.filter((e) => inCat(e, catKey === 'live' ? 'all' : catKey));
+    const cWeek = pool.filter((e) => e._s - now <= 7 * DAY).map(hudRow);
+    const cLater = pool.filter((e) => e._s - now > 7 * DAY && e._s - now <= 60 * DAY).map(hudRow);
+    const cTicker = [];
+    if (nextEv) cTicker.push({ a: nm(nextEv), b: 'T-' + next.dd + ':' + next.hh + ':' + next.mm + ':' + next.ss, c: 'var(--acc)' });
+    regs.slice(0, 2).forEach((e) => cTicker.push({ a: nm(e) + ' 报名', b: '剩 ' + tm(e._r - now), c: WARN }));
+    upcoming.filter((e) => e.hasW && isOpen(e)).sort((a, b) => b.weight - a.weight).slice(0, 3).forEach((e) => cTicker.push({ a: nm(e), b: 'W ' + e.weightTxt + ' · T-' + e.tminus, c: 'var(--acc)' }));
+    if (live.length) cTicker.push({ a: '进行中 ' + live.length + ' 场', b: live.slice(0, 2).map(nm).join(' / '), c: 'var(--acc2)' });
+    if (!cTicker.length) cTicker.push({ a: '暂无近期赛事', b: '等待下次巡检', c: DIM });
+    // runway geometry — mirrors the CSS: .hd-run perspective = 1.18 x stage height, origin 50% 7%; .hd-floor 220% wide, 270% of the stage height deep, rotateX(70deg)
+    const RW = { P: 520, SIN: 0.9397, COS: 0.342, L: 1200, NOW: 120, W: 600, H: 440, FW: 1320, OY: 30.8 };
+    // stage size estimate from the window (mirrors the .hd layout) so label placement matches what is on screen
+    let vw = 1440, vh = 900;
+    try { vw = window.innerWidth || vw; vh = window.innerHeight || vh; } catch (err) {}
+    RW.W = vw > 1100 ? Math.max(300, vw - 52 - (vw > 1360 ? 796 : 676)) : Math.max(240, vw - (vw > 640 ? 52 : 28));
+    RW.H = vw > 1100 ? Math.max(260, Math.max(vh, 740) - 444) : 300;
+    RW.FW = RW.W * 2.2;
+    RW.OY = RW.H * 0.07;
+    RW.P = RW.H * 1.18;
+    RW.L = RW.H * 2.7;
+    RW.NOW = RW.L * 0.1;
+    const maxLab = RW.W < 420 ? 2 : (RW.W < 760 ? 6 : 9);
+    const sAt = (d) => RW.P / (RW.P + d * RW.SIN);
+    const yAt = (d) => RW.OY + (RW.H - d * RW.COS - RW.OY) * sAt(d);
+    const dAt = (days) => RW.NOW + (RW.L - RW.NOW) * Math.sqrt(Math.max(0, Math.min(60, days)) / 60);
+    const LANE = { cn: -15.5, intl: 0, ai: 15.5 }, JIT = { cn: 8, intl: 15, ai: 8 };
+    const txtW = (t) => { let w = 0; for (let i = 0; i < t.length; i++) w += t.charCodeAt(i) > 0x2e7f ? 11.5 : 6.9; return w; };
+    const gates = [{ d: RW.NOW * 0.88, label: '现在' }, { d: dAt(7), label: '7 天' }, { d: dAt(14), label: '14 天' }, { d: dAt(30), label: '30 天' }];
+    // approximate on-screen boxes (inside a 600 x 440 stage) — only used to keep labels from colliding
+    const boxes = gates.map((g) => { const x1 = RW.W / 2 - 0.2 * RW.FW * sAt(g.d), y = yAt(g.d); return { x0: x1 - txtW(g.label) - 16, x1: x1, y0: y - 18, y1: y + 3 }; });
+    boxes.push({ x0: 0, x1: RW.W * 0.07 + 160, y0: 0, y1: 22 }, { x0: RW.W * 0.93 - 110, x1: RW.W, y0: 0, y1: 22 });
+    const pil = live.filter((e) => e.prec !== 'window').concat(upcoming.filter((e) => e._s - now <= 60 * DAY)).map((e) => {
+      const isLive = e.status === 'live';
+      const d = isLive ? (0.028 + hash(e.id + 'd') * 0.044) * RW.L : dAt((e._s - now) / DAY);
+      const sc = sAt(d);
+      const xPct = LANE[e.ck] + (hash(e.id) - 0.5) * JIT[e.ck];
+      const label = nm(e), sub = isLive ? '进行中' : e.tminus;
+      return { e: e, d: d, sc: sc, hS: (40 + (e.hasW ? e.weight * 0.45 : 6)) * Math.max(0.7, Math.min(1.3, RW.H / 440)), xPct: xPct, sx: RW.W / 2 + xPct / 100 * RW.FW * sc, by: yAt(d), label: label, sub: sub, lw: txtW(label + ' ' + sub) + 20, isLive: isLive, hasLabel: false };
+    });
+    const tryLabel = (q, force) => {
+      const tries = force ? [1] : [1, 1.7, 0.55, 2.4];
+      for (let i = 0; i < tries.length; i++) {
+        const top = q.by - q.hS * tries[i] * Math.pow(q.sc, 0.65);
+        const b = { x0: q.sx - q.lw / 2 - 4, x1: q.sx + q.lw / 2 + 4, y0: top - 34, y1: top - 4 };
+        const ok = force || (b.x0 > RW.W * 0.06 && b.x1 < RW.W * 0.94 && b.y0 > 4 && !boxes.some((o) => b.x0 < o.x1 && b.x1 > o.x0 && b.y0 < o.y1 && b.y1 > o.y0));
+        if (ok) { boxes.push(b); q.hS = q.hS * tries[i]; q.hasLabel = true; return true; }
+      }
+      return false;
+    };
+    const selP = pil.find((q) => q.e === selEv);
+    if (selP) {
+      // keep the selected label inside the stage even for far-away targets
+      const room = (selP.by - 40) / Math.pow(selP.sc, 0.65);
+      if (selP.hS > room) selP.hS = Math.max(4, room);
+      tryLabel(selP, true);
+    }
+    let nLab = 0;
+    pil.filter((q) => q !== selP && !q.isLive && isOpen(q.e))
+      .sort((a, b) => ((b.e === nextEv ? 1 : 0) - (a.e === nextEv ? 1 : 0)) || ((b.e.feat ? 1 : 0) - (a.e.feat ? 1 : 0)) || ((b.e.ck !== 'intl' ? 1 : 0) - (a.e.ck !== 'intl' ? 1 : 0)) || ((b.e.weight || 0) - (a.e.weight || 0)) || (a.d - b.d))
+      .slice(0, 24).forEach((q) => { if (nLab < maxLab && tryLabel(q, false)) nLab++; });
+    const cPillars = pil.map((q) => ({
+      left: (50 + q.xPct).toFixed(2) + '%', top: ((1 - q.d / RW.L) * 100).toFixed(2) + '%', h: Math.round(q.hS / Math.pow(q.sc, 0.35)) + 'px',
+      fs: (11.5 / q.sc).toFixed(1) + 'px', pfs: (11.5 / Math.pow(q.sc, 0.5)).toFixed(1) + 'px',
+      op: (q.e === selEv || q.hasLabel ? 1 : Math.max(0.42, Math.min(1, 1.12 - 0.72 * q.d / RW.L))).toFixed(2),
+      color: q.e.restricted ? '#5f7f92' : q.e.catColor, cls: q.e === selEv ? 'is-sel' : '', hasLabel: q.hasLabel, label: q.label, sub: q.sub,
+      title: q.e.name + ' · ' + q.e.range, pick: pick(q.e.id),
+    }));
+    const cGates = gates.map((g) => {
+      const sc = sAt(g.d);
+      return { top: ((1 - g.d / RW.L) * 100).toFixed(2) + '%', th: (3.2 / sc).toFixed(1) + 'px', fs: (11 / sc).toFixed(1) + 'px', label: g.label };
+    });
+    const cLanes = [{ k: 'cn', label: '国内' }, { k: 'intl', label: '国际' }, { k: 'ai', label: 'AI' }].map((l) => ({ left: (50 + LANE[l.k] * 2.2).toFixed(1) + '%', label: l.label, color: 'var(--' + l.k + ')' }));
+    const cStats = [
+      { en: 'LIVE', cn: '进行中', v: pad(live.length), c: 'var(--acc)' },
+      { en: 'T-7D', cn: '7 天内开赛', v: pad(w7.length), c: HI },
+      { en: 'HORIZON 30D', cn: '30 天内', v: pad(live.length + w30.length), c: HI },
+      { en: 'REG CLOSING', cn: '报名将截止', v: pad(regs.length), c: WARN },
+      { en: 'AI-SEC', cn: 'AI 安全', v: pad(aiAll.length), c: 'var(--acc2)' },
+    ];
+
+    return {
+      rootCls: 'ui-' + ui, isRice: ui === 'rice', isTui: ui === 'tui', isHud: ui === 'hud',
+      uiBtns: UIS.map((k, i) => ({ n: String(i + 1), label: UI_SHORT[k], title: '切换到「' + UI_NAME[k] + '」', cls: ui === k ? 'is-on' : '', on: ui === k, pick: () => put({ ui: k }) })),
+      tzBtns: TZS.map((k) => ({ label: TZ[k].btn, title: TZ[k].label + ' ' + TZ[k].short, cls: tzKey === k ? 'is-on' : '', on: tzKey === k, pick: () => put({ tz: k }) })),
+      tzShort: TZ[tzKey].short, tzIana: TZ[tzKey].iana,
+      clockDate: md(nowP) + ' ' + WD[nowP.wd], clockTime: hm(nowP) + ':' + pad(nowP.s),
+      freshLabel: freshLabel, freshAgo: freshAgo,
+      nLive: String(live.length), nReg: String(regs.length), nTotal: String(evs.length), nMonth: String(live.length + w30.length), nList: String(list.length),
+      nLive2: pad(live.length), nReg2: pad(regs.length), nAi2: pad(aiAll.length), nWeek2: pad(cWeek.length), nMonth2: pad(cLater.length),
+      catBtns: catBtns, catName: CAT_NAME[catKey],
+      q: st.q || '', onQuery: (e) => put({ q: e && e.target ? e.target.value : '', sel: null }),
+      sortLabel: sortKey === 'weight' ? '权重' : '时间', sortMark: sortKey === 'time' ? '↑' : '', sortMarkW: sortKey === 'weight' ? '↓' : '',
+      rows: rows, noRows: rows.length === 0, selPos: (selIdx >= 0 ? selIdx + 1 : 0) + '/' + list.length,
+      next: next, hasNext: !!nextEv, noNext: !nextEv,
+      liveList: liveList, noLive: liveList.length === 0,
+      regList: regList, noReg: regList.length === 0, regLine: regList.length ? regList.map((r) => r.name + ' ' + r.rel).join(' · ') : '暂无',
+      aiList: aiList,
+      det: det, hasDet: !!selEv,
+      hist: hist, busiest: busiest,
+      flagCells: this.art().flag, tuLogo: this.art().tu, bFetch: bFetch, spark: spark,
+      aKeys1: aKeys1, aKeys2: aKeys2, aKeys3: aKeys3, helpLines: helpLines, aCrumbs: aCrumbs,
+      aTitle: view === 'gantt' ? 'timeline' : 'events', aEvents: view !== 'gantt', aGantt: view === 'gantt',
+      aSideTitle: view === 'help' ? 'help' : 'describe', aSideSub: view === 'help' ? 'keys' : det.id, aDesc: view !== 'help', aHelp: view === 'help',
+      gantt: gantt, gTicks: gTicks, gNow: gp(now).toFixed(2) + '%',
+      cmd: st.cmd || '', onCmd: (e) => put({ cmd: e && e.target ? e.target.value : '' }), onCmdKey: onCmdKey, onQKey: onQKey, msg: st.msg || '', hasMsg: !!st.msg,
+      cPersp: Math.round(RW.P) + 'px', cTicker: cTicker, cWeek: cWeek, noWeek: cWeek.length === 0, cLater: cLater, cPillars: cPillars, cGates: cGates, cLanes: cLanes, cStats: cStats,
+      modalOpen: !!st.modal && !!selEv, openModal: () => put({ modal: true }), closeModal: () => put({ modal: false }),
+      onKey: onKey,
+    };
+  }
+}
+</script>
+</body>
+</html>

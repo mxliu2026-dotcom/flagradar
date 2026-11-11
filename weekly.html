@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本周赛事速览 · FLAGRADAR</title>
+<meta name="description" content="未来 7 天的 CTF 与 AI 安全赛事速览海报，手机截图即可发群。">
+<meta name="theme-color" content="#020403">
+<meta property="og:type" content="website">
+<meta property="og:title" content="本周赛事速览 · FLAGRADAR">
+<meta property="og:description" content="未来 7 天的 CTF 与 AI 安全赛事速览海报，手机截图即可发群。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+html{background:#020403}
+body{margin:0;background:#020403}
+.boot-msg{margin:0;padding:40px 24px;color:#72877B;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace}
+#bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 16px;min-height:44px;padding:0 14px;border-bottom:1px solid rgba(59,255,133,.36);background:#070B08;color:#9FB3A6;font:12.5px/1.5 'JetBrains Mono','Noto Sans SC',ui-monospace,Menlo,Consolas,'PingFang SC','Microsoft YaHei',monospace}
+#bar a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px;color:#3BFF85;font-weight:700;text-decoration:none}
+#bar[hidden]{display:none}
+#stage{position:relative;margin:0 auto;overflow:hidden;cursor:pointer}
+#app{width:1080px;height:2160px;transform-origin:0 0}
+</style>
+</head>
+<body>
+<div id="bar"><a href="./">&larr; FLAGRADAR</a><span>手机打开本页截图即可发群 · 点一下海报可隐藏本栏</span></div>
+<div id="stage" title="点一下隐藏 / 显示顶栏"><div id="app"><p class="boot-msg">loading ...</p></div></div>
+<noscript><p class="boot-msg">需要开启 JavaScript 才能显示海报。</p></noscript>
+<script src="rt.js"></script>
+<script>
+(function () {
+  'use strict';
+  var bar = document.getElementById('bar'), stage = document.getElementById('stage'), app = document.getElementById('app');
+  // the poster is a fixed 1080 x 2160 sheet: scale it to the window (whole poster on a phone, 720px wide on desktop)
+  function fit() {
+    var bh = bar.hidden ? 0 : bar.offsetHeight;
+    var w = document.documentElement.clientWidth, h = window.innerHeight;
+    var k = w < 700 ? Math.min(w / 1080, (h - bh) / 2160) : Math.min(720, w) / 1080;
+    k = Math.max(0.15, Math.min(1, k));
+    stage.style.width = Math.floor(1080 * k) + 'px';
+    stage.style.height = Math.floor(2160 * k) + 'px';
+    app.style.transform = 'scale(' + k + ')';
+  }
+  stage.addEventListener('click', function () { bar.hidden = !bar.hidden; fit(); });
+  window.addEventListener('resize', fit);
+  fit();
+  window.FLAGRADAR_PAGE = { file: 'Weekly.dc.html', ready: fit };
+})();
+</script>
+<script src="boot.js"></script>
+</body>
+</html>

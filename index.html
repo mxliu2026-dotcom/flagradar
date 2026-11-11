@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLAGRADAR · CTF 与 AI 安全赛事雷达</title>
+<meta name="description" content="自动聚合近期 CTF、国内网络安全赛事与 AI 安全 / 智能体挑战赛：倒计时、时间轴、报名截止提醒，定期自动巡检更新。">
+<meta name="theme-color" content="#0b0d13">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FLAGRADAR · CTF 与 AI 安全赛事雷达">
+<meta property="og:description" content="自动聚合近期 CTF、国内网络安全赛事与 AI 安全 / 智能体挑战赛：倒计时、时间轴、报名截止提醒，定期自动巡检更新。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+html{background:#0b0d13}
+body{margin:0}
+.boot-msg{margin:0;padding:40px 24px;color:#8089b3;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace}
+</style>
+</head>
+<body>
+<div id="app"><p class="boot-msg">loading flagradar ...</p></div>
+<noscript><p class="boot-msg">需要开启 JavaScript 才能显示赛事列表。</p></noscript>
+<script src="rt.js"></script>
+<script>
+(function () {
+  'use strict';
+  var KEY = 'flagradar:prefs', UIS = { rice: 1, tui: 1, hud: 1 };
+  function loadPrefs() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
+  }
+  window.FLAGRADAR_PAGE = {
+    file: 'Main.dc.html',
+    // remembers the chosen interface and time zone on this device; ?ui=rice|tui|hud in the address overrides it
+    options: function () {
+      var prefs = loadPrefs(), init = {}, last = '';
+      var want = new URLSearchParams(location.search).get('ui');
+      if (UIS[want]) init.ui = want;
+      else if (UIS[prefs.ui]) init.ui = prefs.ui;
+      if (prefs.tz) init.tz = prefs.tz;
+      return {
+        initState: init,
+        onState: function (st) {
+          var sig = (st.ui || '') + '|' + (st.tz || '');
+          if (sig === last) return;
+          last = sig;
+          try {
+            var p = loadPrefs();
+            if (st.ui) p.ui = st.ui;
+            if (st.tz) p.tz = st.tz;
+            localStorage.setItem(KEY, JSON.stringify(p));
+          } catch (e) {}
+        }
+      };
+    },
+    // keyboard shortcuts work right away, without a first click
+    ready: function (comp, app) {
+      var fx = app.querySelector('.fx');
+      if (fx) { try { fx.focus({ preventScroll: true }); } catch (e) {} }
+    }
+  };
+})();
+</script>
+<script src="boot.js"></script>
+</body>
+</html>

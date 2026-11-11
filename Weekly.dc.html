@@ -1,0 +1,1537 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>本周赛事速览</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&amp;family=Noto+Sans+SC:wght@400;500;700;900&amp;display=swap">
+<style>
+body{margin:0;background:#040605}
+a{color:#3BFF85}
+a:hover{color:#C6FFDB}
+.wk{--bg:#040605;--bg1:#070B08;--fg:#DDE9E0;--fg2:#9FB3A6;--fg3:#72877B;--acc:#3BFF85;--acc-rgb:59,255,133;--ink:#031207;--cn:#FFB02E;--intl:#5CCBFF;--ai:#DA8FFF;--warn:#FFC24A;--line:rgba(var(--acc-rgb),.2);--line2:rgba(var(--acc-rgb),.42)}
+.wk.ph-amber{--acc:#FFB02E;--acc-rgb:255,176,46;--ink:#160C00;--cn:#5EF28F;--warn:#FF8A5C}
+.wk.ph-cyan{--acc:#52E0FF;--acc-rgb:82,224,255;--ink:#00141B;--intl:#5EF28F}
+.wk.ph-white{--acc:#E6F0E9;--acc-rgb:230,240,233;--ink:#0A0F0C}
+.wk *{box-sizing:border-box}
+.wk-pane{position:relative;border:1px solid var(--line2);background:rgba(6,10,8,.84)}
+.wk-pane::before,.wk-pane::after{content:'';position:absolute;width:18px;height:18px;border:0 solid var(--acc)}
+.wk-pane::before{top:-1px;left:-1px;border-top-width:2px;border-left-width:2px}
+.wk-pane::after{right:-1px;bottom:-1px;border-right-width:2px;border-bottom-width:2px}
+.wk-clamp2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.wk-1l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+</style>
+</helmet>
+<div class="wk {{rootCls}}" style="position: relative; width: 1080px; height: 2160px; overflow: hidden; background: var(--bg); color: var(--fg); font-family: 'JetBrains Mono', 'Noto Sans SC', ui-monospace, Menlo, Consolas, 'PingFang SC', 'Microsoft YaHei', monospace; font-size: 25px; line-height: 1.5; -webkit-font-smoothing: antialiased;">
+
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 1080px; height: 720px; background: radial-gradient(ellipse 70% 60% at 22% 30%, rgba(var(--acc-rgb), 0.1) 0%, rgba(var(--acc-rgb), 0) 70%);"></div>
+
+<div style="position: relative; display: flex; flex-direction: column; height: 100%; padding: 60px;">
+
+<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; height: 70px;">
+<div role="img" aria-label="FLAGRADAR" style="display: grid; grid-template-columns: repeat(53, minmax(0, 1fr)); width: 530px;">
+<sc-for list="{{wmCells}}" as="c" hint-placeholder-count="53">
+<span style="aspect-ratio: 1 / 1; padding: {{c.p}}; background-color: {{c.c}}; background-clip: content-box;"></span>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 22px; line-height: 1.4; letter-spacing: 0.14em; color: var(--fg3); white-space: nowrap;">
+<span style="padding: 1px 12px; background: var(--acc); color: var(--ink); font-weight: 800;">WEEKLY BRIEF</span>
+<span>{{weekLabel}}</span>
+</div>
+</div>
+
+<div aria-hidden="true" style="margin-top: 44px; height: 75px; font-size: 25px; line-height: 1.5; white-space: nowrap;">
+<div><span style="color: var(--acc);">┌──(</span><span style="font-weight: 700; color: var(--intl);">ctf㉿flagradar</span><span style="color: var(--acc);">)-[</span><span style="font-weight: 700;">~/weekly</span><span style="color: var(--acc);">]</span></div>
+<div><span style="color: var(--acc);">└─</span><span style="font-weight: 700; color: var(--intl);">$</span> radar week <span style="color: var(--fg2);">--from</span> {{fromLabel}} <span style="color: var(--fg2);">--to</span> {{toLabel}} <span style="color: var(--fg2);">--tz Asia/Shanghai</span></div>
+</div>
+
+<h1 style="margin: 26px 0 0; height: 159px; font-size: 150px; font-weight: 900; line-height: 1.06; letter-spacing: -0.01em; white-space: nowrap; text-shadow: 0 0 44px rgba(var(--acc-rgb), 0.28);">本周赛事速览</h1>
+<div style="display: flex; align-items: center; gap: 18px; margin-top: 12px; height: 45px; font-size: 31px; white-space: nowrap;">
+<span style="font-weight: 700; color: var(--acc);">{{rangeLabel}}</span>
+<span style="color: var(--fg2);">北京时间 UTC+8 · 未来 7 天</span>
+</div>
+
+<div class="wk-pane" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 36px; height: 140px; background: var(--line2);">
+<sc-for list="{{stats}}" as="s" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 22px; padding: 0 28px; background: var(--bg1);">
+<span style="font-size: 78px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; color: {{s.color}};"><span style="opacity: 0.4;">{{s.lead}}</span><span>{{s.num}}</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+<span style="font-size: 28px; font-weight: 700; line-height: 1.3;">{{s.label}}</span>
+<span style="font-size: 19px; letter-spacing: 0.14em; color: var(--fg3);">{{s.en}}</span>
+</span>
+</div>
+</sc-for>
+</div>
+
+<sc-if value="{{hasPri}}" hint-placeholder-val="{{ true }}">
+<div class="wk-pane" style="margin-top: 26px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 48px; padding: 0 22px; border-bottom: 1px solid var(--line2); font-size: 21px; letter-spacing: 0.1em; color: var(--fg2); white-space: nowrap;">
+<span style="display: inline-flex; align-items: center; gap: 14px;"><span style="padding: 1px 12px; background: {{pri.color}}; color: #07090A; font-weight: 800;">PRIORITY TARGET</span><span>本周重点</span></span>
+<span style="font-weight: 700; color: {{pri.color}};">{{pri.tagLine}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 22px 22px;">
+<span class="wk-clamp2" style="font-size: 44px; font-weight: 900; line-height: 1.3;">{{pri.name}}</span>
+<span class="wk-1l" style="font-size: 29px; font-weight: 700; line-height: 1.35; color: var(--acc);">{{pri.range}}</span>
+<span class="wk-1l" style="font-size: 25px; line-height: 1.4; color: var(--fg2);">{{pri.meta}}</span>
+<sc-if value="{{pri.hasReg}}" hint-placeholder-val="{{ true }}"><span class="wk-1l" style="display: flex; gap: 12px; font-size: 25px; line-height: 1.4; color: {{pri.regColor}};"><span style="font-weight: 800;">{{pri.regTag}}</span><span>{{pri.reg}}</span></span></sc-if>
+</div>
+</div>
+</sc-if>
+
+<div style="display: flex; align-items: center; gap: 28px; margin-top: 26px; height: 36px; font-size: 19px; letter-spacing: 0.16em; color: var(--fg3); white-space: nowrap;">
+<span style="flex: 0 0 196px;">START</span>
+<span style="flex: 1 1 auto;">TARGET · {{rowsLabel}}</span>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div style="display: flex; align-items: center; gap: 28px; height: 108px; border-top: 1px solid var(--line);">
+<div style="flex: 0 0 196px; display: flex; flex-direction: column; gap: 2px; white-space: nowrap;">
+<span style="font-size: 40px; font-weight: 800; line-height: 1.12;">{{r.dTop}}</span>
+<span style="font-size: 23px; line-height: 1.3; color: var(--fg2);">{{r.dSub}}</span>
+</div>
+<div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 5px;">
+<div style="display: flex; align-items: baseline; gap: 14px; min-width: 0;">
+<span style="flex: 0 0 auto; font-size: 22px; font-weight: 700; color: {{r.color}};">[{{r.catTag}}]</span>
+<span class="wk-1l" style="min-width: 0; font-size: 35px; font-weight: 700; line-height: 1.25;">{{r.name}}</span>
+</div>
+<span class="wk-1l" style="font-size: 23px; line-height: 1.35; color: var(--fg2);">{{r.meta}}</span>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; justify-content: center; gap: 8px; height: 130px; border-top: 1px solid var(--line);">
+<span style="font-size: 35px; font-weight: 700; line-height: 1.3;">{{emptyTitle}}</span>
+<span style="font-size: 25px; line-height: 1.4; color: var(--fg2);">{{emptyHint}}</span>
+</div>
+</sc-if>
+<sc-if value="{{hasAhead}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 28px; margin-top: 26px; height: 36px; font-size: 19px; letter-spacing: 0.16em; color: var(--fg3); white-space: nowrap;">
+<span style="flex: 0 0 196px;">LOOKAHEAD</span>
+<span style="flex: 1 1 auto;">之后 30 天 · {{aheadLabel}}</span>
+</div>
+<sc-for list="{{ahead}}" as="r" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 28px; height: 58px; border-top: 1px solid var(--line); font-size: 27px; white-space: nowrap;">
+<span style="flex: 0 0 196px; font-weight: 800; color: var(--fg2);">{{r.dTop}}</span>
+<span style="flex: 0 0 auto; font-size: 21px; font-weight: 700; color: {{r.color}};">[{{r.catTag}}]</span>
+<span class="wk-1l" style="flex: 1 1 auto; min-width: 0; font-weight: 700;">{{r.name}}</span>
+<span style="flex: 0 0 auto; font-size: 23px; color: var(--fg3);">{{r.meta}}</span>
+</div>
+</sc-for>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 24px; margin-top: auto;">
+<div style="display: flex; flex-direction: column;">
+<sc-for list="{{logs}}" as="l" hint-placeholder-count="3">
+<div style="display: flex; gap: 16px; height: 40px; font-size: 25px; line-height: 40px; min-width: 0;">
+<span style="flex: 0 0 auto; font-weight: 800; color: {{l.c}};">{{l.tag}}</span>
+<span style="flex: 0 0 62px; color: var(--fg3);">{{l.k}}</span>
+<span class="wk-1l" style="flex: 1 1 auto; min-width: 0; color: var(--fg);">{{l.v}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 56px; border: 1px solid var(--line2); background: var(--bg1); font-size: 21px; white-space: nowrap;">
+<span style="display: inline-flex; align-items: center; gap: 16px; height: 100%; min-width: 0;"><span style="display: inline-flex; align-items: center; height: 100%; padding: 0 16px; background: var(--acc); color: var(--ink); font-weight: 800;">[flagradar]</span><span style="color: var(--fg2);">数据更新 {{freshLabel}} · 以主办方公告为准</span></span>
+<span style="padding: 0 16px; color: var(--fg3);">{{flagEgg}}</span>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"phosphor":{"editor":"enum","options":["green","amber","cyan","white"],"default":"green","section":"外观"},"$preview":{"width":1080,"height":2160}}'>
+class Component extends DCLogic {
+  getData() {
+    return (/*@@DATA_BEGIN@@*/{
+"meta": {
+"updated_at": "2026-11-11T01:54:33Z",
+"schedule": "每周一、三、五 06:46（北京时间）自动巡检",
+"coverage": "CTFtime 国际赛 · 国内重点赛事 · AI 红队 / 智能体赛",
+"cron": "46 6 * * 1,3,5",
+"cron_tz": "Asia/Shanghai"
+},
+"sources": [
+{
+"n": "CTFtime",
+"u": "https://ctftime.org/event/list/?year=2026",
+"d": "国际赛主数据源：时间、赛制、权重"
+},
+{
+"n": "Bugku 赛事中心",
+"u": "https://ctf.bugku.com/game/index.html",
+"d": "国际赛补充与交叉核对"
+},
+{
+"n": "CTF 赛事日历",
+"u": "https://ctf.manic.com.cn/",
+"d": "国内赛报名窗口"
+},
+{
+"n": "DigiForensics 比赛日历",
+"u": "https://www.digiforensics.cn/calendar",
+"d": "取证类与警校赛事"
+},
+{
+"n": "强网杯官网",
+"u": "https://qiangwangbei.com/",
+"d": "强网杯赛程、名额与奖金"
+},
+{
+"n": "Gray Swan Arena",
+"u": "https://app.grayswan.ai/arena",
+"d": "AI 红队 / 提示注入赛"
+},
+{
+"n": "HKCERT CTF",
+"u": "https://ctf.hkcert.org/zh",
+"d": "香港赛初赛与决赛"
+},
+{
+"n": "官方公告与报道",
+"u": "https://www.cac.gov.cn/2026-10/10/c_1793384901156532.htm",
+"d": "网信办通知、赛事报道等"
+}
+],
+"events": [
+{
+"id": "tpctf-2026",
+"name": "首届 CCF 网络安全智能挑战赛暨「京华杯」TPCTF 2026",
+"short": "TPCTF 2026",
+"region": "cn",
+"ai": true,
+"feat": true,
+"fmt": [
+"Jeopardy",
+"智能体赛道",
+"人机协同赛道"
+],
+"tags": [
+"Web",
+"Pwn",
+"Reverse",
+"Crypto",
+"Misc",
+"AI 安全"
+],
+"loc": "线上",
+"start": "2026-11-15T10:00:00+08:00",
+"end": "2026-11-22T20:00:00+08:00",
+"prec": "time",
+"reg_end": "2026-11-13T23:18:00+08:00",
+"reg_conf": "single",
+"access": "open",
+"access_note": "高校全日制在校生（含高职、本科、研究生）及网安企业从业人员；同一单位组队",
+"team": "≤4 人",
+"prize": "智能体赛道冠军 2 万元 + 10th Finals 直通券；人机协同赛道冠军 5000 元；获奖颁发 CCF 认证证书",
+"weight": null,
+"org": "中国计算机学会（CCF）主办；清华大学、北京大学承办",
+"url": "https://tpctf2026.xctf.org.cn",
+"links": [
+{
+"t": "CTFy 平台",
+"u": "https://ctfy.tsinghua.edu.cn/competitions"
+}
+],
+"src": "赛事介绍文章 + CTF 赛事日历",
+"src_url": "https://www.shuwu5.cn/article/4582.html",
+"conf": "confirmed",
+"note": "智能体赛道：提交智能体程序，由 AI 独立完成攻防，运行期间无人工介入；人机协同赛道：选手与 AI 工具协作解题，不限模型。第三方日历记为 22:00 结束、报名截止 11/13，均以官网为准。"
+},
+{
+"id": "csaw-final-2026",
+"name": "CSAW CTF Final Round 2026",
+"short": "CSAW Finals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"决赛"
+],
+"loc": "线上",
+"start": "2026-11-12T17:00:00Z",
+"end": "2026-11-14T05:00:00Z",
+"prec": "time",
+"access": "qualified",
+"access_note": "决赛轮，仅限资格赛晋级队伍",
+"weight": 1.0,
+"url": "https://ctftime.org/event/3410",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf.csaw.io/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3410",
+"conf": "confirmed"
+},
+{
+"id": "tvx-2026",
+"name": "TVX CTF 2026",
+"short": "TVX CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-13T10:00:00Z",
+"end": "2026-11-13T20:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3486",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf-techvisions.com/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3486",
+"conf": "confirmed"
+},
+{
+"id": "platypwn-2026",
+"name": "Platypwn 2026",
+"short": "Platypwn",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-13T17:00:00Z",
+"end": "2026-11-14T11:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 37.0,
+"org": "Platypwnies",
+"url": "https://ctftime.org/event/3082",
+"links": [
+{
+"t": "官网",
+"u": "https://platypwnies.de/events/platypwn/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3082",
+"conf": "confirmed",
+"note": "题目从入门到困难都有。部分聚合站仍显示旧时间（11/14–11/15），以 CTFtime 当前时间为准；37.00 为当前评分权重。"
+},
+{
+"id": "battle-of-hackers-2026",
+"name": "International Battle of Hackers 2026",
+"short": "Battle of Hackers",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": "2026-11-14T00:30:00Z",
+"end": "2026-11-14T10:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://battleofhackers.com/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/930.html",
+"conf": "single"
+},
+{
+"id": "h4ckc0n-2026",
+"name": "h4ckc0n 2026",
+"short": "h4ckc0n",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-14T15:30:00Z",
+"end": "2026-11-15T15:30:00Z",
+"prec": "time",
+"access": "open",
+"weight": 24.23,
+"url": "https://ctftime.org/event/3464",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3464",
+"conf": "confirmed"
+},
+{
+"id": "init-ctf-2026",
+"name": "InIt CTF",
+"short": "InIt CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-14T15:30:00Z",
+"end": "2026-11-14T23:30:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3467",
+"links": [
+{
+"t": "官网",
+"u": "https://hackersinindia.com/init-ctf"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3467",
+"conf": "confirmed"
+},
+{
+"id": "eyesopen-7",
+"name": "EyesOpenCTF 7th edition",
+"short": "EyesOpenCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T10:00:00Z",
+"end": "2026-11-22T10:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3419",
+"links": [
+{
+"t": "官网",
+"u": "https://eyesopensecurity.com/ctf-briefing.html"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3419",
+"conf": "confirmed"
+},
+{
+"id": "glacier-2026",
+"name": "GlacierCTF 2026",
+"short": "GlacierCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T18:00:00Z",
+"end": "2026-11-21T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 73.17,
+"org": "LosFuzzys",
+"url": "https://ctftime.org/event/3337",
+"links": [
+{
+"t": "官网",
+"u": "https://glacierctf.com/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3337",
+"conf": "confirmed",
+"note": "第五届，24 小时 Jeopardy；奖品待公布。"
+},
+{
+"id": "wolvctf-2026",
+"name": "WolvCTF 2026",
+"short": "WolvCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T23:00:00Z",
+"end": "2026-11-22T23:00:00Z",
+"prec": "time",
+"access": "open",
+"team": "不限人数",
+"weight": null,
+"org": "w01verines（密歇根大学）",
+"url": "https://ctftime.org/event/3049",
+"links": [
+{
+"t": "官网",
+"u": "https://wolvctf.io/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3049",
+"conf": "confirmed",
+"note": "已延期：原定 11/13，改为美东 11/20 18:00 – 11/22 18:00。分 Open 组与密歇根大学学生组，题目从入门到困难。"
+},
+{
+"id": "outback-overflow-2026",
+"name": "Outback Overflow",
+"short": "Outback Overflow",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-20T23:00:00Z",
+"end": "2026-11-21T23:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3425",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3425",
+"conf": "confirmed"
+},
+{
+"id": "cyber-ninja-2026",
+"name": "Cyber Ninja CTF 2026 – BLACKOUT",
+"short": "Cyber Ninja",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": "2026-11-21T09:00:00Z",
+"end": "2026-11-22T09:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://www.cyber-ninja-ctf.fr/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/961.html",
+"conf": "single"
+},
+{
+"id": "crate-2026",
+"name": "Crate-CTF 2026",
+"short": "Crate-CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-11-21T13:00:00Z",
+"end": "2026-11-21T21:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 37.0,
+"url": "https://ctftime.org/event/3336",
+"links": [
+{
+"t": "官网",
+"u": "https://foi.se/cratectf"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3336",
+"conf": "confirmed"
+},
+{
+"id": "lakectf-quals-2627",
+"name": "LakeCTF Quals 26-27",
+"short": "LakeCTF Quals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"资格赛"
+],
+"loc": "线上",
+"start": "2026-11-27T18:00:00Z",
+"end": "2026-11-28T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 45.76,
+"url": "https://ctftime.org/event/3474",
+"links": [
+{
+"t": "官网",
+"u": "https://lakectf.epfl.ch/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3474",
+"conf": "confirmed"
+},
+{
+"id": "l3m0n-quals-2026",
+"name": "L3m0n CTF 2026 (Quals)",
+"short": "L3m0n Quals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"资格赛"
+],
+"loc": "线上",
+"start": "2026-11-28T04:30:00Z",
+"end": "2026-11-28T16:30:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3485",
+"links": [
+{
+"t": "官网",
+"u": "https://l3m0nctf.xyz/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3485",
+"conf": "confirmed"
+},
+{
+"id": "cybernsk-2027-q",
+"name": "CyberNSK 2027 Qualifier",
+"short": "CyberNSK Quals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"资格赛"
+],
+"loc": "线上",
+"start": "2026-11-28T09:00:00Z",
+"end": "2026-11-28T21:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3489",
+"links": [
+{
+"t": "官网",
+"u": "https://quals.sslctf.ru/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3489",
+"conf": "confirmed"
+},
+{
+"id": "bhmea-final-2026",
+"name": "Black Hat MEA CTF Final 2026",
+"short": "BHMEA Final",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"决赛"
+],
+"loc": "沙特 利雅得（线下）",
+"start": "2026-12-01T00:00:00+03:00",
+"end": "2026-12-03T23:59:00+03:00",
+"prec": "day",
+"access": "qualified",
+"access_note": "仅限 8/29 线上资格赛前 150 名",
+"weight": null,
+"org": "SAFCSP × Black Hat MEA",
+"url": "https://ctftime.org/event/3386",
+"links": [
+{
+"t": "官网",
+"u": "https://blackhatmea.com/capture-the-flag"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3386",
+"conf": "confirmed",
+"note": "三天线下决赛；CTFtime 上的具体时刻是占位值，以官网为准。"
+},
+{
+"id": "x3ctf-2026",
+"name": "x3CTF 2026",
+"short": "x3CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-04T18:00:00Z",
+"end": "2026-12-06T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctftime.org/event/3450",
+"links": [
+{
+"t": "官网",
+"u": "https://x3c.tf/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3450",
+"conf": "confirmed"
+},
+{
+"id": "bi0s-2026",
+"name": "bi0sCTF 2026",
+"short": "bi0sCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-05T05:00:00Z",
+"end": "2026-12-06T17:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 79.51,
+"org": "bi0s",
+"url": "https://ctftime.org/event/3480",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf.bi0s.in/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3480",
+"conf": "confirmed",
+"note": "36 小时；奖品待公布。"
+},
+{
+"id": "nite-2026",
+"name": "niteCTF 2026",
+"short": "niteCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-11T12:00:00Z",
+"end": "2026-12-13T12:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 59.0,
+"url": "https://ctftime.org/event/3367",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3367",
+"conf": "confirmed"
+},
+{
+"id": "bsides-algiers-2026",
+"name": "BSides Algiers 2026",
+"short": "BSides Algiers",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-17T19:00:00Z",
+"end": "2026-12-19T07:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 22.9,
+"url": "https://ctftime.org/event/3475",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3475",
+"conf": "confirmed"
+},
+{
+"id": "backdoor-2026",
+"name": "BackdoorCTF 2026",
+"short": "BackdoorCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-19T12:00:00Z",
+"end": "2026-12-20T12:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 77.38,
+"url": "https://ctftime.org/event/3472",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3472",
+"conf": "confirmed"
+},
+{
+"id": "asis-final-2026",
+"name": "ASIS CTF Finals 2026",
+"short": "ASIS Finals",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-27T14:00:00Z",
+"end": "2026-12-28T14:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 99.38,
+"org": "ASIS",
+"url": "https://ctftime.org/event/3062",
+"links": [
+{
+"t": "官网",
+"u": "https://asisctf.com/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3062",
+"conf": "confirmed",
+"note": "本时段 CTFtime 权重最高的线上赛；CTFtime 未标注参赛资格限制，奖品待公布。"
+},
+{
+"id": "gaianspace-2027",
+"name": "GaianSpace Perihelion CTF 2027",
+"short": "Perihelion CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2027-01-02T18:00:00Z",
+"end": "2027-01-03T18:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 25.0,
+"url": "https://ctftime.org/event/3492",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3492",
+"conf": "confirmed"
+},
+{
+"id": "hkcert-final-2026",
+"name": "HKCERT CTF 2026 · 决赛",
+"short": "HKCERT 决赛",
+"region": "intl",
+"ai": false,
+"fmt": [
+"线下决赛"
+],
+"loc": "香港会议展览中心（待定）",
+"start": "2027-01-07T10:00:00+08:00",
+"end": "2027-01-07T17:00:00+08:00",
+"prec": "time",
+"access": "qualified",
+"access_note": "中学 / 大专 / 公开组各取初赛前 10 名，国际组前 5 名，经大会审查后晋级",
+"weight": null,
+"org": "HKCERT",
+"url": "https://ctf.hkcert.org/zh",
+"src": "HKCERT 官网",
+"src_url": "https://ctf.hkcert.org/zh",
+"conf": "confirmed",
+"note": "国际组晋级队伍由主办方提供指定酒店住宿及往返香港交通补贴；12 月中有线上决赛工作坊。"
+},
+{
+"id": "jerseyctf-7",
+"name": "JerseyCTF VII",
+"short": "JerseyCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2027-03-13T17:00:00Z",
+"end": "2027-03-14T16:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 47.14,
+"url": "https://ctftime.org/event/3458",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3458",
+"conf": "confirmed"
+},
+{
+"id": "undutmaning-2027",
+"name": "Undutmaning 2027",
+"short": "Undutmaning",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2027-03-20T11:00:00Z",
+"end": "2027-03-20T19:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 44.75,
+"url": "https://ctftime.org/event/3481",
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3481",
+"conf": "confirmed"
+},
+{
+"id": "pointer-overflow-2026",
+"name": "Pointer Overflow CTF 2026",
+"short": "Pointer Overflow",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF",
+"长周期"
+],
+"loc": "线上",
+"start": "2026-09-27T14:00:00Z",
+"end": "2026-12-06T14:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://pointeroverflowctf.com/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/760.html",
+"conf": "single",
+"note": "约 10 周的长周期赛。"
+},
+{
+"id": "cyberzerk-2026",
+"name": "CyberZerk CTF 2026",
+"short": "CyberZerk",
+"region": "intl",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": "2026-11-09T13:00:00Z",
+"end": "2026-11-22T17:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://ctf.cyberzerk.fr/",
+"src": "Bugku 赛事中心",
+"src_url": "https://ctf.bugku.com/game/detail/id/966.html",
+"conf": "single"
+},
+{
+"id": "qwb10-final",
+"name": "第十届「强网杯」全国网络安全挑战赛 · 线下赛",
+"short": "强网杯线下赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"线下赛",
+"实战攻防"
+],
+"tags": [
+"二进制",
+"Web 漏洞",
+"设备固件",
+"大模型安全",
+"物联网现场破解",
+"AI 赋能应用"
+],
+"loc": "线下（组委会在郑州，场地以通知为准）",
+"start": "2026-11-28T00:00:00+08:00",
+"end": "2026-11-29T23:59:00+08:00",
+"prec": "day",
+"access": "qualified",
+"access_note": "线上赛前 32 支队伍晋级；每队 ≤4 名队员 + 1 名指导教师",
+"team": "≤4 人 + 1 名指导教师",
+"prize": "冠军 15 万元/队，亚军 10 万元，季军 8 万元",
+"weight": null,
+"org": "中央网信办、河南省政府指导；河南省委网信办、河南省教育厅、郑州市政府、信息工程大学、郑州大学主办",
+"url": "https://qiangwangbei.com/",
+"src": "强网杯官网",
+"src_url": "https://www.cac.gov.cn/2026-10/10/c_1793384901156532.htm",
+"conf": "confirmed"
+},
+{
+"id": "qwb10-academy",
+"name": "第十届「强网杯」· 网络安全学院邀请赛",
+"short": "强网杯学院邀请赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"基础知识与技能"
+],
+"loc": "待公布",
+"start": "2026-11-21T00:00:00+08:00",
+"end": "2026-11-30T23:59:00+08:00",
+"prec": "window",
+"window": "11 月下旬（暂定）",
+"window_short": "下旬",
+"access": "restricted",
+"access_note": "面向全国高校网络空间安全学院，每校推荐 1 支队伍，每队 ≤4 人",
+"team": "≤4 人",
+"weight": null,
+"url": "https://qiangwangbei.com/",
+"src": "强网杯官网",
+"src_url": "https://qiangwangbei.com/",
+"conf": "tentative",
+"note": "能否参赛取决于学院推荐，可以向学院或导师打听名额。"
+},
+{
+"id": "shuzheng-3",
+"name": "第三届「数证杯」电子数据取证分析大赛",
+"short": "数证杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"电子取证",
+"团队赛"
+],
+"loc": "线上",
+"start": "2026-11-21T00:00:00+08:00",
+"end": "2026-11-21T23:59:00+08:00",
+"prec": "day",
+"reg_end": "2026-11-15T12:00:00+08:00",
+"reg_conf": "single",
+"access": "open",
+"weight": null,
+"org": "公安部第三研究所",
+"url": "https://shuzhengcup.gass.cn/",
+"src": "CTF 赛事日历",
+"src_url": "https://ctf.manic.com.cn/",
+"conf": "single",
+"note": "第三方日历显示比赛时段约 10:28–20:28、允许使用 AI，具体以官网为准。"
+},
+{
+"id": "meiya-12",
+"name": "2026「美亚杯」第十二届中国电子数据取证大赛",
+"short": "美亚杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"电子取证"
+],
+"loc": "线上 + 线下（厦门）",
+"start": "2026-11-13T00:00:00+08:00",
+"end": "2026-11-16T23:59:00+08:00",
+"prec": "day",
+"reg_end": "2026-10-31T23:59:00+08:00",
+"access": "open",
+"weight": null,
+"org": "中国刑事科学技术协会；教育部网络安全与执法专业虚拟教研室",
+"url": "https://www.digiforensics.cn/calendar/forensics-event-20261113",
+"src": "DigiForensics 比赛日历",
+"src_url": "https://www.digiforensics.cn/calendar",
+"conf": "single",
+"note": "报名已于 10/31 截止。"
+},
+{
+"id": "pctf-2026",
+"name": "第三届 PCTF2026 警校联合新生赛",
+"short": "PCTF 新生赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"新生赛"
+],
+"loc": "线上",
+"start": "2026-11-01T00:00:00+08:00",
+"end": "2026-12-01T00:00:00+08:00",
+"prec": "time",
+"reg_end": "2026-10-31T09:04:00+08:00",
+"access": "restricted",
+"access_note": "面向 2026 级新生及入门者；凭各校负责人发放的邀请码或教育邮箱注册",
+"weight": null,
+"org": "十七所警校网安组织联合举办",
+"url": "https://www.digiforensics.cn/calendar/2026-3rd-pctf",
+"src": "DigiForensics 比赛日历",
+"src_url": "https://www.digiforensics.cn/calendar/2026-3rd-pctf",
+"conf": "single",
+"note": "分批放题、持续开放；报名已截止。"
+},
+{
+"id": "ciscn-ccb-2027",
+"name": "全国大学生信息安全竞赛（创新实践能力赛）暨「长城杯」防护赛 · 新一届（国赛「三合一」）",
+"short": "国赛·长城杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"初赛线上",
+"半决赛/决赛线下"
+],
+"loc": "初赛线上",
+"start": null,
+"end": null,
+"prec": "tba",
+"window": "本届未官宣 · 往届初赛在 12 月中下旬",
+"window_short": "未官宣",
+"access": "unknown",
+"access_note": "往届：全日制高校在校生，以学校为单位组队报名（每队 ≤4 人）；本届以官方通知为准",
+"team": "往届 ≤4 人",
+"weight": null,
+"org": "往届：中国信息安全测评中心等",
+"url": "http://www.ciscn.cn/",
+"links": [
+{
+"t": "长城杯官网",
+"u": "https://ccb.itsec.gov.cn/"
+}
+],
+"src": "往届官方通知与报道（本届通知未查到）",
+"src_url": "http://www.ciscn.cn/competition/securityCompetition?compet_id=44",
+"conf": "tentative",
+"note": "截至 11/11 未查到本届（第二十届国赛）的官方通知，官网本次无法抓取，请直接看 ciscn.cn 通知栏。往届节奏：第十八届初赛 2024/12/15；第十九届半决赛 2026 年 3 月。通常 11 月底–12 月初发通知，报名由学校指导老师统一提交。"
+},
+{
+"id": "isctf-2026",
+"name": "ISCTF 2026",
+"short": "ISCTF",
+"region": "cn",
+"ai": false,
+"fmt": [
+"CTF"
+],
+"loc": "线上",
+"start": null,
+"end": null,
+"prec": "tba",
+"window": "赛程待公布",
+"access": "unknown",
+"weight": null,
+"url": "https://2026.isc.tf/",
+"src": "ISCTF 官网",
+"src_url": "https://2026.isc.tf/",
+"conf": "tentative",
+"note": "官网已上线（同题竞技、分轨排名），赛程与报名入口待公布。"
+},
+{
+"id": "grayswan-ipi-black",
+"name": "Gray Swan Arena · Indirect Prompt Injection: Black",
+"short": "IPI: Black",
+"region": "intl",
+"ai": true,
+"fmt": [
+"间接提示注入",
+"Agent 劫持"
+],
+"tags": [
+"10 个场景",
+"42 个模型"
+],
+"loc": "线上",
+"start": "2026-10-20T00:00:00Z",
+"end": "2026-11-13T03:00:00Z",
+"prec": "approx",
+"access": "open",
+"access_note": "在沙箱中测试智能体，须由真人操作驱动",
+"prize": "$300,000 奖池",
+"weight": null,
+"org": "Gray Swan AI；Anthropic、Meta、Google DeepMind、Reflection AI 赞助",
+"url": "https://app.grayswan.ai/arena",
+"src": "Fortune 报道 + Arena 页面",
+"src_url": "https://fortune.com/2026/10/20/exclusive-ai-security-company-gray-swan-red-team-arena-contest-to-jailbreak-ai-agents/",
+"conf": "approx",
+"note": "在网页、论坛帖等智能体会读到的内容里埋入指令，劫持智能体行为。结束时间由 11/10 页面倒计时（剩 2 天 13 小时）推算。"
+},
+{
+"id": "grayswan-lucky-break",
+"name": "Gray Swan Arena · Lucky Break: Payday",
+"short": "Lucky Break",
+"region": "intl",
+"ai": true,
+"fmt": [
+"AI 红队"
+],
+"tags": [
+"5 个场景",
+"4 个模型"
+],
+"loc": "线上",
+"start": "2026-11-10T00:00:00Z",
+"start_known": false,
+"end": "2026-11-17T03:00:00Z",
+"prec": "approx",
+"access": "open",
+"prize": "$10,000 奖池",
+"weight": null,
+"org": "Gray Swan AI",
+"url": "https://app.grayswan.ai/arena",
+"src": "Arena 页面",
+"src_url": "https://app.grayswan.ai/arena",
+"conf": "approx",
+"note": "结束时间由 11/10 页面倒计时（剩 6 天 13 小时）推算；页面未写明赛题类型。"
+},
+{
+"id": "crucible",
+"name": "Dreadnode Crucible",
+"short": "Crucible",
+"region": "intl",
+"ai": true,
+"fmt": [
+"AI 红队靶场"
+],
+"loc": "线上",
+"start": null,
+"end": null,
+"prec": "always",
+"access": "open",
+"weight": null,
+"org": "Dreadnode",
+"url": "https://docs.dreadnode.io/crucible",
+"src": "官方文档",
+"src_url": "https://docs.dreadnode.io/crucible",
+"conf": "confirmed",
+"note": "常驻的 AI/ML 安全挑战平台，适合赛前练手。"
+},
+{
+"id": "owasp-finbot",
+"name": "OWASP FinBot Agentic AI CTF",
+"short": "FinBot CTF",
+"region": "intl",
+"ai": true,
+"fmt": [
+"Agent 目标劫持"
+],
+"loc": "线上",
+"start": null,
+"end": null,
+"prec": "always",
+"access": "open",
+"weight": null,
+"org": "OWASP GenAI Security Project",
+"url": "https://genai.owasp.org/resource/finbot-agentic-ai-capture-the-flag-ctf-application/",
+"src": "Snyk 汇总",
+"src_url": "https://snyk.io/articles/usd800k-up-for-grabs-12-ai-hacking-competitions-that-could-launch-your",
+"conf": "single",
+"note": "金融场景下的智能体目标操纵练习，常驻开放。"
+},
+{
+"id": "qwb10-online",
+"name": "第十届「强网杯」全国网络安全挑战赛 · 线上赛",
+"short": "强网杯线上赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"线上赛"
+],
+"tags": [
+"二进制逆向",
+"密码分析",
+"智能终端",
+"信息隐藏",
+"人工智能"
+],
+"loc": "线上",
+"start": "2026-10-31T00:00:00+08:00",
+"end": "2026-11-01T23:59:00+08:00",
+"prec": "day",
+"access": "open",
+"access_note": "国内高校、企业、机构；须中国国籍（不含港澳台）；每队 ≤10 人 + 1 名指导教师",
+"team": "≤10 人",
+"prize": "一等奖（前 3 名）3 万元/队",
+"weight": null,
+"url": "https://qiangwangbei.com/",
+"src": "强网杯官网",
+"src_url": "https://qiangwangbei.com/",
+"conf": "confirmed"
+},
+{
+"id": "yangcheng-2026-final",
+"name": "2026「羊城杯」网络安全大赛 · 决赛",
+"short": "羊城杯决赛",
+"region": "cn",
+"ai": true,
+"fmt": [
+"CTF",
+"Agent 协同"
+],
+"tags": [
+"AI 提示词攻击",
+"模型数据泄露"
+],
+"loc": "广州职业技术大学（线下）",
+"start": "2026-11-07T00:00:00+08:00",
+"end": "2026-11-07T23:59:00+08:00",
+"prec": "day",
+"access": "qualified",
+"access_note": "全国 2250 支队伍参赛，58 支晋级决赛",
+"weight": null,
+"org": "安恒信息承办",
+"url": "https://news.dayoo.com/guangzhou/202611/08/139995_55021512.htm",
+"src": "大洋网报道",
+"src_url": "https://news.dayoo.com/guangzhou/202611/08/139995_55021512.htm",
+"conf": "confirmed",
+"note": "首次允许选手本地部署 Agent 协同作战，赛题纳入 AI 提示词攻击、模型数据泄露，可作为 AI 赛制的复盘参考。"
+},
+{
+"id": "hkcert-q-2026",
+"name": "HKCERT CTF 2026 · 初赛",
+"short": "HKCERT 初赛",
+"region": "intl",
+"ai": false,
+"fmt": [
+"解题"
+],
+"loc": "线上",
+"start": "2026-11-06T18:00:00+08:00",
+"end": "2026-11-07T18:00:00+08:00",
+"prec": "time",
+"access": "open",
+"weight": null,
+"org": "HKCERT",
+"url": "https://ctf.hkcert.org/zh",
+"src": "HKCERT 官网",
+"src_url": "https://ctf.hkcert.org/zh",
+"conf": "confirmed",
+"note": "24 小时线上赛，题目提供繁中、简中与英文；11/21 有赛后工作坊（暂定）。"
+},
+{
+"id": "kunpeng-2026",
+"name": "2026 鲲鹏杯 CTF 网络安全竞赛",
+"short": "鲲鹏杯",
+"region": "cn",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"团队赛"
+],
+"loc": "线上",
+"start": "2026-11-07T09:00:00+08:00",
+"end": "2026-11-07T17:00:00+08:00",
+"prec": "time",
+"access": "open",
+"weight": null,
+"url": "https://www.ctfplus.cn/competition/hall",
+"src": "CTF 赛事日历",
+"src_url": "https://ctf.manic.com.cn/",
+"conf": "single",
+"note": "禁用 AI。"
+}
+]
+}/*@@DATA_END@@*/);
+  }
+
+  prep() {
+    if (this._prep) return this._prep;
+    let raw = {};
+    try { raw = this.getData() || {}; } catch (err) { raw = {}; }
+    const offOf = (iso) => {
+      if (!iso || /Z$/i.test(iso)) return 0;
+      const m = /([+-])(\d{2}):?(\d{2})$/.exec(iso);
+      if (!m) return 0;
+      return (m[1] === '-' ? -1 : 1) * (parseInt(m[2], 10) * 60 + parseInt(m[3], 10));
+    };
+    const num = (iso) => {
+      if (!iso) return null;
+      const t = Date.parse(iso);
+      return isNaN(t) ? null : t;
+    };
+    const evs = (raw.events || []).filter((e) => e && e.id && e.name).map((e) => Object.assign({}, e, {
+      _s: num(e.start), _e: num(e.end), _r: num(e.reg_end), _off: offOf(e.start),
+    }));
+    this._prep = { meta: raw.meta || {}, evs: evs };
+    return this._prep;
+  }
+
+  wordmark() {
+    if (this._wm) return this._wm;
+    const G = {
+      F: ['#####', '#....', '#....', '####.', '#....', '#....', '#....'],
+      L: ['#....', '#....', '#....', '#....', '#....', '#....', '#####'],
+      A: ['.###.', '#...#', '#...#', '#####', '#...#', '#...#', '#...#'],
+      G: ['.###.', '#...#', '#....', '#.###', '#...#', '#...#', '.###.'],
+      R: ['####.', '#...#', '#...#', '####.', '#.#..', '#..#.', '#...#'],
+      D: ['####.', '#...#', '#...#', '#...#', '#...#', '#...#', '####.'],
+    };
+    const word = 'FLAGRADAR';
+    const ON = { p: '7%', c: 'var(--acc)' }, OFF = { p: '41%', c: 'rgba(var(--acc-rgb), 0.24)' };
+    const cells = [];
+    for (let r = 0; r < 7; r++) {
+      for (let i = 0; i < word.length; i++) {
+        const g = G[word[i]];
+        for (let c = 0; c < 6; c++) {
+          if (i * 6 + c > 52) continue;
+          cells.push(c < 5 && g[r][c] === '#' ? ON : OFF);
+        }
+      }
+    }
+    this._wm = cells;
+    return this._wm;
+  }
+
+  renderVals() {
+    const P = this.prep();
+    const now = Date.now();
+    const MIN = 60000, HOUR = 3600000, DAY = 86400000;
+    const OFF = 480;
+
+    const PHS = { green: 1, amber: 1, cyan: 1, white: 1 };
+    const ph = PHS[this.props.phosphor] ? this.props.phosphor : 'green';
+
+    const pad = (n) => (n < 10 ? '0' : '') + n;
+    const WD = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const at = (ms, o) => {
+      const d = new Date(ms + o * MIN);
+      return { y: d.getUTCFullYear(), mo: d.getUTCMonth(), d: d.getUTCDate(), wd: d.getUTCDay(), h: d.getUTCHours(), mi: d.getUTCMinutes() };
+    };
+    const md = (p) => pad(p.mo + 1) + '/' + pad(p.d);
+    const hm = (p) => pad(p.h) + ':' + pad(p.mi);
+    const dur = (ms) => {
+      const h = Math.round(ms / HOUR);
+      if (h < 48) return h + ' 小时';
+      const dd = Math.floor(h / 24), r = h % 24;
+      return dd + ' 天' + (r ? ' ' + r + ' 小时' : '');
+    };
+    const textW = (s, px) => {
+      let w = 0;
+      for (let i = 0; i < s.length; i++) w += s.charCodeAt(i) > 0x2e80 ? px : px * 0.6;
+      return w;
+    };
+    const isoWeek = (p) => {
+      const dt = new Date(Date.UTC(p.y, p.mo, p.d));
+      const day = dt.getUTCDay() || 7;
+      dt.setUTCDate(dt.getUTCDate() + 4 - day);
+      const y0 = Date.UTC(dt.getUTCFullYear(), 0, 1);
+      return dt.getUTCFullYear() + '-W' + pad(Math.ceil(((dt.getTime() - y0) / DAY + 1) / 7));
+    };
+
+    const CAT = {
+      cn: { label: '国内赛', tag: '国内', color: 'var(--cn)' },
+      intl: { label: '国际赛', tag: '国际', color: 'var(--intl)' },
+      ai: { label: 'AI 安全', tag: 'AI', color: 'var(--ai)' },
+    };
+
+    const nowP = at(now, OFF);
+    const midnight = Date.UTC(nowP.y, nowP.mo, nowP.d) - OFF * MIN;
+    const wEnd = midnight + 7 * DAY;
+    const endP = at(wEnd - MIN, OFF);
+    const nm = (e) => e.short || e.name;
+    const isOpen = (e) => e.access !== 'qualified' && e.access !== 'restricted';
+
+    const evs = P.evs.map((e) => {
+      const ck = e.ai ? 'ai' : (e.region === 'cn' ? 'cn' : 'intl');
+      let status;
+      if (e.prec === 'always') status = 'always';
+      else if (e._s == null) status = 'tba';
+      else if (now < e._s) status = 'upcoming';
+      else if (e._e == null || now < e._e) status = 'live';
+      else status = 'ended';
+      const dayMode = e.prec === 'day' || e.prec === 'window';
+      const o = dayMode ? e._off : OFF;
+      let range = '';
+      if (e._s != null) {
+        const a = at(e._s, o), b = e._e != null ? at(e._e, o) : null;
+        if (e.prec === 'window') range = e.window || '日期暂定';
+        else if (dayMode) range = md(a) + ' ' + WD[a.wd] + (b && md(b) !== md(a) ? ' → ' + md(b) + ' ' + WD[b.wd] : '') + ' · 时刻待公布';
+        else range = md(a) + ' ' + WD[a.wd] + ' ' + hm(a) + ' → ' + (b ? (md(b) === md(a) ? '' : md(b) + ' ' + WD[b.wd] + ' ') + hm(b) : '待定');
+      }
+      const regOpen = e._r != null && now < e._r;
+      let regTxt = '';
+      if (e._r != null && status !== 'ended') {
+        const r = at(e._r, OFF);
+        regTxt = regOpen ? '报名截止 ' + md(r) + ' ' + hm(r) + (e.reg_conf ? '（待确认）' : '') : '报名已截止';
+      }
+      const hasW = typeof e.weight === 'number' && e.weight > 0;
+      const score = (e.feat ? 100 : 0) + (e.region === 'cn' ? 30 : 0) + (e.ai ? 30 : 0) + (hasW ? e.weight * 0.5 : 0) - (e._r != null && !regOpen ? 40 : 0);
+      return Object.assign({}, e, { ck: ck, cat: CAT[ck], status: status, dayMode: dayMode, range: range, regOpen: regOpen, regTxt: regTxt, hasW: hasW, score: score });
+    });
+
+    const live = evs.filter((e) => e.status === 'live' && e.prec !== 'window').sort((a, b) => (a._e || 0) - (b._e || 0));
+    const week = evs.filter((e) => e.status === 'upcoming' && e._s < wEnd).sort((a, b) => a._s - b._s);
+    const weekOpen = week.filter(isOpen);
+    const weekLocked = week.filter((e) => !isOpen(e));
+    const regWeek = evs.filter((e) => e.regOpen && e._r < wEnd && e.status !== 'ended').sort((a, b) => a._r - b._r);
+
+    // ---- priority target
+    let priEv = evs.filter((e) => e.feat && isOpen(e) && (e.status === 'live' || (e.status === 'upcoming' && e._s - now <= 14 * DAY))).sort((a, b) => a._s - b._s)[0] || null;
+    if (!priEv) {
+      const cand = weekOpen.filter((e) => e.score >= 25).sort((a, b) => b.score - a.score)[0];
+      priEv = cand || null;
+    }
+    let pri = { name: '', range: '', meta: '', reg: '', hasReg: false, regColor: 'var(--warn)', regTag: '[!]', color: 'var(--acc)', tagLine: '' };
+    let priLines = 1;
+    if (priEv) {
+      const e = priEv;
+      priLines = textW(e.name, 44) > 910 ? 2 : 1;
+      pri = {
+        name: e.name,
+        range: (e.status === 'live' ? '进行中 · ' : '') + e.range,
+        meta: [(e.fmt || []).join(' · '), e.team, e.loc].filter(Boolean).join(' · '),
+        reg: e.regTxt, hasReg: !!e.regTxt,
+        regColor: e.regOpen ? 'var(--warn)' : 'var(--fg3)', regTag: e.regOpen ? '[!]' : '[-]',
+        color: e.cat.color, tagLine: '[' + e.cat.label + ']',
+      };
+    }
+
+    // ---- bottom log lines
+    const logsBase = [];
+    if (live.length) logsBase.push({ tag: '[+]', c: 'var(--acc)', k: 'live', v: '进行中 ' + live.length + ' 场：' + live.map(nm).join(' · ') });
+    if (regWeek.length) logsBase.push({ tag: '[!]', c: 'var(--warn)', k: 'reg', v: '报名截止：' + regWeek.slice(0, 3).map((e) => { const r = at(e._r, OFF); return nm(e) + ' ' + md(r) + ' ' + hm(r); }).join(' · ') });
+    if (weekLocked.length) logsBase.push({ tag: '[#]', c: 'var(--fg3)', k: 'lock', v: '另有 ' + weekLocked.length + ' 场仅限晋级 / 定向：' + weekLocked.map(nm).join(' · ') });
+
+    // ---- rows that fit
+    const pool = weekOpen.filter((e) => e !== priEv);
+    const ROW_H = 108;
+    const priH = priEv ? 26 + 48 + 20 + (priLines === 2 ? 115 : 58) + 10 + 40 + 10 + 35 + (pri.hasReg ? 10 + 35 : 0) + 22 + 2 : 0;
+    const capFor = (L) => Math.max(0, Math.floor((2040 - 607 - priH - 62 - (24 + L * 40 + 24 + 56)) / ROW_H));
+    let cap = capFor(logsBase.length);
+    let more = 0;
+    if (pool.length > cap) { cap = capFor(logsBase.length + 1); more = pool.length - cap; }
+    const picked = pool.length > cap ? pool.slice().sort((a, b) => b.score - a.score).slice(0, cap).sort((a, b) => a._s - b._s) : pool;
+    const logs = logsBase.slice();
+    if (more > 0) logs.push({ tag: '[>]', c: 'var(--intl)', k: 'more', v: '另有 ' + more + ' 场公开赛未列出，完整列表见 FLAGRADAR 网站' });
+
+    const rows = picked.map((e) => {
+      const a = at(e._s, e.dayMode ? e._off : OFF);
+      const full = e.name;
+      return {
+        dTop: md(a),
+        dSub: WD[a.wd] + (e.dayMode ? (e._e != null && e._e - e._s > 1.5 * DAY ? ' 起' : ' · 全天') : ' ' + hm(a)),
+        color: e.cat.color, catTag: e.cat.tag,
+        name: textW(full, 35) <= 640 ? full : nm(e),
+        meta: [
+          (e.fmt || []).slice(0, 2).join(' · '),
+          e.loc,
+          e._e != null ? (e.dayMode ? Math.max(1, Math.round((e._e - e._s) / DAY)) + ' 天' : dur(e._e - e._s)) : '',
+          e.hasW ? '权重 ' + e.weight.toFixed(2) : '',
+          e.regTxt,
+        ].filter(Boolean).join(' · '),
+      };
+    });
+
+    // ---- lookahead: fill spare room with what comes after this week
+    const spare = (2040 - 607 - priH - 62 - (24 + logs.length * 40 + 24 + 56)) - (rows.length ? rows.length * ROW_H : 130);
+    const aheadN = Math.min(6, Math.floor((spare - 62 - 16) / 58));
+    const aheadPool = evs.filter((e) => e.status === 'upcoming' && e._s >= wEnd && e._s < wEnd + 30 * DAY && isOpen(e) && e.prec !== 'window');
+    const ahead = (more === 0 && aheadN >= 2 ? aheadPool.slice().sort((a, b) => b.score - a.score).slice(0, aheadN).sort((a, b) => a._s - b._s) : []).map((e) => {
+      const a = at(e._s, e.dayMode ? e._off : OFF);
+      return { dTop: md(a) + ' ' + WD[a.wd], color: e.cat.color, catTag: e.cat.tag, name: nm(e), meta: e.hasW ? '权重 ' + e.weight.toFixed(2) : (e.regTxt || '') };
+    });
+
+    const kpi = (en, label, n, color) => ({ en: en, label: label, lead: n < 10 ? '0' : '', num: String(n), color: color });
+    const upd = P.meta.updated_at ? Date.parse(P.meta.updated_at) : NaN;
+    const updP = isNaN(upd) ? null : at(upd, OFF);
+
+    return {
+      rootCls: 'ph-' + ph,
+      wmCells: this.wordmark(),
+      weekLabel: isoWeek(nowP) + ' · ' + nowP.y + '-' + pad(nowP.mo + 1) + '-' + pad(nowP.d),
+      fromLabel: md(nowP), toLabel: md(endP),
+      rangeLabel: md(nowP) + ' ' + WD[nowP.wd] + ' → ' + md(endP) + ' ' + WD[endP.wd],
+      stats: [
+        kpi('STARTING', '场开赛', week.length, 'var(--fg)'),
+        kpi('LIVE NOW', '场进行中', live.length, 'var(--acc)'),
+        kpi('REG DUE', '场报名截止', regWeek.length, 'var(--warn)'),
+      ],
+      hasPri: !!priEv, pri: pri,
+      rows: rows, rowsLabel: rows.length + ' LISTED' + (more > 0 ? ' / ' + pool.length : ''),
+      noRows: rows.length === 0,
+      hasAhead: ahead.length > 0, ahead: ahead, aheadLabel: ahead.length + ' / ' + aheadPool.length + ' LISTED',
+      emptyTitle: priEv ? '本周其余公开赛暂无' : '本周暂无新开赛的公开比赛',
+      emptyHint: '可以趁空档刷常驻靶场，或留意下周的更新。',
+      logs: logs,
+      freshLabel: updP ? md(updP) + ' ' + hm(updP) : '未知',
+      flagEgg: 'flag{sh0w_up_4nd_pwn}',
+    };
+  }
+}
+</script>
+</body>
+</html>

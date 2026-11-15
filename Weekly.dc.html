@@ -146,7 +146,7 @@ class Component extends DCLogic {
   getData() {
     return (/*@@DATA_BEGIN@@*/{
 "meta": {
-"updated_at": "2026-11-11T14:31:39Z",
+"updated_at": "2026-11-15T13:16:59Z",
 "schedule": "每周一、三、五 06:46（北京时间）自动巡检",
 "coverage": "CTFtime 国际赛 · 国内重点赛事 · AI 红队 / 智能体赛",
 "cron": "46 6 * * 1,3,5",
@@ -1158,7 +1158,7 @@ class Component extends DCLogic {
 "src": "往届官方通知与报道（本届通知未查到）",
 "src_url": "http://www.ciscn.cn/competition/securityCompetition?compet_id=44",
 "conf": "tentative",
-"note": "截至 11/11 未查到本届（第二十届国赛）的官方通知，官网本次无法抓取，请直接看 ciscn.cn 通知栏。往届节奏：第十八届初赛 2024/12/15；第十九届半决赛 2026 年 3 月。通常 11 月底–12 月初发通知，报名由学校指导老师统一提交。"
+"note": "截至 11/13 仍未查到本届（第二十届国赛）的官方通知；ciscn.cn 首页目前只挂着往届赛事，没有新通知。往届节奏：第十八届初赛 2024/12/15；第十九届半决赛 2026 年 3 月。通常 11 月底–12 月初发通知，报名由学校指导老师统一提交。"
 },
 {
 "id": "isctf-2026",
@@ -1198,7 +1198,7 @@ class Component extends DCLogic {
 ],
 "loc": "线上",
 "start": "2026-10-20T00:00:00Z",
-"end": "2026-11-13T03:00:00Z",
+"end": "2026-11-13T04:00:00Z",
 "prec": "approx",
 "access": "open",
 "access_note": "在沙箱中测试智能体，须由真人操作驱动",
@@ -1209,7 +1209,13 @@ class Component extends DCLogic {
 "src": "Fortune 报道 + Arena 页面",
 "src_url": "https://fortune.com/2026/10/20/exclusive-ai-security-company-gray-swan-red-team-arena-contest-to-jailbreak-ai-agents/",
 "conf": "approx",
-"note": "在网页、论坛帖等智能体会读到的内容里埋入指令，劫持智能体行为。结束时间由 11/10 页面倒计时（剩 2 天 13 小时）推算。"
+"note": "在网页、论坛帖等智能体会读到的内容里埋入指令，劫持智能体行为。挑战页标注第 3 波为 11/02–11/12；结束时间由 11/12 页面倒计时（剩约 5.5 小时）推算，即北京时间 11/13 中午前后收官，之后是否还有新一波页面未说明。",
+"links": [
+{
+"t": "挑战页",
+"u": "https://app.grayswan.ai/arena/challenge/ipi-black-2026"
+}
+]
 },
 {
 "id": "grayswan-lucky-break",
@@ -1218,26 +1224,33 @@ class Component extends DCLogic {
 "region": "intl",
 "ai": true,
 "fmt": [
-"AI 红队"
+"AI 红队",
+"直接越狱攻击"
 ],
 "tags": [
 "5 个场景",
 "4 个模型"
 ],
 "loc": "线上",
-"start": "2026-11-10T00:00:00Z",
-"start_known": false,
-"end": "2026-11-17T03:00:00Z",
+"start": "2026-11-06T00:00:00Z",
+"end": "2026-11-17T04:00:00Z",
 "prec": "approx",
 "access": "open",
 "prize": "$10,000 奖池",
 "weight": null,
 "org": "Gray Swan AI",
 "url": "https://app.grayswan.ai/arena",
-"src": "Arena 页面",
-"src_url": "https://app.grayswan.ai/arena",
+"src": "Arena 挑战页",
+"src_url": "https://app.grayswan.ai/arena/challenge/lucky-break-payday",
 "conf": "approx",
-"note": "结束时间由 11/10 页面倒计时（剩 6 天 13 小时）推算；页面未写明赛题类型。"
+"note": "直接攻击类越狱赛：5 个场景（骗零售客服机器人退款、双倍退款、身份盗用等）× 4 个模型，比谁破得多、破得快。挑战页标注第 1 波为 11/06–11/16（未写时刻，开始按当日 0 点记）；结束时间由 11/12 页面倒计时（剩 4 天 5 小时）推算。",
+"access_note": "注册 Arena 账号即可参加",
+"links": [
+{
+"t": "挑战页",
+"u": "https://app.grayswan.ai/arena/challenge/lucky-break-payday"
+}
+]
 },
 {
 "id": "crucible",
@@ -1384,6 +1397,42 @@ class Component extends DCLogic {
 "src_url": "https://ctf.manic.com.cn/",
 "conf": "single",
 "note": "禁用 AI。"
+},
+{
+"id": "datacon-2026-autumn",
+"name": "DataCon 2026 大数据安全分析竞赛 · 秋季赛",
+"short": "DataCon 2026 秋",
+"region": "cn",
+"ai": true,
+"fmt": [
+"数据分析",
+"智能体开发",
+"团队赛"
+],
+"tags": [
+"APT 日志分析智能体",
+"GEO 生成式搜索",
+"漏洞环境复现",
+"AI 安全"
+],
+"loc": "线上",
+"start": "2026-12-01T00:00:00+08:00",
+"end": "2026-12-06T23:59:00+08:00",
+"prec": "day",
+"reg_end": "2026-11-28T23:59:00+08:00",
+"reg_conf": "confirmed",
+"access": "open",
+"access_note": "全国高校全日制在校生（本专科、研究生）及教师团队、科研院所和企业安全从业者均可报名；队员需实名审核",
+"team": "1–3 人，可跨校",
+"prize": "三赛道各设冠军 12000 / 亚军 10000 / 季军 8000 元 + 奖杯证书；4–10 名证书；企业内推资格",
+"weight": null,
+"org": "清华大学网络科学与网络空间研究院、奇安信集团、蚂蚁集团、腾讯安全应急响应中心、智谱华章主办",
+"url": "https://www.datacon.org.cn/datacon2026",
+"links": [],
+"src": "公众号〈DataCon大数据安全分析竞赛〉+ 赛事官网",
+"src_url": "https://www.datacon.org.cn/datacon2026",
+"conf": "confirmed",
+"note": "官网：报名 11 月 9–28 日，秋季赛 12 月 1–6 日，答辩时间待定；春季赛约 2027 年 4 月初。三赛道：APT 日志分析智能体开发、GEO 面向生成式搜索的内容曝光（不要求技术背景）、智能化漏洞环境复现专项赛。获奖需提交方案与代码答辩。"
 }
 ]
 }/*@@DATA_END@@*/);

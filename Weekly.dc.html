@@ -146,7 +146,7 @@ class Component extends DCLogic {
   getData() {
     return (/*@@DATA_BEGIN@@*/{
 "meta": {
-"updated_at": "2026-11-15T13:16:59Z",
+"updated_at": "2026-11-15T22:48:00Z",
 "schedule": "每周一、三、五 06:46（北京时间）自动巡检",
 "coverage": "CTFtime 国际赛 · 国内重点赛事 · AI 红队 / 智能体赛",
 "cron": "46 6 * * 1,3,5",
@@ -1433,6 +1433,178 @@ class Component extends DCLogic {
 "src_url": "https://www.datacon.org.cn/datacon2026",
 "conf": "confirmed",
 "note": "官网：报名 11 月 9–28 日，秋季赛 12 月 1–6 日，答辩时间待定；春季赛约 2027 年 4 月初。三赛道：APT 日志分析智能体开发、GEO 面向生成式搜索的内容曝光（不要求技术背景）、智能化漏洞环境复现专项赛。获奖需提交方案与代码答辩。"
+},
+{
+"id": "uoftctf-2027",
+"name": "UofTCTF 2027",
+"short": "UofTCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2027-01-09T00:00:00Z",
+"end": "2027-01-11T00:00:00Z",
+"prec": "time",
+"access": "open",
+"weight": 50.0,
+"org": "University of Toronto Computer Security Club",
+"url": "https://ctf.uoftctf.org/",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf.uoftctf.org/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3508",
+"conf": "confirmed",
+"note": "48 小时；奖品待公布；权重为往年评分权重。"
+},
+{
+"id": "blackhat-india-2026",
+"name": "Black Hat India 2026 Official CTF",
+"short": "BH India CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy",
+"含 AI/LLM 安全方向"
+],
+"tags": [
+"Web",
+"Pwn",
+"Crypto",
+"Reverse",
+"Cloud",
+"AI/LLM 安全",
+"新手赛道"
+],
+"loc": "线上",
+"start": "2026-11-28T14:00:00Z",
+"end": "2026-11-29T14:00:00Z",
+"prec": "time",
+"access": "open",
+"team": "≤3 人",
+"prize": "Black Hat India 2027 Briefings 通行证共 9 张（前三名各 3 张，每张约 ₹85,000，限海得拉巴现场使用）",
+"weight": 0.0,
+"org": "Black Hat India；平台 CTF7",
+"url": "https://ctf.blackhat-india.com/",
+"links": [
+{
+"t": "官网",
+"u": "https://ctf.blackhat-india.com/"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3510",
+"conf": "confirmed",
+"note": "24 小时、200 道原创题；CTFtime 权重 0（评分权重待定）。"
+},
+{
+"id": "qwb9-mimic-final",
+"name": "第九届「强网」拟态防御国际精英挑战赛 · 决赛",
+"short": "强网拟态决赛",
+"region": "cn",
+"ai": false,
+"fmt": [
+"线下决赛",
+"硬件目标研究",
+"技术报告评审"
+],
+"tags": [
+"6 个赛道",
+"拟态防御"
+],
+"loc": "线下（南京）",
+"start": "2026-12-03T12:00:00+08:00",
+"end": "2026-12-06T12:00:00+08:00",
+"prec": "time",
+"access": "qualified",
+"access_note": "初赛晋级或受邀队伍",
+"weight": 0.0,
+"org": "强网拟态防御国际精英挑战赛组委会",
+"url": "https://nest.pmlabs.com.cn/en/events/qiangwang-9/registration",
+"links": [
+{
+"t": "报名页",
+"u": "https://nest.pmlabs.com.cn/en/events/qiangwang-9/registration"
+}
+],
+"src": "CTFtime + 比赛日历",
+"src_url": "https://ctftime.org/event/3509",
+"conf": "single",
+"note": "CTFtime 记为 12/03 04:00Z–12/06 04:00Z（即北京时间 12:00 起止）；比赛日历标注为官方暂定。强网杯官网未提及。"
+},
+{
+"id": "geekgame-2026",
+"name": "GeekGame 2026 · 京华杯北大校内赛",
+"short": "GeekGame 北大",
+"region": "cn",
+"ai": true,
+"fmt": [
+"个人赛",
+"人机协同 CTF",
+"人机协同智能渗透（邀请制）"
+],
+"tags": [
+"AI 安全",
+"智能渗透",
+"蓝队溯源智能体"
+],
+"loc": "线上",
+"start": "2026-11-15T10:00:00+08:00",
+"end": "2026-11-28T20:00:00+08:00",
+"prec": "time",
+"access": "restricted",
+"access_note": "仅限北京大学在校学生（需 @stu.pku.edu.cn 邮箱）；第二阶段邀请第一阶段获奖选手",
+"team": "个人",
+"prize": "第一阶段一等奖 3000 元；第二阶段一等奖 5000 元",
+"weight": null,
+"org": "北京大学",
+"url": "https://geekgame.pku.edu.cn/",
+"links": [
+{
+"t": "官网",
+"u": "https://geekgame.pku.edu.cn/"
+}
+],
+"src": "GeekGame 官网",
+"src_url": "https://geekgame.pku.edu.cn/",
+"conf": "confirmed",
+"note": "第一阶段 11/15 10:00–11/20 20:00；第二阶段 11/22 10:00–11/28 20:00；闭幕式 12/12。仅校内可报名，列出供参考其人机协同 / 智能渗透赛制。"
+},
+{
+"id": "grayswan-labyrinth",
+"name": "Gray Swan Arena · The Labyrinth: Challenge Edition",
+"short": "Labyrinth",
+"region": "intl",
+"ai": true,
+"fmt": [
+"AI 红队"
+],
+"loc": "线上",
+"start": null,
+"end": null,
+"prec": "tba",
+"window": "进行中（起止日期页面未公布）",
+"window_short": "进行中",
+"access": "open",
+"access_note": "注册 Arena 账号即可参加",
+"weight": null,
+"org": "Gray Swan AI",
+"url": "https://app.grayswan.ai/arena",
+"links": [
+{
+"t": "Arena",
+"u": "https://app.grayswan.ai/arena"
+}
+],
+"src": "Gray Swan Arena",
+"src_url": "https://app.grayswan.ai/arena",
+"conf": "single",
+"note": "Arena 页面显示为进行中；奖金与起止时间页面未给出，以挑战页为准。"
 }
 ]
 }/*@@DATA_END@@*/);

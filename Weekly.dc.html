@@ -146,7 +146,7 @@ class Component extends DCLogic {
   getData() {
     return (/*@@DATA_BEGIN@@*/{
 "meta": {
-"updated_at": "2026-11-15T22:48:00Z",
+"updated_at": "2026-11-17T11:47:00Z",
 "schedule": "每周一、三、五 06:46（北京时间）自动巡检",
 "coverage": "CTFtime 国际赛 · 国内重点赛事 · AI 红队 / 智能体赛",
 "cron": "46 6 * * 1,3,5",
@@ -237,7 +237,53 @@ class Component extends DCLogic {
 "src": "赛事介绍文章 + CTF 赛事日历",
 "src_url": "https://www.shuwu5.cn/article/4582.html",
 "conf": "confirmed",
-"note": "智能体赛道：提交智能体程序，由 AI 独立完成攻防，运行期间无人工介入；人机协同赛道：选手与 AI 工具协作解题，不限模型。第三方日历记为 22:00 结束、报名截止 11/13，均以官网为准。"
+"note": "智能体赛道：提交智能体程序，由 AI 独立完成攻防，运行期间无人工介入；人机协同赛道：选手与 AI 工具协作解题，不限模型。第三方日历记为 22:00 结束、报名截止 11/13，均以官网为准。 更新（11/17）：据组委会邮件通知，人机协同赛道已延期并迁移至 DataCon 平台，改为 11/20 10:00–20:00 举行，见单独条目；智能体赛道时间以官网为准。"
+},
+{
+"id": "tpctf-2026-collab",
+"name": "TPCTF 2026 · 人机协同赛道（延期，迁至 DataCon）",
+"short": "TPCTF 人机协同",
+"region": "cn",
+"ai": true,
+"fmt": [
+"Jeopardy",
+"人机协同赛道"
+],
+"tags": [
+"Web",
+"Pwn",
+"Reverse",
+"Crypto",
+"Misc",
+"AI 安全"
+],
+"loc": "线上（DataCon 平台）",
+"start": "2026-11-20T10:00:00+08:00",
+"end": "2026-11-20T20:00:00+08:00",
+"prec": "time",
+"reg_end": null,
+"reg_conf": null,
+"access": "qualified",
+"access_note": "仅限报名截止前已完成报名、且已完成队员身份验证或补齐证明材料的队伍；报名已截止",
+"team": "≤4 人",
+"prize": "人机协同赛道冠军 5000 元；获奖颁发 CCF 认证证书",
+"weight": null,
+"org": "中国计算机学会（CCF）主办；清华大学、北京大学承办",
+"url": "https://www.datacon.org.cn/competition/competitions/231/",
+"links": [
+{
+"t": "DataCon 赛事页",
+"u": "https://www.datacon.org.cn/competition/competitions/231/"
+},
+{
+"t": "TPCTF 官网",
+"u": "https://tpctf2026.xctf.org.cn"
+}
+],
+"src": "TPCTF 组委会邮件通知",
+"src_url": "https://www.datacon.org.cn/competition/competitions/231/",
+"conf": "single",
+"note": "来源：TPCTF 组委会 11/17 发给报名队伍的邮件，暂无公开页面可核实。原 CTFy 平台存在技术问题，赛事延期并迁至 DataCon；用此前在 CTFy 绑定的主邮箱以邮箱验证码方式登录，无需另行注册。"
 },
 {
 "id": "csaw-final-2026",

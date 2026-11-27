@@ -146,7 +146,7 @@ class Component extends DCLogic {
   getData() {
     return (/*@@DATA_BEGIN@@*/{
 "meta": {
-"updated_at": "2026-11-21T06:41:50Z",
+"updated_at": "2026-11-26T22:50:07Z",
 "schedule": "每周一、三、五 06:46（北京时间）自动巡检",
 "coverage": "CTFtime 国际赛 · 国内重点赛事 · AI 红队 / 智能体赛",
 "cron": "46 6 * * 1,3,5",
@@ -201,7 +201,6 @@ class Component extends DCLogic {
 "short": "TPCTF 2026",
 "region": "cn",
 "ai": true,
-"feat": true,
 "fmt": [
 "Jeopardy",
 "智能体赛道",
@@ -237,7 +236,7 @@ class Component extends DCLogic {
 "src": "赛事介绍文章 + CTF 赛事日历",
 "src_url": "https://www.shuwu5.cn/article/4582.html",
 "conf": "confirmed",
-"note": "智能体赛道：提交智能体程序，由 AI 独立完成攻防，运行期间无人工介入；人机协同赛道：选手与 AI 工具协作解题，不限模型。第三方日历记为 22:00 结束、报名截止 11/13，均以官网为准。 更新（11/17）：据组委会邮件通知，人机协同赛道已延期并迁移至 DataCon 平台，改为 11/20 10:00–20:00 举行，见单独条目；智能体赛道时间以官网为准。 更新（11/21）：XCTF联赛公众号 11/13 推文写明竞赛时间 2026-11-14 10:00 至 11-22 20:00（11/14 开启入围赛），开赛时间据此由 11/15 改为 11/14。"
+"note": "智能体赛道：提交智能体程序，由 AI 独立完成攻防，运行期间无人工介入；人机协同赛道：选手与 AI 工具协作解题，不限模型。第三方日历记为 22:00 结束、报名截止 11/13，均以官网为准。 更新（11/17）：据组委会邮件通知，人机协同赛道已延期并迁移至 DataCon 平台，改为 11/20 10:00–20:00 举行，见单独条目；智能体赛道时间以官网为准。 更新（11/21）：XCTF联赛公众号 11/13 推文写明竞赛时间 2026-11-14 10:00 至 11-22 20:00（11/14 开启入围赛），开赛时间据此由 11/15 改为 11/14。 11/23：赛事已于 11/22 结束。"
 },
 {
 "id": "tpctf-2026-collab",
@@ -535,26 +534,6 @@ class Component extends DCLogic {
 "src": "CTFtime",
 "src_url": "https://ctftime.org/event/3425",
 "conf": "confirmed"
-},
-{
-"id": "cyber-ninja-2026",
-"name": "Cyber Ninja CTF 2026 – BLACKOUT",
-"short": "Cyber Ninja",
-"region": "intl",
-"ai": false,
-"fmt": [
-"CTF"
-],
-"loc": "线上",
-"start": "2026-11-21T09:00:00Z",
-"end": "2026-11-22T09:00:00Z",
-"prec": "time",
-"access": "open",
-"weight": null,
-"url": "https://www.cyber-ninja-ctf.fr/",
-"src": "Bugku 赛事中心",
-"src_url": "https://ctf.bugku.com/game/detail/id/961.html",
-"conf": "single"
 },
 {
 "id": "crate-2026",
@@ -1029,7 +1008,8 @@ class Component extends DCLogic {
 "url": "https://qiangwangbei.com/",
 "src": "强网杯官网",
 "src_url": "https://www.cac.gov.cn/2026-10/10/c_1793384901156532.htm",
-"conf": "confirmed"
+"conf": "confirmed",
+"note": "11/27 复核：官网仍为 11 月 28–29 日，未见改期或延期说明，仍未公布场地与具体时刻。"
 },
 {
 "id": "qwb10-academy",
@@ -1054,7 +1034,7 @@ class Component extends DCLogic {
 "src": "强网杯官网",
 "src_url": "https://qiangwangbei.com/",
 "conf": "tentative",
-"note": "能否参赛取决于学院推荐，可以向学院或导师打听名额。"
+"note": "能否参赛取决于学院推荐，可以向学院或导师打听名额。 截至 11/27 官网仍写「11 月下旬（暂定）」，未给出具体日期。"
 },
 {
 "id": "shuzheng-3",
@@ -1160,7 +1140,7 @@ class Component extends DCLogic {
 "src": "公众号〈赛查查〉+ 赛事官网",
 "src_url": "https://contest.sjtu.edu.cn/",
 "conf": "confirmed",
-"note": "官网写明：报名 10 月下旬至 11 月中旬，11 月中上旬赛前培训，11 月中下旬线上正式考核，之后排名靠前队伍线上答辩。报名截止的具体日期官网未给出，名额每校一队，尽快问学校网信部门。 截至 11/20 官网仍未公布正式考核的具体日期。"
+"note": "官网写明：报名 10 月下旬至 11 月中旬，11 月中上旬赛前培训，11 月中下旬线上正式考核，之后排名靠前队伍线上答辩。报名截止的具体日期官网未给出，名额每校一队，尽快问学校网信部门。 截至 11/20 官网仍未公布正式考核的具体日期。 截至 11/23 官网仍只写「11 月中下旬」，未公布具体日期。 截至 11/25 官网仍只写「11 月中下旬」。"
 },
 {
 "id": "meiya-12",
@@ -1208,11 +1188,11 @@ class Component extends DCLogic {
 "src": "DigiForensics 比赛日历",
 "src_url": "https://www.digiforensics.cn/calendar/2026-3rd-pctf",
 "conf": "single",
-"note": "分批放题、持续开放；报名已截止。"
+"note": "分批放题、持续开放；报名已截止。11/27 复核：比赛日历显示仍在进行，12/1 00:00 结束。"
 },
 {
 "id": "ciscn-ccb-2027",
-"name": "全国大学生信息安全竞赛（创新实践能力赛）暨「长城杯」防护赛 · 新一届（国赛「三合一」）",
+"name": "第二十届全国大学生信息安全竞赛（创新实践能力赛）暨第四届「长城杯」网数智安全大赛（防护赛）",
 "short": "国赛·长城杯",
 "region": "cn",
 "ai": false,
@@ -1225,24 +1205,28 @@ class Component extends DCLogic {
 "start": null,
 "end": null,
 "prec": "tba",
-"window": "本届未官宣 · 往届初赛在 12 月中下旬",
-"window_short": "未官宣",
+"window": "已官宣（11/12 通知）· 具体赛程见通知 PDF，往届初赛在 12 月中下旬",
+"window_short": "已官宣",
 "access": "unknown",
 "access_note": "往届：全日制高校在校生，以学校为单位组队报名（每队 ≤4 人）；本届以官方通知为准",
 "team": "往届 ≤4 人",
 "weight": null,
-"org": "往届：中国信息安全测评中心等",
+"org": "中国信息安全测评中心发布通知（主办/承办以通知原文为准）",
 "url": "http://www.ciscn.cn/",
 "links": [
 {
-"t": "长城杯官网",
-"u": "https://ccb.itsec.gov.cn/"
+"t": "官方通知（含 PDF）",
+"u": "https://www.itsec.gov.cn/zxxw/202611/t20261112_282181.html"
+},
+{
+"t": "国赛官网",
+"u": "http://www.ciscn.cn/"
 }
 ],
-"src": "往届官方通知与报道（本届通知未查到）",
-"src_url": "http://www.ciscn.cn/competition/securityCompetition?compet_id=44",
-"conf": "tentative",
-"note": "截至 11/20 仍未查到本届（第二十届国赛）的官方通知；ciscn.cn 首页目前只挂着往届赛事，没有新通知。往届节奏：第十八届初赛 2024/12/15；第十九届半决赛 2026 年 3 月。通常 11 月底–12 月初发通知，报名由学校指导老师统一提交。"
+"src": "中国信息安全测评中心官网通知",
+"src_url": "https://www.itsec.gov.cn/zxxw/202611/t20261112_282181.html",
+"conf": "single",
+"note": "更新（11/25）：本届已官宣——中国信息安全测评中心官网 11/12 发布《关于举办第二十届全国大学生信息安全竞赛（创新实践能力赛）暨第四届「长城杯」网数智安全大赛（防护赛）的通知》，附通知 PDF 与《大赛管理员信息表》。报名与初赛的具体日期写在 PDF 附件里，本次自动巡检读不到 PDF 正文，所以这里不填日期，请直接打开官方通知查看，并尽快找学校指导老师/管理员确认报名安排。往届节奏仅供参考：第十八届初赛 2024/12/15；第十九届半决赛 2026 年 3 月；以学校为单位组队、每队 ≤4 人。"
 },
 {
 "id": "isctf-2026",
@@ -1264,7 +1248,7 @@ class Component extends DCLogic {
 "src": "ISCTF 官网",
 "src_url": "https://2026.isc.tf/",
 "conf": "tentative",
-"note": "官网已上线（2026.isc.tf 现跳转至 isctf2026.bluesharkinfo.com 竞赛平台，标题「高校联合安全技能挑战赛」），截至 11/20 赛程与报名入口仍未公布。"
+"note": "官网已上线（2026.isc.tf 跳转至 isctf2026.bluesharkinfo.com 竞赛平台，标题「高校联合安全技能挑战赛」）。截至 11/27 页面仍只有标题，赛程与报名入口未公布。"
 },
 {
 "id": "grayswan-ipi-black",
@@ -1356,7 +1340,7 @@ class Component extends DCLogic {
 "src": "官方文档",
 "src_url": "https://docs.dreadnode.io/crucible",
 "conf": "confirmed",
-"note": "常驻的 AI/ML 安全挑战平台，适合赛前练手。"
+"note": "常驻的 AI/ML 安全挑战平台，适合赛前练手。11/27 复核：官方文档仍在线并提供登录入口。"
 },
 {
 "id": "owasp-finbot",
@@ -1378,7 +1362,17 @@ class Component extends DCLogic {
 "src": "Snyk 汇总",
 "src_url": "https://snyk.io/articles/usd800k-up-for-grabs-12-ai-hacking-competitions-that-could-launch-your",
 "conf": "single",
-"note": "金融场景下的智能体目标操纵练习，常驻开放。"
+"note": "金融场景下的智能体目标操纵练习，常驻开放。11/27 复核：OWASP 资源页仍提供靶场入口。",
+"links": [
+{
+"t": "靶场入口",
+"u": "http://owasp-finbot-ctf.org/"
+},
+{
+"t": "上线公告",
+"u": "https://genai.owasp.org/2026/04/28/finbot-ctf-is-live-a-hands-on-companion-to-the-owasp-genai-security-project/"
+}
+]
 },
 {
 "id": "qwb10-online",
@@ -1516,7 +1510,7 @@ class Component extends DCLogic {
 "src": "公众号〈DataCon大数据安全分析竞赛〉+ 赛事官网",
 "src_url": "https://www.datacon.org.cn/datacon2026",
 "conf": "confirmed",
-"note": "官网：报名 11 月 9–28 日，秋季赛 12 月 1–6 日，答辩时间待定；春季赛约 2027 年 4 月初。三赛道：APT 日志分析智能体开发、GEO 面向生成式搜索的内容曝光（不要求技术背景）、智能化漏洞环境复现专项赛。获奖需提交方案与代码答辩。 第三方日历（CTF 赛事日历）记为报名至 11/28 13:36、比赛 12/1 09:35–12/6 18:36，具体时刻以官网为准，建议 11/28 中午前完成报名。",
+"note": "官网：报名 11 月 9–28 日，秋季赛 12 月 1–6 日，答辩时间待定；春季赛约 2027 年 4 月初。三赛道：APT 日志分析智能体开发、GEO 面向生成式搜索的内容曝光（不要求技术背景）、智能化漏洞环境复现专项赛。获奖需提交方案与代码答辩。 第三方日历（CTF 赛事日历）记为报名至 11/28 13:36、比赛 12/1 09:35–12/6 18:36，具体时刻以官网为准，建议 11/28 中午前完成报名。 11/27 复核：官网本次抓取失败，第三方日历信息未变。",
 "feat": true
 },
 {
@@ -1620,7 +1614,7 @@ class Component extends DCLogic {
 "src": "CTFtime + 比赛日历",
 "src_url": "https://ctftime.org/event/3509",
 "conf": "single",
-"note": "CTFtime 记为 12/03 04:00Z–12/06 04:00Z（即北京时间 12:00 起止）；比赛日历标注为官方暂定。强网杯官网未提及。"
+"note": "CTFtime 记为 12/03 04:00Z–12/06 04:00Z（即北京时间 12:00 起止）；比赛日历标注为官方暂定。强网杯官网未提及。 11/23：Bugku 赛事中心同样列为 12/03 04:00–12/06 04:00（UTC）线下赛。"
 },
 {
 "id": "geekgame-2026",
@@ -1638,9 +1632,9 @@ class Component extends DCLogic {
 "智能渗透",
 "蓝队溯源智能体"
 ],
-"loc": "线上",
-"start": "2026-11-15T10:00:00+08:00",
-"end": "2026-11-28T20:00:00+08:00",
+"loc": "线上（第一阶段 DataCon 平台；第二阶段北大 SysEvolve 平台）",
+"start": "2026-11-20T10:00:00+08:00",
+"end": "2026-12-01T20:00:00+08:00",
 "prec": "time",
 "access": "restricted",
 "access_note": "仅限北京大学在校学生（需 @stu.pku.edu.cn 邮箱）；第二阶段邀请第一阶段获奖选手",
@@ -1658,7 +1652,7 @@ class Component extends DCLogic {
 "src": "GeekGame 官网",
 "src_url": "https://geekgame.pku.edu.cn/",
 "conf": "confirmed",
-"note": "第一阶段 11/15 10:00–11/20 20:00；第二阶段 11/22 10:00–11/28 20:00；闭幕式 12/12。仅校内可报名，列出供参考其人机协同 / 智能渗透赛制。"
+"note": "已改期：原定 11/15 10:00–11/28 20:00（第一阶段 11/15–11/20，第二阶段 11/22–11/28）。官网现行赛程：第一阶段人机协同 CTF（个人赛）11/20 10:00–11/22 20:00，在 DataCon 平台进行；第二阶段人机协同智能渗透（邀请制）11/27 10:00–12/01 20:00，在北大 SysEvolve 平台进行；闭幕式 12/12 下午。仅校内可报名，列出供参考其人机协同 / 智能渗透赛制。"
 },
 {
 "id": "grayswan-labyrinth",
@@ -1689,7 +1683,7 @@ class Component extends DCLogic {
 "src": "Gray Swan Arena",
 "src_url": "https://app.grayswan.ai/arena/challenge/labyrinth-challenge-version",
 "conf": "single",
-"note": "Arena 页面 11/20 仍显示为进行中（Live），挑战页标为「Free Practice」免费练习：4 个直接攻击场景 × 4 个模型，无奖金信息。页面上的波次日期（Jul 13–17）未写年份，起止时间不可靠，按常驻练习看待。"
+"note": "挑战页标为「Free Practice」免费练习：4 个直接攻击场景 × 4 个模型，无奖金信息。页面上的波次日期（Jul 13–17）未写年份，起止时间不可靠，按常驻练习看待。 11/27 复核：首页仍为 Live，无倒计时、无新增信息。"
 },
 {
 "id": "grayswan-hazard-hunt-nov",
@@ -1702,19 +1696,19 @@ class Component extends DCLogic {
 "越狱攻击"
 ],
 "tags": [
-"22 个场景",
-"23 个模型",
+"48 个场景",
+"24 个模型",
 "版权数据产出",
 "安全策略提取",
 "敏感信息推断"
 ],
 "loc": "线上",
 "start": "2026-11-16T00:00:00Z",
-"end": "2026-11-23T21:00:00Z",
+"end": "2026-11-29T11:00:00Z",
 "prec": "approx",
 "access": "open",
 "access_note": "注册 Arena 账号即可参加",
-"prize": "$100,000 奖池",
+"prize": "$70,000 奖池",
 "weight": null,
 "org": "Gray Swan AI",
 "url": "https://app.grayswan.ai/arena",
@@ -1727,7 +1721,7 @@ class Component extends DCLogic {
 "src": "Arena 挑战页",
 "src_url": "https://app.grayswan.ai/arena/challenge/hazard-hunt-november-26",
 "conf": "approx",
-"note": "比谁对更多模型更快提交成功的「break」。场景分四类：超量 Token 生成、产出受版权保护数据、提取模型安全策略、推断敏感数据。挑战页标注第 1 波为 11/16–11/23（未写时刻，开始按当日 0 点记）；结束时间由 11/18 首页倒计时（剩 5 天 22 小时）推算，约为北京时间 11/24 凌晨 5 点前后。场景数首页写 44、挑战页写 22，以挑战页为准。 11/20 复核：首页倒计时剩 3 天 23 小时，与原推算一致。"
+"note": "比谁对更多模型更快提交成功的「break」。场景分四类（各 12 个）：超量 Token 生成、产出受版权保护数据、提取模型安全策略、推断敏感数据。第 1 波 11/16–11/23，第 2 波 11/23–11/29（挑战页未写时刻，开始按 11/16 当日 0 点记）。结束时间为推算值：11/27 巡检时首页倒计时剩约 2 天 12 小时，对应约 11/29 11:00Z（北京时间 11/29 晚 7 点前后；上次推算为 13:00Z）。挑战页已出现「Judging began」标记，奖池显示 $70,000。"
 },
 {
 "id": "redreaper-2026",
@@ -1791,20 +1785,24 @@ class Component extends DCLogic {
 "prec": "time",
 "access": "open",
 "access_note": "免费，面向全球开放报名",
-"prize": "待公布",
-"weight": null,
+"prize": "前三名分获 TryHackMe Premium 兑换券（6 / 3 / 1 个月 ×2）及证书；最佳 Writeup 1 个月券",
+"weight": 0.0,
 "org": "NovaRun",
 "url": "https://n0v4ctf.devs.surf/",
 "links": [
+{
+"t": "CTFtime",
+"u": "https://ctftime.org/event/3512"
+},
 {
 "t": "Bugku 赛事中心",
 "u": "https://ctf.bugku.com/game/index.html"
 }
 ],
-"src": "赛事官网 + Bugku 赛事中心",
+"src": "赛事官网 + CTFtime + Bugku 赛事中心",
 "src_url": "https://n0v4ctf.devs.surf/",
 "conf": "confirmed",
-"note": "官网写 11/28 00:00 – 11/29 00:00（UTC+7），24 小时、动态计分；CTFtime 未收录。"
+"note": "官网写 11/28 00:00 – 11/29 00:00（UTC+7），24 小时、动态计分。CTFtime 现已收录（event 3512，权重 0），时间一致。"
 },
 {
 "id": "final-exploit-q-2026",
@@ -1845,6 +1843,185 @@ class Component extends DCLogic {
 "src_url": "https://ctftime.org/event/3511",
 "conf": "confirmed",
 "note": "48 小时线上资格赛，含 AI 安全、DFIR、恶意代码等方向；多数晋级名额留给约旦本地组别，完整资格与总决赛规则待官网公布。CTFtime 权重 0（评分权重待定）。"
+},
+{
+"id": "tuctf-2026",
+"name": "TUCTF 2026",
+"short": "TUCTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"tags": [
+"Web",
+"Forensics",
+"Crypto",
+"Reverse",
+"Misc"
+],
+"loc": "线上",
+"start": "2026-12-04T10:00:00Z",
+"end": "2026-12-06T18:00:00Z",
+"prec": "time",
+"access": "open",
+"access_note": "公开线上赛，面向各水平选手",
+"team": null,
+"prize": null,
+"weight": 0.0,
+"org": "ascii overflow（美国塔尔萨大学 CTF 社团）",
+"url": "https://tuctf.com/",
+"links": [
+{
+"t": "官网",
+"u": "https://tuctf.com/"
+},
+{
+"t": "CTFtime",
+"u": "https://ctftime.org/event/3518"
+}
+],
+"src": "CTFtime + Bugku 赛事中心",
+"src_url": "https://ctftime.org/event/3518",
+"conf": "confirmed",
+"note": "塔尔萨大学老牌入门友好赛，11/23 新收录。CTFtime 权重 0（评分权重待定）；队伍人数与奖品页面未写。"
+},
+{
+"id": "lactf-2027",
+"name": "LA CTF 2027",
+"short": "LA CTF 2027",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上（UCLA 另有线下会场活动）",
+"start": "2027-02-20T02:00:00Z",
+"end": "2027-02-22T02:00:00Z",
+"prec": "time",
+"access": "open",
+"access_note": "公开线上赛，CTFtime / 官网注册即可",
+"team": "不限人数",
+"prize": null,
+"weight": 75.96,
+"org": "ACM Cyber at UCLA × Psi Beta Rho（PBR）",
+"url": "https://lac.tf/",
+"links": [
+{
+"t": "CTFtime",
+"u": "https://ctftime.org/event/3515"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3515",
+"conf": "confirmed",
+"note": "UCLA 年度赛，题目覆盖各难度，适合练手也有高分题；权重 75.96 为上届值，本届权重待定。奖金未公布。"
+},
+{
+"id": "solar-ir-2026-11",
+"name": "2026 年 Solar 应急响应公益月赛 · 11 月",
+"short": "Solar 月赛 11月",
+"region": "cn",
+"ai": false,
+"fmt": [
+"解题",
+"个人赛",
+"应急响应"
+],
+"tags": [
+"应急响应",
+"取证溯源"
+],
+"loc": "线上",
+"start": "2026-11-28T10:00:00+08:00",
+"end": "2026-11-28T18:00:00+08:00",
+"prec": "time",
+"reg_end": "2026-11-28T09:59:00+08:00",
+"reg_conf": "single",
+"access": "open",
+"access_note": "个人报名；需加入 QQ 群「Solar月赛通知群」获取通知与靶场文件",
+"team": "个人",
+"prize": "页面未提及",
+"weight": null,
+"org": "思而听（山东）网络科技有限公司 Solar 应急响应团队",
+"url": "https://www.qsnctf.com/#/main/race-center/race-guide?id=178",
+"links": [
+{
+"t": "CTF 赛事日历",
+"u": "https://ctf.manic.com.cn/?ctf_event_id=79"
+}
+],
+"src": "CTF 赛事日历",
+"src_url": "https://ctf.manic.com.cn/?ctf_event_id=79",
+"conf": "single",
+"note": "每月一期的应急响应公益赛，题目多源自真实案例，允许使用 AI。部分靶场文件需提前从群内网盘下载，解压密码比赛当天在群里发。前 15 名须在当天 18:00 前提交原创 Writeup。时间来自第三方日历，以官网为准。"
+},
+{
+"id": "grayswan-adv-finetune",
+"name": "Gray Swan Arena · Adversarial Fine-Tuning",
+"short": "Adv Fine-Tuning",
+"region": "intl",
+"ai": true,
+"fmt": [
+"AI 红队",
+"微调攻击"
+],
+"tags": [
+"恶意微调",
+"后门植入",
+"2 个场景",
+"3 个模型"
+],
+"loc": "线上",
+"start": "2026-11-25T00:00:00Z",
+"end": "2026-12-02T21:00:00Z",
+"prec": "approx",
+"access": "open",
+"access_note": "注册 Arena 账号即可参加；规则与资格限制以挑战页为准",
+"prize": "$100,000 奖池",
+"weight": null,
+"org": "Gray Swan AI",
+"url": "https://app.grayswan.ai/arena",
+"links": [
+{
+"t": "挑战页",
+"u": "https://app.grayswan.ai/arena/challenge/adversarial-fine-tuning"
+}
+],
+"src": "Arena 挑战页",
+"src_url": "https://app.grayswan.ai/arena/challenge/adversarial-fine-tuning",
+"conf": "approx",
+"note": "11/27 巡检新发现。通过微调攻击模型：场景包括「Raise harm, keep utility」（提高危害性同时保留可用性）和「Backdoor」（植入后门）。挑战页标注第 1 波为 Nov 25 – Dec 2（未写年份与时刻，开始按 11/25 当日 0 点记）；结束时间由首页倒计时（剩约 5 天 22 小时）推算，约为 12/2 21:00Z（北京时间 12/3 凌晨 5 点前后）。是否还有后续波次页面未说明。"
+},
+{
+"id": "pothloe-2026",
+"name": "pothloe CTF 2026",
+"short": "pothloe CTF",
+"region": "intl",
+"ai": false,
+"fmt": [
+"Jeopardy"
+],
+"loc": "线上",
+"start": "2026-12-27T20:00:00Z",
+"end": "2026-12-29T20:00:00Z",
+"prec": "time",
+"access": "open",
+"access_note": "CTFtime 页面未写参赛限制",
+"prize": "待公布",
+"weight": 0.0,
+"org": "pothloe",
+"url": "https://pothloe.cc/",
+"links": [
+{
+"t": "CTFtime",
+"u": "https://ctftime.org/event/3516"
+}
+],
+"src": "CTFtime",
+"src_url": "https://ctftime.org/event/3516",
+"conf": "confirmed",
+"note": "CTFtime 新收录，48 小时线上解题赛，权重 0，题目方向与奖品尚未公布。"
 }
 ]
 }/*@@DATA_END@@*/);
